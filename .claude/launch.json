@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev-server",
+      "runtimeExecutable": "/Users/barry/local/nodejs/node-v20.18.1-darwin-arm64/bin/node",
+      "runtimeArgs": ["server/index.js"],
+      "port": 3001
+    }
+  ]
+}

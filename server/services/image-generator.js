@@ -86,6 +86,110 @@ function getBannerCopy(sk, notifTitle) {
       ],
       cta: "Start Lesson Now",
     },
+    trial_payment: {
+      headlines: [
+        "Welcome to\nSpeakX Premium!",
+        "7-Day Trial\nActivated!",
+        "Your Premium\nJourney Begins",
+      ],
+      subtitles: [
+        "Unlimited lessons, stories & quizzes await",
+        "Start your first lesson and see the magic",
+        "7 days of premium English learning",
+      ],
+      cta: "Start First Lesson",
+    },
+    onboarding_story: {
+      headlines: [
+        "Your First\nStory Awaits",
+        "Learn Through\nReal Stories",
+        "Discover\nEnglish Stories",
+      ],
+      subtitles: [
+        "Learn real English through fun stories",
+        "Just 5 minutes to boost your English",
+        "Stories make learning easy & fun",
+      ],
+      cta: "Read Story Now",
+    },
+    badge_earned: {
+      headlines: [
+        "Badge\nUnlocked!",
+        "Achievement\nEarned!",
+        "You're a\nFast Learner!",
+      ],
+      subtitles: [
+        "Keep this streak going strong",
+        "You're making amazing progress",
+        "Your dedication is paying off",
+      ],
+      cta: "Keep Learning",
+    },
+    pre_renewal: {
+      headlines: [
+        "Trial Ends\nTomorrow",
+        "Your Trial Is\nAlmost Over",
+        "1 Day Left\non Your Trial",
+      ],
+      subtitles: [
+        "Monthly plan auto-renews seamlessly",
+        "Keep your premium access uninterrupted",
+        "Don't lose your learning progress",
+      ],
+      cta: "View Plan Details",
+    },
+    renewal_success: {
+      headlines: [
+        "Subscription\nRenewed!",
+        "Monthly Plan\nActive!",
+        "Premium\nContinues!",
+      ],
+      subtitles: [
+        "Your English journey continues uninterrupted",
+        "Keep learning with unlimited access",
+        "Another month of premium learning ahead",
+      ],
+      cta: "Continue Learning",
+    },
+    at_risk: {
+      headlines: [
+        "Payment\nFailed",
+        "Renewal Issue\nDetected",
+        "Action\nRequired",
+      ],
+      subtitles: [
+        "Update payment to keep premium access",
+        "Don't lose your progress and streak",
+        "Fix this in just 30 seconds",
+      ],
+      cta: "Fix Payment",
+    },
+    streak: {
+      headlines: [
+        "You're on\nFire!",
+        "Streak Master\nUnlocked!",
+        "Unstoppable\nLearner!",
+      ],
+      subtitles: [
+        "Your consistency is legendary",
+        "Keep the momentum going strong",
+        "Top learners never stop",
+      ],
+      cta: "Continue Streak",
+    },
+    rank_climber: {
+      headlines: [
+        "Rank Up!\nYou're Rising",
+        "Climbing the\nLeaderboard",
+        "Top Ranker\nAlert!",
+      ],
+      subtitles: [
+        "You're beating learners across India",
+        "Your rank is climbing fast",
+        "Keep pushing to reach #1",
+      ],
+      cta: "View Leaderboard",
+    },
     started_not_finished: {
       headlines: [
         "Don't Stop\nNow!",
@@ -174,6 +278,89 @@ const TEMPLATES = {
     illustration: "phone",
     badge: null,
     decor: "rgba(255,255,255,0.12)",
+  },
+  trial_payment: {
+    bg: ["#064e3b", "#047857", "#059669"],
+    textColor: "#ffffff",
+    subColor: "rgba(255,255,255,0.85)",
+    ctaBg: "#ffffff",
+    ctaText: "#047857",
+    illustration: "diamond",
+    badge: { text: "PREMIUM ACTIVATED", bg: "#10b981", dot: true },
+    decor: "rgba(255,255,255,0.10)",
+  },
+  onboarding_story: {
+    bg: ["#1e1b4b", "#3730a3", "#4f46e5"],
+    textColor: "#ffffff",
+    subColor: "rgba(255,255,255,0.80)",
+    ctaBg: "#fbbf24",
+    ctaText: "#1e1b4b",
+    illustration: "book",
+    badge: { text: "NEW STORY", bg: "#6366f1", dot: false },
+    decor: "rgba(255,255,255,0.08)",
+  },
+  badge_earned: {
+    bg: ["#78350f", "#92400e", "#b45309"],
+    bgSplit: "#fbbf24",
+    textColor: "#ffffff",
+    subColor: "rgba(255,255,255,0.85)",
+    ctaBg: "#ffffff",
+    ctaText: "#92400e",
+    illustration: "medal",
+    badge: { text: "ACHIEVEMENT", bg: "#d97706", dot: true },
+    decor: "rgba(255,255,255,0.10)",
+  },
+  pre_renewal: {
+    bg: ["#7c2d12", "#c2410c", "#ea580c"],
+    textColor: "#ffffff",
+    subColor: "rgba(255,255,255,0.80)",
+    ctaBg: "#fbbf24",
+    ctaText: "#7c2d12",
+    illustration: "clock",
+    badge: { text: "TRIAL ENDING", bg: "#dc2626", dot: true },
+    decor: "rgba(255,255,255,0.08)",
+  },
+  renewal_success: {
+    bg: ["#14532d", "#166534", "#15803d"],
+    textColor: "#ffffff",
+    subColor: "rgba(255,255,255,0.85)",
+    ctaBg: "#ffffff",
+    ctaText: "#166534",
+    illustration: "shield_check",
+    badge: { text: "SUBSCRIPTION ACTIVE", bg: "#22c55e", dot: true },
+    decor: "rgba(255,255,255,0.10)",
+  },
+  at_risk: {
+    bg: ["#450a0a", "#7f1d1d", "#991b1b"],
+    textColor: "#ffffff",
+    subColor: "rgba(255,255,255,0.80)",
+    ctaBg: "#fbbf24",
+    ctaText: "#450a0a",
+    illustration: "warning",
+    badge: { text: "ACTION REQUIRED", bg: "#ef4444", dot: true },
+    decor: "rgba(255,255,255,0.06)",
+  },
+  streak: {
+    bg: ["#431407", "#9a3412", "#ea580c"],
+    bgSplit: "#fbbf24",
+    textColor: "#ffffff",
+    subColor: "rgba(255,255,255,0.85)",
+    ctaBg: "#ffffff",
+    ctaText: "#9a3412",
+    illustration: "flame",
+    badge: { text: "ON FIRE!", bg: "#f97316", dot: true },
+    decor: "rgba(255,255,255,0.08)",
+  },
+  rank_climber: {
+    bg: ["#3a2a1a", "#44403c"],
+    bgSplit: "#eab308",
+    textColor: "#ffffff",
+    subColor: "rgba(255,255,255,0.80)",
+    ctaBg: "#ffffff",
+    ctaText: "#3a2a1a",
+    illustration: "trophy",
+    badge: { text: "RANK UP!", bg: "#78350f", dot: false },
+    decor: "rgba(255,255,255,0.08)",
   },
   started_not_finished: {
     bg: ["#6b1e3a", "#881337", "#9f1239"],
@@ -292,6 +479,16 @@ function star5(ctx, cx, cy, outerR, color) {
 
 function segKey(name) {
   const s = (name || "").toLowerCase();
+  // Journey-stage segments (new)
+  if (s.includes("trial payment") || s.includes("trial_payment")) return "trial_payment";
+  if (s.includes("onboarding") || s.includes("first story") || s.includes("onboarding_story")) return "onboarding_story";
+  if (s.includes("badge") || s.includes("achievement") || s.includes("badge_earned")) return "badge_earned";
+  if (s.includes("pre-renewal") || s.includes("pre_renewal") || s.includes("trial end")) return "pre_renewal";
+  if (s.includes("renewal success") || s.includes("renewal_success") || s.includes("renewed") || s.includes("subscription active")) return "renewal_success";
+  if (s.includes("at risk") || s.includes("at_risk") || s.includes("payment fail") || s.includes("payment error")) return "at_risk";
+  if (s.includes("streak") || s.includes("on fire")) return "streak";
+  if (s.includes("rank") || s.includes("leaderboard") || s.includes("rank_climber")) return "rank_climber";
+  // Original segments
   if (s.includes("new user") || s.includes("haven't started")) return "new_users";
   if (s.includes("started but") || s.includes("didn't finish")) return "started_not_finished";
   if (s.includes("dormant") || s.includes("7+ days")) return "dormant";
@@ -670,6 +867,441 @@ function drawLockIllus(ctx, cx, cy) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   DRAWING: NEW JOURNEY-STAGE ILLUSTRATIONS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+function drawDiamond(ctx, cx, cy) {
+  // Premium diamond illustration for trial payment
+  ctx.fillStyle = "rgba(255,255,255,0.06)";
+  ctx.beginPath(); ctx.arc(cx, cy, 110, 0, Math.PI * 2); ctx.fill();
+
+  const glow = ctx.createRadialGradient(cx, cy - 10, 10, cx, cy - 10, 80);
+  glow.addColorStop(0, "rgba(16,185,129,0.3)");
+  glow.addColorStop(1, "rgba(16,185,129,0)");
+  ctx.fillStyle = glow;
+  ctx.beginPath(); ctx.arc(cx, cy - 10, 80, 0, Math.PI * 2); ctx.fill();
+
+  // Diamond shape
+  ctx.fillStyle = "#34d399";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 65);
+  ctx.lineTo(cx + 50, cy - 20);
+  ctx.lineTo(cx, cy + 45);
+  ctx.lineTo(cx - 50, cy - 20);
+  ctx.closePath();
+  ctx.fill();
+
+  // Diamond facets
+  ctx.fillStyle = "#6ee7b7";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 65);
+  ctx.lineTo(cx + 50, cy - 20);
+  ctx.lineTo(cx, cy - 10);
+  ctx.lineTo(cx - 50, cy - 20);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = "rgba(255,255,255,0.3)";
+  ctx.beginPath();
+  ctx.moveTo(cx - 15, cy - 65);
+  ctx.lineTo(cx - 5, cy - 20);
+  ctx.lineTo(cx - 50, cy - 20);
+  ctx.closePath();
+  ctx.fill();
+
+  // Inner lines
+  ctx.strokeStyle = "rgba(255,255,255,0.25)";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(cx, cy - 65); ctx.lineTo(cx, cy + 45); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx - 50, cy - 20); ctx.lineTo(cx + 50, cy - 20); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx - 25, cy - 42); ctx.lineTo(cx, cy + 45); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx + 25, cy - 42); ctx.lineTo(cx, cy + 45); ctx.stroke();
+
+  // Sparkles
+  star4(ctx, cx - 60, cy - 55, 10, "rgba(52,211,153,0.6)");
+  star4(ctx, cx + 65, cy - 50, 8, "rgba(52,211,153,0.5)");
+  star4(ctx, cx + 55, cy + 30, 6, "rgba(52,211,153,0.4)");
+  star4(ctx, cx - 55, cy + 40, 7, "rgba(52,211,153,0.3)");
+
+  // Checkmark circle
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath(); ctx.arc(cx + 38, cy + 30, 18, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#059669";
+  ctx.beginPath(); ctx.arc(cx + 38, cy + 30, 15, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 3;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(cx + 31, cy + 30);
+  ctx.lineTo(cx + 36, cy + 35);
+  ctx.lineTo(cx + 46, cy + 24);
+  ctx.stroke();
+}
+
+function drawBookIllus(ctx, cx, cy) {
+  // Open book illustration for onboarding/story
+  ctx.fillStyle = "rgba(255,255,255,0.06)";
+  ctx.beginPath(); ctx.arc(cx, cy, 110, 0, Math.PI * 2); ctx.fill();
+
+  // Book left page
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  ctx.moveTo(cx - 5, cy - 50);
+  ctx.quadraticCurveTo(cx - 45, cy - 45, cx - 70, cy - 40);
+  ctx.lineTo(cx - 70, cy + 50);
+  ctx.quadraticCurveTo(cx - 45, cy + 45, cx - 5, cy + 50);
+  ctx.closePath();
+  ctx.fill();
+
+  // Book right page
+  ctx.fillStyle = "#e0e7ff";
+  ctx.beginPath();
+  ctx.moveTo(cx - 5, cy - 50);
+  ctx.quadraticCurveTo(cx + 35, cy - 45, cx + 60, cy - 40);
+  ctx.lineTo(cx + 60, cy + 50);
+  ctx.quadraticCurveTo(cx + 35, cy + 45, cx - 5, cy + 50);
+  ctx.closePath();
+  ctx.fill();
+
+  // Book spine
+  ctx.strokeStyle = "#a5b4fc";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(cx - 5, cy - 50);
+  ctx.lineTo(cx - 5, cy + 50);
+  ctx.stroke();
+
+  // Text lines on left page
+  ctx.fillStyle = "rgba(99,102,241,0.20)";
+  for (let i = 0; i < 5; i++) {
+    rr(ctx, cx - 60, cy - 30 + i * 16, 42 - i * 3, 5, 2);
+    ctx.fill();
+  }
+
+  // Text lines on right page
+  ctx.fillStyle = "rgba(99,102,241,0.15)";
+  for (let i = 0; i < 5; i++) {
+    rr(ctx, cx + 10, cy - 30 + i * 16, 38 - i * 2, 5, 2);
+    ctx.fill();
+  }
+
+  // Reading character bubble
+  ctx.fillStyle = "#818cf8";
+  ctx.beginPath(); ctx.arc(cx + 50, cy - 60, 22, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `18px ${FONT_BOLD}`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("Aa", cx + 50, cy - 60);
+  ctx.textBaseline = "alphabetic";
+  ctx.textAlign = "left";
+
+  // Stars around book
+  star4(ctx, cx - 75, cy - 65, 8, "rgba(165,180,252,0.5)");
+  star4(ctx, cx + 72, cy + 40, 7, "rgba(165,180,252,0.4)");
+  star4(ctx, cx - 65, cy + 55, 6, "rgba(165,180,252,0.3)");
+}
+
+function drawMedal(ctx, cx, cy) {
+  // Medal/badge illustration for achievements
+  const glow = ctx.createRadialGradient(cx, cy - 5, 10, cx, cy - 5, 90);
+  glow.addColorStop(0, "rgba(251,191,36,0.3)");
+  glow.addColorStop(1, "rgba(251,191,36,0)");
+  ctx.fillStyle = glow;
+  ctx.beginPath(); ctx.arc(cx, cy - 5, 90, 0, Math.PI * 2); ctx.fill();
+
+  // Ribbon tails
+  ctx.fillStyle = "#dc2626";
+  ctx.beginPath();
+  ctx.moveTo(cx - 20, cy - 50);
+  ctx.lineTo(cx - 45, cy - 90);
+  ctx.lineTo(cx - 30, cy - 90);
+  ctx.lineTo(cx - 8, cy - 50);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = "#ef4444";
+  ctx.beginPath();
+  ctx.moveTo(cx + 20, cy - 50);
+  ctx.lineTo(cx + 45, cy - 90);
+  ctx.lineTo(cx + 30, cy - 90);
+  ctx.lineTo(cx + 8, cy - 50);
+  ctx.closePath();
+  ctx.fill();
+
+  // Medal circle - outer
+  ctx.fillStyle = "#fbbf24";
+  ctx.beginPath(); ctx.arc(cx, cy, 48, 0, Math.PI * 2); ctx.fill();
+
+  // Medal circle - inner ring
+  ctx.strokeStyle = "#f59e0b";
+  ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.arc(cx, cy, 38, 0, Math.PI * 2); ctx.stroke();
+
+  // Medal shine
+  ctx.fillStyle = "rgba(255,255,255,0.25)";
+  ctx.beginPath(); ctx.arc(cx - 12, cy - 15, 16, 0, Math.PI * 2); ctx.fill();
+
+  // Star in center
+  star5(ctx, cx, cy, 22, "#ffffff");
+  star5(ctx, cx, cy, 16, "#fbbf24");
+
+  // Sparkles
+  star4(ctx, cx - 60, cy - 60, 10, "rgba(251,191,36,0.6)");
+  star4(ctx, cx + 65, cy - 55, 8, "rgba(251,191,36,0.5)");
+  star4(ctx, cx + 58, cy + 45, 7, "rgba(251,191,36,0.4)");
+  star4(ctx, cx - 55, cy + 50, 6, "rgba(251,191,36,0.3)");
+}
+
+function drawClock(ctx, cx, cy) {
+  // Clock/timer for pre-renewal warning
+  ctx.fillStyle = "rgba(255,255,255,0.06)";
+  ctx.beginPath(); ctx.arc(cx, cy, 110, 0, Math.PI * 2); ctx.fill();
+
+  // Clock body
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath(); ctx.arc(cx, cy, 55, 0, Math.PI * 2); ctx.fill();
+
+  // Clock face
+  ctx.fillStyle = "#fef2f2";
+  ctx.beginPath(); ctx.arc(cx, cy, 48, 0, Math.PI * 2); ctx.fill();
+
+  // Hour markers
+  ctx.fillStyle = "#991b1b";
+  for (let i = 0; i < 12; i++) {
+    const a = (i * Math.PI * 2) / 12 - Math.PI / 2;
+    const r = i % 3 === 0 ? 38 : 40;
+    const len = i % 3 === 0 ? 8 : 5;
+    ctx.lineWidth = i % 3 === 0 ? 3 : 1.5;
+    ctx.strokeStyle = "#991b1b";
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
+    ctx.lineTo(cx + Math.cos(a) * (r + len), cy + Math.sin(a) * (r + len));
+    ctx.stroke();
+  }
+
+  // Hour hand
+  ctx.strokeStyle = "#1c1917";
+  ctx.lineWidth = 4;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(cx + 14, cy - 20);
+  ctx.stroke();
+
+  // Minute hand
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(cx - 8, cy - 32);
+  ctx.stroke();
+
+  // Center dot
+  ctx.fillStyle = "#dc2626";
+  ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
+
+  // Warning triangle
+  ctx.fillStyle = "#fbbf24";
+  ctx.beginPath();
+  ctx.moveTo(cx + 40, cy + 30);
+  ctx.lineTo(cx + 65, cy + 70);
+  ctx.lineTo(cx + 15, cy + 70);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = "#1c1917";
+  ctx.font = `bold 22px ${FONT_BOLD}`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("!", cx + 40, cy + 56);
+  ctx.textBaseline = "alphabetic";
+  ctx.textAlign = "left";
+
+  // Alarm lines
+  ctx.strokeStyle = "rgba(255,255,255,0.4)";
+  ctx.lineWidth = 3;
+  ctx.lineCap = "round";
+  for (let i = 0; i < 4; i++) {
+    const a = -Math.PI / 4 + (i * Math.PI) / 8;
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(a) * 62, cy + Math.sin(a) * 62);
+    ctx.lineTo(cx + Math.cos(a) * 72, cy + Math.sin(a) * 72);
+    ctx.stroke();
+  }
+}
+
+function drawShieldCheck(ctx, cx, cy) {
+  // Shield with checkmark for renewal success
+  ctx.fillStyle = "rgba(255,255,255,0.06)";
+  ctx.beginPath(); ctx.arc(cx, cy, 110, 0, Math.PI * 2); ctx.fill();
+
+  const glow = ctx.createRadialGradient(cx, cy, 10, cx, cy, 80);
+  glow.addColorStop(0, "rgba(34,197,94,0.25)");
+  glow.addColorStop(1, "rgba(34,197,94,0)");
+  ctx.fillStyle = glow;
+  ctx.beginPath(); ctx.arc(cx, cy, 80, 0, Math.PI * 2); ctx.fill();
+
+  // Shield shape
+  ctx.fillStyle = "#22c55e";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 68);
+  ctx.quadraticCurveTo(cx + 55, cy - 55, cx + 55, cy - 20);
+  ctx.quadraticCurveTo(cx + 52, cy + 25, cx, cy + 62);
+  ctx.quadraticCurveTo(cx - 52, cy + 25, cx - 55, cy - 20);
+  ctx.quadraticCurveTo(cx - 55, cy - 55, cx, cy - 68);
+  ctx.closePath();
+  ctx.fill();
+
+  // Shield inner
+  ctx.fillStyle = "#16a34a";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 56);
+  ctx.quadraticCurveTo(cx + 42, cy - 45, cx + 42, cy - 16);
+  ctx.quadraticCurveTo(cx + 40, cy + 18, cx, cy + 50);
+  ctx.quadraticCurveTo(cx - 40, cy + 18, cx - 42, cy - 16);
+  ctx.quadraticCurveTo(cx - 42, cy - 45, cx, cy - 56);
+  ctx.closePath();
+  ctx.fill();
+
+  // Shine
+  ctx.fillStyle = "rgba(255,255,255,0.12)";
+  ctx.beginPath();
+  ctx.moveTo(cx - 20, cy - 56);
+  ctx.quadraticCurveTo(cx - 42, cy - 45, cx - 42, cy - 16);
+  ctx.quadraticCurveTo(cx - 40, cy + 5, cx - 20, cy + 20);
+  ctx.lineTo(cx - 20, cy - 56);
+  ctx.closePath();
+  ctx.fill();
+
+  // Checkmark
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 7;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.beginPath();
+  ctx.moveTo(cx - 18, cy - 2);
+  ctx.lineTo(cx - 4, cy + 14);
+  ctx.lineTo(cx + 22, cy - 16);
+  ctx.stroke();
+
+  // Stars
+  star4(ctx, cx - 62, cy - 65, 9, "rgba(34,197,94,0.5)");
+  star4(ctx, cx + 68, cy - 58, 7, "rgba(34,197,94,0.4)");
+  star4(ctx, cx + 60, cy + 45, 8, "rgba(34,197,94,0.3)");
+}
+
+function drawWarning(ctx, cx, cy) {
+  // Warning/alert for at-risk (payment failed)
+  ctx.fillStyle = "rgba(255,255,255,0.04)";
+  ctx.beginPath(); ctx.arc(cx, cy, 110, 0, Math.PI * 2); ctx.fill();
+
+  // Large warning triangle
+  ctx.fillStyle = "#fbbf24";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 62);
+  ctx.lineTo(cx + 60, cy + 42);
+  ctx.lineTo(cx - 60, cy + 42);
+  ctx.closePath();
+  ctx.fill();
+
+  // Inner triangle
+  ctx.fillStyle = "#f59e0b";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 44);
+  ctx.lineTo(cx + 45, cy + 32);
+  ctx.lineTo(cx - 45, cy + 32);
+  ctx.closePath();
+  ctx.fill();
+
+  // Exclamation mark
+  ctx.fillStyle = "#1c1917";
+  rr(ctx, cx - 5, cy - 25, 10, 32, 3);
+  ctx.fill();
+  ctx.beginPath(); ctx.arc(cx, cy + 18, 6, 0, Math.PI * 2); ctx.fill();
+
+  // Broken card icon
+  ctx.fillStyle = "rgba(255,255,255,0.15)";
+  rr(ctx, cx + 40, cy + 48, 52, 34, 6);
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255,255,255,0.25)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx + 46, cy + 58);
+  ctx.lineTo(cx + 86, cy + 58);
+  ctx.stroke();
+  // X mark on card
+  ctx.strokeStyle = "#ef4444";
+  ctx.lineWidth = 3;
+  ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(cx + 58, cy + 64); ctx.lineTo(cx + 72, cy + 76); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx + 72, cy + 64); ctx.lineTo(cx + 58, cy + 76); ctx.stroke();
+
+  star4(ctx, cx - 65, cy - 55, 8, "rgba(251,191,36,0.4)");
+  star4(ctx, cx + 70, cy - 50, 6, "rgba(251,191,36,0.3)");
+}
+
+function drawFlame(ctx, cx, cy) {
+  // Fire/flame for streak
+  const glow = ctx.createRadialGradient(cx, cy, 10, cx, cy, 90);
+  glow.addColorStop(0, "rgba(249,115,22,0.3)");
+  glow.addColorStop(1, "rgba(249,115,22,0)");
+  ctx.fillStyle = glow;
+  ctx.beginPath(); ctx.arc(cx, cy, 90, 0, Math.PI * 2); ctx.fill();
+
+  // Outer flame
+  ctx.fillStyle = "#f97316";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 75);
+  ctx.quadraticCurveTo(cx + 20, cy - 50, cx + 45, cy - 15);
+  ctx.quadraticCurveTo(cx + 55, cy + 15, cx + 40, cy + 45);
+  ctx.quadraticCurveTo(cx + 20, cy + 65, cx, cy + 60);
+  ctx.quadraticCurveTo(cx - 20, cy + 65, cx - 40, cy + 45);
+  ctx.quadraticCurveTo(cx - 55, cy + 15, cx - 45, cy - 15);
+  ctx.quadraticCurveTo(cx - 20, cy - 50, cx, cy - 75);
+  ctx.closePath();
+  ctx.fill();
+
+  // Inner flame (yellow)
+  ctx.fillStyle = "#fbbf24";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 40);
+  ctx.quadraticCurveTo(cx + 12, cy - 20, cx + 25, cy + 5);
+  ctx.quadraticCurveTo(cx + 30, cy + 25, cx + 20, cy + 40);
+  ctx.quadraticCurveTo(cx + 8, cy + 52, cx, cy + 48);
+  ctx.quadraticCurveTo(cx - 8, cy + 52, cx - 20, cy + 40);
+  ctx.quadraticCurveTo(cx - 30, cy + 25, cx - 25, cy + 5);
+  ctx.quadraticCurveTo(cx - 12, cy - 20, cx, cy - 40);
+  ctx.closePath();
+  ctx.fill();
+
+  // Core flame (white-hot)
+  ctx.fillStyle = "#fef3c7";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 10);
+  ctx.quadraticCurveTo(cx + 8, cy + 5, cx + 10, cy + 20);
+  ctx.quadraticCurveTo(cx + 5, cy + 35, cx, cy + 32);
+  ctx.quadraticCurveTo(cx - 5, cy + 35, cx - 10, cy + 20);
+  ctx.quadraticCurveTo(cx - 8, cy + 5, cx, cy - 10);
+  ctx.closePath();
+  ctx.fill();
+
+  // Streak count circle
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath(); ctx.arc(cx + 45, cy + 35, 20, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#ea580c";
+  ctx.font = `bold 18px ${FONT_BOLD}`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("5+", cx + 45, cy + 35);
+  ctx.textBaseline = "alphabetic";
+  ctx.textAlign = "left";
+
+  // Embers
+  star4(ctx, cx - 55, cy - 65, 7, "rgba(249,115,22,0.5)");
+  star4(ctx, cx + 60, cy - 60, 6, "rgba(251,191,36,0.5)");
+  star4(ctx, cx - 45, cy + 50, 5, "rgba(249,115,22,0.3)");
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    DRAWING: BADGE LABELS
    ═══════════════════════════════════════════════════════════════════════ */
 
@@ -765,6 +1397,13 @@ export function generateNotificationImage({ title, body, cta, language, segmentN
     case "pencil": drawPencilIllus(ctx, illusCx, illusCy); break;
     case "trophy": drawTrophyIllus(ctx, illusCx, illusCy); break;
     case "lock": drawLockIllus(ctx, illusCx, illusCy); break;
+    case "diamond": drawDiamond(ctx, illusCx, illusCy); break;
+    case "book": drawBookIllus(ctx, illusCx, illusCy); break;
+    case "medal": drawMedal(ctx, illusCx, illusCy); break;
+    case "clock": drawClock(ctx, illusCx, illusCy); break;
+    case "shield_check": drawShieldCheck(ctx, illusCx, illusCy); break;
+    case "warning": drawWarning(ctx, illusCx, illusCy); break;
+    case "flame": drawFlame(ctx, illusCx, illusCy); break;
   }
 
   // 4. Text content — Gilroy font, story-contextualized

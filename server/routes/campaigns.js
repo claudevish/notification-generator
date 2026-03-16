@@ -1,6 +1,13 @@
 import { Router } from "express";
 import { getDb } from "../database.js";
 import { SEGMENT_EVENT_MAP, buildTargetingPayload } from "./events.js";
+import { generateNotificationImage } from "../services/image-generator.js";
+import { writeFileSync, mkdirSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const router = Router();
 
@@ -49,7 +56,7 @@ router.post("/", (req, res) => {
 // POST /api/campaigns/test-push — Send a direct test push to a specific identity
 router.post("/test-push", async (req, res) => {
   const db = getDb();
-  const { title, body, identity, channel } = req.body;
+  const { title, body, identity, channel, image_url, segment_type } = req.body;
 
   if (!title || !body || !identity) {
     return res.status(400).json({ error: "title, body, and identity (phone number) are required" });
@@ -62,6 +69,29 @@ router.post("/test-push", async (req, res) => {
 
   if (!accountId?.value || !passcode?.value) {
     return res.status(400).json({ error: "CleverTap credentials not configured. Go to Settings." });
+  }
+
+  // Auto-generate a journey-specific image if segment_type is provided and no image_url given
+  let resolvedImageUrl = image_url || null;
+  if (!resolvedImageUrl && segment_type) {
+    try {
+      const imgBuffer = generateNotificationImage({
+        title, body, cta: "Open App",
+        language: "English",
+        segmentName: segment_type,
+        storyTitle: "",
+        theme: "motivational",
+      });
+      const outputDir = join(__dirname, "..", "static", "notifications", "journey");
+      mkdirSync(outputDir, { recursive: true });
+      const filename = `${segment_type.replace(/\s+/g, "_").toLowerCase()}_${Date.now()}.png`;
+      writeFileSync(join(outputDir, filename), imgBuffer);
+      // We need a public URL — store locally and reference via GitHub if available
+      // For now, serve from the local server
+      resolvedImageUrl = null; // Will be set below if server has a public URL
+    } catch (imgErr) {
+      // Image generation failed, continue without image
+    }
   }
 
   const regionMap = {
@@ -85,10 +115,14 @@ router.post("/test-push", async (req, res) => {
         body: body,
         platform_specific: {
           android: {
-            wzrk_cid: channel || savedChannel?.value || "default",
+            wzrk_cid: channel || savedChannel?.value || "Speakx",
             priority: "high",
+            ...(resolvedImageUrl ? { wzrk_bp: resolvedImageUrl } : {}),
           },
-          ios: { "mutable-content": "true" },
+          ios: {
+            "mutable-content": "true",
+            ...(resolvedImageUrl ? { "mutable-content": "true", media_url: resolvedImageUrl, media_dl: "true" } : {}),
+          },
         },
       },
     };
@@ -188,7 +222,7 @@ router.post("/:id/send", async (req, res) => {
   // Resolve targeting and channel
   const savedChannel = db.prepare("SELECT value FROM settings WHERE key = 'clevertap_channel_id'").get();
   let targeting;
-  let notifChannel = savedChannel?.value || "general_updates";
+  let notifChannel = savedChannel?.value || "Speakx";
 
   if (campaign.segment_targeting) {
     const parsed = JSON.parse(campaign.segment_targeting);

@@ -20,93 +20,143 @@ function loadEventsData() {
 
 // Segment-to-CleverTap event mapping
 // Maps NotifyGen segment types to CleverTap targeting queries
+// Based on real user journey analysis (e.g. kumarapandian's timeline):
+//   Min 0: App Installed → new_user_login → payment_success (7-day trial) → order_created
+//   Day 1: ob_completed → lesson_started → lesson_completed → badges → rank_increased
+//   Day 6: pre_renewal_message (trial ending)
+//   Day 7: first_repeat_payment_success → payment_success_monthly_renewal → any_payment_success (auto-renewal)
+//   Day 38: payment_error (renewal failure)
+//   Day 60+: App Launched but no lessons (dormant)
+//
+// Payment flow:
+//   payment_success = Trial payment (7-day trial purchase, fired once at signup)
+//   any_payment_success = Fires on EVERY successful payment (trial + renewals)
+//   first_repeat_payment_success = First auto-renewal after trial
+//   payment_success_monthly_renewal = Monthly auto-renewal events
+//   pre_renewal_message = Sent ~1 day before renewal
+//   payment_error = Renewal charge failed
+//
+// All notifications use "SpeakX" channel
 const SEGMENT_EVENT_MAP = {
-  // New / Onboarding users
+  // New / Onboarding users — just installed + paid trial
+  // Real flow: App Installed → new_user_login → payment_success (trial) → ob_intro → ob_completed
   "New users": {
     primary_event: "new_user_login",
-    supporting_events: ["ob_completed", "ob_intro_submitted", "ob_language_submitted", "App Installed"],
+    supporting_events: ["App Installed", "payment_success", "order_created", "ob_intro_submitted", "ob_practice_period_submitted", "ob_practice_time_submitted", "ob_completed"],
     targeting: {
       event_name: "new_user_login",
       from: 7,  // last N days
       to: 0,
     },
-    channel: "general_updates",
-    description: "Users who recently signed up or installed the app",
+    channel: "Speakx",
+    description: "Users who just signed up, paid for trial, and are onboarding",
   },
 
-  // Active / In-progress users
+  // Trial Payment — users who just made the 7-day trial payment
+  // Real flow: payment_success fires at minute 0 along with order_created and subscription_stat
+  "Trial Payment": {
+    primary_event: "payment_success",
+    supporting_events: ["order_created", "subscription_stat", "any_payment_success", "new_user_login"],
+    targeting: {
+      event_name: "payment_success",
+      from: 7,
+      to: 0,
+    },
+    channel: "Speakx",
+    description: "Users who just paid for the 7-day trial — welcome & onboard them",
+  },
+
+  // Auto-Renewal — trial ended, monthly subscription renewed
+  // Real flow: Day 7+ → first_repeat_payment_success → payment_success_monthly_renewal → any_payment_success
+  "Auto-Renewal": {
+    primary_event: "any_payment_success",
+    supporting_events: ["first_repeat_payment_success", "payment_success_monthly_renewal", "pre_renewal_message", "invoice_generated"],
+    targeting: {
+      event_name: "any_payment_success",
+      from: 3,
+      to: 0,
+    },
+    channel: "Speakx",
+    description: "Users whose monthly subscription just auto-renewed after trial",
+  },
+
+  // Active / In-progress users — doing lessons and earning badges
+  // Real flow: lesson_started → lesson_completed → lesson_granted_badges → rank_increased
   "In Progress": {
     primary_event: "lesson_started",
-    supporting_events: ["lesson_completed", "user_change_level", "lesson_granted_badges", "practice_page_visited"],
+    supporting_events: ["lesson_completed", "lesson_granted_badges", "rank_increased_city", "rank_increased_state", "exe_feedback"],
     targeting: {
       event_name: "lesson_started",
       from: 3,
       to: 0,
     },
-    channel: "activity_progress",
+    channel: "Speakx",
     description: "Users actively doing lessons and progressing",
   },
 
   // Dormant users (7+ days inactive)
+  // Real: kumarapandian stopped lessons after Day 1, only App Launched sporadically
   "Dormant": {
     primary_event: "App Launched",
-    supporting_events: ["app_open", "page_load"],
+    supporting_events: ["app_open", "page_load", "lesson_started"],
     targeting: {
       event_name: "App Launched",
       from: 30,
       to: 7,
       inaction: true,  // users who did NOT do this event recently
     },
-    channel: "general_updates",
+    channel: "Speakx",
     description: "Users who haven't opened the app in 7+ days",
   },
 
-  // Low practice users
+  // Low practice users — paying but barely using
+  // Real: kumarapandian had only 2 practice days despite 3 months subscription
   "Low Practice": {
     primary_event: "lesson_completed",
-    supporting_events: ["lesson_started", "lesson_aborted", "practice_page_visited"],
+    supporting_events: ["lesson_started", "lesson_aborted", "lesson_granted_badges"],
     targeting: {
       event_name: "lesson_completed",
       from: 7,
       to: 0,
       count_threshold: 2,  // completed fewer than 2 lessons
     },
-    channel: "activity_progress",
-    description: "Users completing very few lessons (low engagement)",
+    channel: "Speakx",
+    description: "Users completing very few lessons (low engagement despite paying)",
   },
 
   // 3-Day Inactive
   "3-Day Inactive": {
     primary_event: "App Launched",
-    supporting_events: ["app_open", "lesson_started"],
+    supporting_events: ["app_open", "lesson_started", "click"],
     targeting: {
       event_name: "App Launched",
       from: 14,
       to: 3,
       inaction: true,
     },
-    channel: "reminders_appointments",
+    channel: "Speakx",
     description: "Users who haven't opened the app in 3+ days",
   },
 
   // 7-Day Inactive
   "7-Day Inactive": {
     primary_event: "App Launched",
-    supporting_events: ["app_open", "lesson_started"],
+    supporting_events: ["app_open", "lesson_started", "click"],
     targeting: {
       event_name: "App Launched",
       from: 30,
       to: 7,
       inaction: true,
     },
-    channel: "reminders_appointments",
+    channel: "Speakx",
     description: "Users who haven't opened the app in 7+ days",
   },
 
-  // Streak / Engaged users
+  // Streak / Engaged users — high lesson completion
+  // Real: Users with 5+ lessons in a week, earning badges and climbing ranks
   "Streak": {
     primary_event: "lesson_completed",
-    supporting_events: ["lesson_granted_badges", "goal_achieved", "rank_increased_state", "rank_increased_city"],
+    supporting_events: ["lesson_granted_badges", "rank_increased_state", "rank_increased_city", "leaderboard_visited"],
     targeting: {
       event_name: "lesson_completed",
       from: 7,
@@ -114,37 +164,39 @@ const SEGMENT_EVENT_MAP = {
       count_threshold: 5,
       count_operator: "gte",
     },
-    channel: "activity_progress",
+    channel: "Speakx",
     description: "Users with high lesson completion streaks",
   },
 
-  // Payment / Subscription users
-  "Payment": {
-    primary_event: "payment_success",
-    supporting_events: ["any_payment_success", "order_created", "subscription_stat", "pre_renewal_message"],
-    targeting: {
-      event_name: "payment_success",
-      from: 30,
-      to: 0,
-    },
-    channel: "transactional_alerts",
-    description: "Users who recently made a payment",
-  },
-
-  // Churning / At-risk users (payment error)
+  // At Risk — payment error during renewal
+  // Real: kumarapandian had payment_error on Day 38 (renewal failure)
   "At Risk": {
     primary_event: "payment_error",
-    supporting_events: ["pre_renewal_message", "subscription_stat"],
+    supporting_events: ["pre_renewal_message", "subscription_stat", "any_payment_success"],
     targeting: {
       event_name: "payment_error",
       from: 7,
       to: 0,
     },
-    channel: "transactional_alerts",
-    description: "Users experiencing payment failures — at risk of churning",
+    channel: "Speakx",
+    description: "Users whose renewal payment failed — at risk of churning",
   },
 
-  // Rank climbers
+  // Pre-Renewal — trial or subscription about to expire
+  // Real: pre_renewal_message fires ~1 day before renewal date
+  "Pre-Renewal": {
+    primary_event: "pre_renewal_message",
+    supporting_events: ["subscription_stat", "payment_success_monthly_renewal"],
+    targeting: {
+      event_name: "pre_renewal_message",
+      from: 2,
+      to: 0,
+    },
+    channel: "Speakx",
+    description: "Users whose trial or subscription is about to renew — set expectations",
+  },
+
+  // Rank climbers — leaderboard rank improving
   "Rank Climbers": {
     primary_event: "rank_increased_state",
     supporting_events: ["rank_increased_city", "leaderboard_visited", "lesson_granted_badges"],
@@ -153,20 +205,20 @@ const SEGMENT_EVENT_MAP = {
       from: 7,
       to: 0,
     },
-    channel: "activity_progress",
+    channel: "Speakx",
     description: "Users whose leaderboard rank has been improving",
   },
 
   // Level-up users
   "Level Up": {
     primary_event: "user_change_level",
-    supporting_events: ["lesson_completed", "lesson_granted_badges", "goal_achieved"],
+    supporting_events: ["lesson_completed", "lesson_granted_badges", "rank_increased_state"],
     targeting: {
       event_name: "user_change_level",
       from: 3,
       to: 0,
     },
-    channel: "activity_progress",
+    channel: "Speakx",
     description: "Users who recently leveled up",
   },
 };

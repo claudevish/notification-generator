@@ -196,6 +196,40 @@ export const api = {
     return res.json();
   },
 
+  // Events & Targeting
+  async getEvents() {
+    const res = await request("/events");
+    return res.json();
+  },
+
+  async getCustomEvents() {
+    const res = await request("/events/custom");
+    return res.json();
+  },
+
+  async getEventChannels() {
+    const res = await request("/events/channels");
+    return res.json();
+  },
+
+  async getSegmentMap() {
+    const res = await request("/events/segment-map");
+    return res.json();
+  },
+
+  async getHighVolumeEvents() {
+    const res = await request("/events/high-volume");
+    return res.json();
+  },
+
+  async buildTargeting(data) {
+    const res = await request("/events/build-targeting", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
   // Health
   async getHealth() {
     const res = await request("/health");

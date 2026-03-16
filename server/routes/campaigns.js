@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getDb } from "../database.js";
+import { SEGMENT_EVENT_MAP, buildTargetingPayload } from "./events.js";
 
 const router = Router();
 
@@ -184,23 +185,37 @@ router.post("/:id/send", async (req, res) => {
   const placeholders = notifIds.map(() => "?").join(",");
   const notifications = db.prepare(`SELECT * FROM notifications WHERE id IN (${placeholders})`).all(...notifIds);
 
+  // Resolve targeting and channel
+  const savedChannel = db.prepare("SELECT value FROM settings WHERE key = 'clevertap_channel_id'").get();
+  let targeting;
+  let notifChannel = savedChannel?.value || "general_updates";
+
+  if (campaign.segment_targeting) {
+    const parsed = JSON.parse(campaign.segment_targeting);
+    targeting = parsed.where || parsed;
+    if (parsed.channel) notifChannel = parsed.channel;
+  } else {
+    // Default: App Launched in last 7 days
+    targeting = {
+      event_name: "App Launched",
+      from: parseInt(new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10).replace(/-/g, "")),
+      to: parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, "")),
+    };
+  }
+
   try {
     // Create campaign in CleverTap
     const ctPayload = {
       name: campaign.name,
       estimate_only: false,
       target_mode: "push",
-      where: campaign.segment_targeting ? JSON.parse(campaign.segment_targeting) : {
-        event_name: "App Launched",
-        from: parseInt(new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10).replace(/-/g, "")),
-        to: parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, "")),
-      },
+      where: targeting,
       content: {
         title: notifications[0]?.title || campaign.name,
         body: notifications[0]?.body || "",
         platform_specific: {
           android: {
-            notification_channel: "general",
+            wzrk_cid: notifChannel,
             priority: "high",
           },
           ios: { "mutable-content": true },

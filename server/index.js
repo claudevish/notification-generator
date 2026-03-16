@@ -10,6 +10,7 @@ import exportRouter from "./routes/export.js";
 import analyticsRouter from "./routes/analytics.js";
 import settingsRouter from "./routes/settings.js";
 import campaignsRouter from "./routes/campaigns.js";
+import eventsRouter from "./routes/events.js";
 import { getDb } from "./database.js";
 import { generateForStory } from "./services/ai-generator.js";
 
@@ -36,6 +37,7 @@ app.use("/api/export", exportRouter);
 app.use("/api/analytics", analyticsRouter);
 app.use("/api/settings", settingsRouter);
 app.use("/api/campaigns", campaignsRouter);
+app.use("/api/events", eventsRouter);
 
 // Health check
 app.get("/api/health", (req, res) => {

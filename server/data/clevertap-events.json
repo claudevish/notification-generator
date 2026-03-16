@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "source": "CleverTap Dashboard - SpeakX (RZZ-497-RK7Z)",
+    "region": "in1",
+    "exported_at": "2026-03-16",
+    "total_system_events": 37,
+    "total_custom_events": 74,
+    "total_user_properties": 53
+  },
+  "system_events": [
+    { "name": "App Launched", "this_month": 2580766, "total": 17567591, "properties": 6, "description": "User opens the app" },
+    { "name": "App Installed", "this_month": 469258, "total": 1407774, "properties": 2, "description": "App first installed" },
+    { "name": "App Uninstalled", "this_month": 0, "total": 0, "properties": 3, "description": "App uninstalled" },
+    { "name": "App Version Changed", "this_month": 132552, "total": 530203, "properties": 3, "description": "User updated the app" },
+    { "name": "Push Impressions", "this_month": 16706667, "total": 174159884, "properties": 29, "description": "Push notification displayed on device" },
+    { "name": "Notification Delivered", "this_month": 493834, "total": 2469170, "properties": 5, "description": "Push notification delivered to device" },
+    { "name": "Notification Viewed", "this_month": 363215, "total": 1816075, "properties": 8, "description": "User saw the notification" },
+    { "name": "Notification Clicked", "this_month": 2814705, "total": 58462012, "properties": 33, "description": "User tapped the notification" },
+    { "name": "Notification Replied", "this_month": 14812, "total": 148126, "properties": 13, "description": "User replied to notification" },
+    { "name": "Notification Sent", "this_month": 0, "total": 0, "properties": 4, "description": "Notification was sent" },
+    { "name": "Notification Failed", "this_month": 0, "total": 0, "properties": 5, "description": "Notification delivery failed" },
+    { "name": "Push Unregistered", "this_month": 498923, "total": 2558868, "properties": 5, "description": "Push token unregistered" },
+    { "name": "Session Concluded", "this_month": 0, "total": 0, "properties": 2, "description": "User session ended" },
+    { "name": "Web Session Started", "this_month": 0, "total": 0, "properties": 0, "description": "Web session started" },
+    { "name": "Channel Subscribed", "this_month": 0, "total": 0, "properties": 5, "description": "User subscribed to channel" },
+    { "name": "Channel Unsubscribed", "this_month": 0, "total": 0, "properties": 10, "description": "User unsubscribed from channel" },
+    { "name": "Reachable By", "this_month": 0, "total": 0, "properties": 3, "description": "User reachable via channel" },
+    { "name": "Reply Sent", "this_month": 3645, "total": 14580, "properties": 3, "description": "Reply sent to user" },
+    { "name": "UTM Visited", "this_month": 309936, "total": 929708, "properties": 37, "description": "UTM tracked link visited" },
+    { "name": "Partner Sync", "this_month": 0, "total": 0, "properties": 5, "description": "Partner data sync" },
+    { "name": "Identity Reset", "this_month": 0, "total": 0, "properties": 3, "description": "User identity reset" },
+    { "name": "Identity Error", "this_month": 0, "total": 0, "properties": 2, "description": "Identity merge error" },
+    { "name": "Identity Set", "this_month": 0, "total": 0, "properties": 4, "description": "User identity set" },
+    { "name": "AB Test Enter", "this_month": 0, "total": 0, "properties": 3, "description": "User entered AB test" },
+    { "name": "AB Test Exit", "this_month": 0, "total": 0, "properties": 4, "description": "User exited AB test" },
+    { "name": "AB Experiment Disqualified", "this_month": 0, "total": 0, "properties": 0, "description": "User disqualified from experiment" },
+    { "name": "AB Experiment Stopped", "this_month": 0, "total": 0, "properties": 0, "description": "Experiment stopped" },
+    { "name": "AB Experiment Rolled Out", "this_month": 0, "total": 0, "properties": 0, "description": "Experiment rolled out" },
+    { "name": "AB Experiment Rendered", "this_month": 0, "total": 0, "properties": 0, "description": "Experiment rendered to user" },
+    { "name": "Experiment Rendered", "this_month": 0, "total": 0, "properties": 0, "description": "Experiment rendered" },
+    { "name": "Geocluster Entered", "this_month": 0, "total": 0, "properties": 3, "description": "User entered geocluster" },
+    { "name": "Geocluster Exited", "this_month": 0, "total": 0, "properties": 3, "description": "User exited geocluster" },
+    { "name": "SCIncoming", "this_month": 0, "total": 0, "properties": 0, "description": "Signed call incoming" },
+    { "name": "SCOutgoing", "this_month": 0, "total": 0, "properties": 0, "description": "Signed call outgoing" },
+    { "name": "SCRecordedBilled", "this_month": 0, "total": 0, "properties": 0, "description": "Signed call recorded and billed" },
+    { "name": "SCBilled", "this_month": 0, "total": 0, "properties": 0, "description": "Signed call billed" },
+    { "name": "SCEnd", "this_month": 0, "total": 0, "properties": 0, "description": "Signed call ended" }
+  ],
+  "custom_events": {
+    "engagement_learning": [
+      { "name": "lesson_started", "this_month": 2345655, "total": 48117347, "properties": 23, "description": "User started a lesson" },
+      { "name": "lesson_completed", "this_month": 2436339, "total": 53893079, "properties": 25, "description": "User completed a lesson" },
+      { "name": "lesson_aborted", "this_month": 288191, "total": 5934231, "properties": 25, "description": "User abandoned a lesson mid-way" },
+      { "name": "lesson_started_in_app", "this_month": 1865, "total": 18650, "properties": 10, "description": "Lesson started from in-app notification" },
+      { "name": "lesson_granted_badges", "this_month": 2393051, "total": 14358306, "properties": 5, "description": "Badge awarded after lesson completion" },
+      { "name": "user_change_level", "this_month": 1650949, "total": 9905694, "properties": 6, "description": "User progressed to a new level" },
+      { "name": "exe_feedback", "this_month": 505676, "total": 6884813, "properties": 15, "description": "Exercise feedback submitted" },
+      { "name": "practice_page_visited", "this_month": 156873, "total": 1492414, "properties": 10, "description": "User visited practice page" },
+      { "name": "floating_exercise_start", "this_month": 78524, "total": 568941, "properties": 0, "description": "Started floating exercise widget" },
+      { "name": "floating_exercise_completed", "this_month": 0, "total": 0, "properties": 0, "description": "Completed floating exercise" },
+      { "name": "floating_button_clicked", "this_month": 141812, "total": 1026743, "properties": 0, "description": "Floating button tapped" },
+      { "name": "goal_achieved", "this_month": 37253, "total": 186265, "properties": 5, "description": "User achieved a learning goal" }
+    ],
+    "ranking_leaderboard": [
+      { "name": "rank_increased_state", "this_month": 1608143, "total": 11257001, "properties": 7, "description": "User rank went up in state leaderboard" },
+      { "name": "rank_increased_city", "this_month": 1150437, "total": 8053059, "properties": 7, "description": "User rank went up in city leaderboard" },
+      { "name": "rank_decreased_state", "this_month": 196372, "total": 1374604, "properties": 7, "description": "User rank went down in state leaderboard" },
+      { "name": "rank_decreased_city", "this_month": 146289, "total": 1024023, "properties": 7, "description": "User rank went down in city leaderboard" },
+      { "name": "leaderboard_visited", "this_month": 71600, "total": 776482, "properties": 10, "description": "User visited leaderboard page" }
+    ],
+    "payments_subscription": [
+      { "name": "payment_success", "this_month": 35113, "total": 833369, "properties": 29, "description": "Payment completed successfully" },
+      { "name": "payment_error", "this_month": 204750, "total": 4234206, "properties": 25, "description": "Payment attempt failed" },
+      { "name": "any_payment_success", "this_month": 123648, "total": 3018201, "properties": 35, "description": "Any type of payment succeeded" },
+      { "name": "first_repeat_payment_success", "this_month": 18645, "total": 438784, "properties": 27, "description": "First repeat/renewal payment succeeded" },
+      { "name": "payment_success_monthly_rene", "this_month": 89817, "total": 538902, "properties": 6, "description": "Monthly renewal payment succeeded" },
+      { "name": "order_created", "this_month": 201434, "total": 2574900, "properties": 29, "description": "New order/subscription created" },
+      { "name": "invoice_generated", "this_month": 122537, "total": 612685, "properties": 5, "description": "Invoice generated for payment" },
+      { "name": "subscription_stat", "this_month": 89819, "total": 359276, "properties": 4, "description": "Subscription status change" },
+      { "name": "pre_renewal_message", "this_month": 99793, "total": 798344, "properties": 0, "description": "Pre-renewal reminder sent" },
+      { "name": "mandate_updated", "this_month": 813, "total": 3252, "properties": 6, "description": "Payment mandate updated" },
+      { "name": "recurring_discount_applied", "this_month": 0, "total": 0, "properties": 4, "description": "Recurring discount applied" },
+      { "name": "Charged", "this_month": 0, "total": 0, "properties": 0, "description": "Revenue event (CleverTap standard)" }
+    ],
+    "onboarding": [
+      { "name": "ob_completed", "this_month": 162842, "total": 1059842, "properties": 9, "description": "User completed onboarding" },
+      { "name": "ob_intro_submitted", "this_month": 205968, "total": 1794058, "properties": 11, "description": "Onboarding intro step completed" },
+      { "name": "ob_language_submitted", "this_month": 154418, "total": 1117553, "properties": 9, "description": "User selected language in onboarding" },
+      { "name": "ob_notification_submitted", "this_month": 13263, "total": 111556, "properties": 10, "description": "Notification permissions step in onboarding" },
+      { "name": "ob_practice_time_submitted", "this_month": 147686, "total": 1108446, "properties": 9, "description": "User set practice time preference" },
+      { "name": "ob_practice_period_submitted", "this_month": 151601, "total": 1136892, "properties": 9, "description": "User set practice period preference" },
+      { "name": "ob_eng_level_submitted", "this_month": 4, "total": 23, "properties": 5, "description": "User set English level in onboarding" }
+    ],
+    "app_lifecycle": [
+      { "name": "app_open", "this_month": 2337252, "total": 20630551, "properties": 12, "description": "App opened by user" },
+      { "name": "app_killed", "this_month": 471524, "total": 2733189, "properties": 5, "description": "App was killed/force-closed" },
+      { "name": "new_user_login", "this_month": 267611, "total": 2943658, "properties": 16, "description": "New user logged in for first time" },
+      { "name": "push_token_updated", "this_month": 2588584, "total": 12942920, "properties": 4, "description": "FCM push token updated" },
+      { "name": "on_user_login_call_completed", "this_month": 2730633, "total": 13653160, "properties": 4, "description": "User login call completed" },
+      { "name": "on_user_login_call_start", "this_month": 2736911, "total": 13684550, "properties": 4, "description": "User login call started" },
+      { "name": "page_load", "this_month": 5753805, "total": 65879083, "properties": 23, "description": "Page/screen loaded" },
+      { "name": "click", "this_month": 1049110, "total": 9298411, "properties": 28, "description": "UI element clicked" }
+    ],
+    "notifications_engagement": [
+      { "name": "notification", "this_month": 905912, "total": 15822188, "properties": 21, "description": "Custom notification event" },
+      { "name": "popup_shown", "this_month": 73412, "total": 513900, "properties": 10, "description": "In-app popup displayed" }
+    ],
+    "gamification": [
+      { "name": "all_hearts_lost", "this_month": 0, "total": 0, "properties": 0, "description": "User lost all hearts" },
+      { "name": "heart_refilled", "this_month": 0, "total": 0, "properties": 0, "description": "Hearts refilled" },
+      { "name": "claim_heart_click", "this_month": 0, "total": 0, "properties": 0, "description": "User clicked to claim hearts" },
+      { "name": "scratch_card_received", "this_month": 0, "total": 0, "properties": 4, "description": "User received scratch card reward" },
+      { "name": "reward_granted", "this_month": 0, "total": 0, "properties": 8, "description": "Reward granted to user" }
+    ],
+    "video_content": [
+      { "name": "watch_video", "this_month": 0, "total": 0, "properties": 6, "description": "User watched video" },
+      { "name": "watch_video_closed", "this_month": 0, "total": 0, "properties": 0, "description": "Video player closed" },
+      { "name": "intro_video_started", "this_month": 0, "total": 0, "properties": 6, "description": "Intro video started playing" },
+      { "name": "intro_video_completed", "this_month": 0, "total": 0, "properties": 0, "description": "Intro video completed" },
+      { "name": "intro_video_skipped", "this_month": 0, "total": 0, "properties": 6, "description": "Intro video was skipped" }
+    ],
+    "workshops_live": [
+      { "name": "live_workshop_started", "this_month": 0, "total": 0, "properties": 6, "description": "Live workshop session started" },
+      { "name": "completed_workshop_started", "this_month": 0, "total": 0, "properties": 6, "description": "Completed workshop replay started" },
+      { "name": "live_workshop_booked", "this_month": 0, "total": 0, "properties": 8, "description": "User booked a live workshop" },
+      { "name": "live_calender_visited", "this_month": 0, "total": 0, "properties": 7, "description": "User visited live calendar" }
+    ],
+    "calls": [
+      { "name": "convozen_ai_calls", "this_month": 0, "total": 0, "properties": 6, "description": "AI call via Convozen" },
+      { "name": "c2c_call_initiated", "this_month": 0, "total": 0, "properties": 4, "description": "Click-to-call initiated" },
+      { "name": "c2c_call_started", "this_month": 0, "total": 0, "properties": 5, "description": "Click-to-call connected" },
+      { "name": "c2c_call_completed", "this_month": 0, "total": 0, "properties": 7, "description": "Click-to-call finished" },
+      { "name": "c2c_call_cancelled", "this_month": 0, "total": 0, "properties": 4, "description": "Click-to-call cancelled" },
+      { "name": "c2c_apologies_exit", "this_month": 0, "total": 0, "properties": 0, "description": "Click-to-call apology screen exited" }
+    ],
+    "misc": [
+      { "name": "premium_ad_click", "this_month": 0, "total": 0, "properties": 0, "description": "Premium ad clicked" },
+      { "name": "bottom_sheet_shown", "this_month": 0, "total": 0, "properties": 5, "description": "Bottom sheet UI shown" },
+      { "name": "time_spent_start_practice", "this_month": 0, "total": 0, "properties": 0, "description": "Practice time tracking started" },
+      { "name": "time_spent_popup_cross", "this_month": 0, "total": 0, "properties": 0, "description": "Time spent popup dismissed" },
+      { "name": "time_spent_skip", "this_month": 0, "total": 0, "properties": 6, "description": "Time spent prompt skipped" },
+      { "name": "UserRewardFeedback", "this_month": 0, "total": 0, "properties": 0, "description": "User submitted reward feedback" },
+      { "name": "DATA", "this_month": 0, "total": 0, "properties": 0, "description": "Generic data event" },
+      { "name": "testing", "this_month": 0, "total": 0, "properties": 2, "description": "Test event" }
+    ]
+  },
+  "user_properties": {
+    "identity_profile": [
+      "DOB",
+      "language",
+      "createdAt",
+      "type",
+      "b2b_user",
+      "organisation_id",
+      "organisation_name",
+      "organisation_batch",
+      "ct_is_test_user",
+      "is_control_user"
+    ],
+    "learning_progress": [
+      "user_level",
+      "userRank",
+      "userStateRank",
+      "userCityRank",
+      "cityRank",
+      "cardsCollected",
+      "totalPracticeDays",
+      "trialPracticeDays",
+      "postTrialPracticeDays",
+      "practice_time",
+      "practice_period",
+      "ob_learning_reason",
+      "leaderboard_visibility"
+    ],
+    "subscription_billing": [
+      "subscriptionId",
+      "subscriptionPlanKey",
+      "subscriptionStatus",
+      "packageType",
+      "validFrom",
+      "validTill",
+      "refundStatus",
+      "renewalAmount",
+      "renewal_month",
+      "payment done today",
+      "grantReason",
+      "unscratchedCashbackCards"
+    ],
+    "app_technical": [
+      "appVersion",
+      "bucketId"
+    ],
+    "exercise_levels": [
+      "E1", "E2", "E27", "E28", "E29", "E30",
+      "E78", "E79", "E80", "E81", "E82", "E83", "E84", "E85"
+    ],
+    "courses": [
+      "courses"
+    ]
+  },
+  "notification_channels": [
+    "general_updates",
+    "promotions_offers",
+    "transactional_alerts",
+    "reminders_appointments",
+    "activity_progress",
+    "customer_support",
+    "Speakx",
+    "speakx_call",
+    "ai_caller",
+    "mute"
+  ],
+  "high_volume_events_for_targeting": {
+    "description": "Events with significant monthly volume, ideal for real-time notification targeting",
+    "events": [
+      { "name": "page_load", "monthly": "5.75M", "use_case": "Target active users based on screen visits" },
+      { "name": "on_user_login_call_start", "monthly": "2.73M", "use_case": "Welcome back / re-engagement on login" },
+      { "name": "App Launched", "monthly": "2.58M", "use_case": "Daily active user targeting" },
+      { "name": "push_token_updated", "monthly": "2.58M", "use_case": "Ensure push delivery to latest token" },
+      { "name": "lesson_completed", "monthly": "2.43M", "use_case": "Post-lesson congratulations, streak reminders, next lesson suggestions" },
+      { "name": "lesson_granted_badges", "monthly": "2.39M", "use_case": "Celebrate achievements, motivate with next badge" },
+      { "name": "lesson_started", "monthly": "2.34M", "use_case": "Track active learners, nudge if abandoned" },
+      { "name": "app_open", "monthly": "2.33M", "use_case": "Contextual in-app notifications" },
+      { "name": "user_change_level", "monthly": "1.65M", "use_case": "Level-up celebrations, unlock new content notifications" },
+      { "name": "rank_increased_state", "monthly": "1.6M", "use_case": "Congratulate rank improvement, motivate to maintain" },
+      { "name": "rank_increased_city", "monthly": "1.15M", "use_case": "City-level rank celebration" },
+      { "name": "click", "monthly": "1.05M", "use_case": "Track engagement patterns for targeting" },
+      { "name": "notification", "monthly": "905K", "use_case": "Track notification interaction patterns" },
+      { "name": "Push Impressions", "monthly": "16.7M", "use_case": "Measure push reach and visibility" },
+      { "name": "Notification Clicked", "monthly": "2.8M", "use_case": "Optimize notification content based on CTR" },
+      { "name": "Notification Delivered", "monthly": "493K", "use_case": "Track delivery rate" },
+      { "name": "App Installed", "monthly": "469K", "use_case": "Welcome series for new installs" },
+      { "name": "lesson_aborted", "monthly": "288K", "use_case": "Re-engage users who dropped off mid-lesson" },
+      { "name": "new_user_login", "monthly": "267K", "use_case": "New user onboarding flow" },
+      { "name": "order_created", "monthly": "201K", "use_case": "Purchase confirmation, upsell opportunities" },
+      { "name": "payment_error", "monthly": "204K", "use_case": "Payment retry nudges" },
+      { "name": "ob_intro_submitted", "monthly": "205K", "use_case": "Track onboarding progress, nudge incomplete" },
+      { "name": "ob_completed", "monthly": "162K", "use_case": "Post-onboarding engagement campaign" },
+      { "name": "practice_page_visited", "monthly": "156K", "use_case": "Encourage regular practice" },
+      { "name": "floating_button_clicked", "monthly": "141K", "use_case": "Track widget engagement" },
+      { "name": "App Version Changed", "monthly": "132K", "use_case": "What's new notifications" },
+      { "name": "any_payment_success", "monthly": "123K", "use_case": "Thank you + premium feature highlights" },
+      { "name": "pre_renewal_message", "monthly": "99K", "use_case": "Renewal reminders and offers" }
+    ]
+  }
+}

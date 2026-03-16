@@ -107,6 +107,59 @@ function initTables() {
     );
 
     CREATE INDEX IF NOT EXISTS idx_campaign_events ON campaign_events(campaign_id);
+
+    -- Automation Engine tables
+    CREATE TABLE IF NOT EXISTS user_journeys (
+      identity TEXT PRIMARY KEY,
+      username TEXT,
+      first_event TEXT,
+      payment_time DATETIME,
+      current_day INTEGER DEFAULT 0,
+      lesson_started INTEGER DEFAULT 0,
+      lessons_completed INTEGER DEFAULT 0,
+      onboarding_completed INTEGER DEFAULT 0,
+      story_name TEXT DEFAULT 'The Quiet Boy',
+      cliffhanger_text TEXT DEFAULT 'Something incredible is about to happen...',
+      last_event TEXT,
+      last_event_at DATETIME,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS scheduled_notifications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      identity TEXT NOT NULL,
+      journey_day INTEGER DEFAULT 0,
+      slot INTEGER NOT NULL,
+      notification_name TEXT NOT NULL,
+      segment TEXT,
+      send_at DATETIME NOT NULL,
+      status TEXT DEFAULT 'pending' CHECK(status IN ('pending','sent','failed','skipped_dnd','cancelled')),
+      sent_title TEXT,
+      sent_body TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_scheduled_identity ON scheduled_notifications(identity);
+    CREATE INDEX IF NOT EXISTS idx_scheduled_status ON scheduled_notifications(status, send_at);
+
+    CREATE TABLE IF NOT EXISTS sent_log (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      identity TEXT NOT NULL,
+      journey_day INTEGER DEFAULT 0,
+      slot INTEGER,
+      notification_name TEXT,
+      title TEXT,
+      body TEXT,
+      image_url TEXT,
+      status TEXT DEFAULT 'sent',
+      clevertap_response TEXT,
+      sent_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_sent_identity ON sent_log(identity);
+    CREATE INDEX IF NOT EXISTS idx_sent_time ON sent_log(sent_at);
   `);
 
   // Migration: add image_path column to notifications if missing

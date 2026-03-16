@@ -11,8 +11,10 @@ import analyticsRouter from "./routes/analytics.js";
 import settingsRouter from "./routes/settings.js";
 import campaignsRouter from "./routes/campaigns.js";
 import eventsRouter from "./routes/events.js";
+import webhooksRouter from "./routes/webhooks.js";
 import { getDb } from "./database.js";
 import { generateForStory } from "./services/ai-generator.js";
+import { startScheduler } from "./services/scheduler.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -38,6 +40,7 @@ app.use("/api/analytics", analyticsRouter);
 app.use("/api/settings", settingsRouter);
 app.use("/api/campaigns", campaignsRouter);
 app.use("/api/events", eventsRouter);
+app.use("/api/webhooks", webhooksRouter);
 
 // Health check
 app.get("/api/health", (req, res) => {
@@ -104,4 +107,6 @@ app.get("*", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  // Start the automation scheduler
+  startScheduler();
 });

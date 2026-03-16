@@ -92,7 +92,7 @@ export default function ExportPage() {
           <select
             value={selectedBatch}
             onChange={(e) => setSelectedBatch(e.target.value)}
-            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-200 focus-neon cursor-pointer"
+            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 focus-neon cursor-pointer"
           >
             <option value="">All Uploads</option>
             {batches.map((b) => (
@@ -137,10 +137,10 @@ export default function ExportPage() {
             className="glass-card rounded-xl p-5 hover-lift flex items-start gap-4"
           >
             <div className="w-10 h-10 rounded-lg glass-card flex items-center justify-center flex-shrink-0">
-              <exp.icon className="w-5 h-5 text-zinc-400" />
+              <exp.icon className="w-5 h-5 text-zinc-500 dark:text-zinc-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-semibold text-zinc-200">{exp.title}</h3>
+              <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{exp.title}</h3>
               <p className="text-xs text-zinc-500 mt-1">{exp.description}</p>
               <button
                 onClick={() => handleDownload(exp)}

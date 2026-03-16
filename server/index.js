@@ -7,6 +7,9 @@ import storiesRouter from "./routes/stories.js";
 import segmentsRouter from "./routes/segments.js";
 import notificationsRouter from "./routes/notifications.js";
 import exportRouter from "./routes/export.js";
+import analyticsRouter from "./routes/analytics.js";
+import settingsRouter from "./routes/settings.js";
+import campaignsRouter from "./routes/campaigns.js";
 import { getDb } from "./database.js";
 import { generateForStory } from "./services/ai-generator.js";
 
@@ -30,6 +33,9 @@ app.use("/api/stories", storiesRouter);
 app.use("/api/segments", segmentsRouter);
 app.use("/api/notifications", notificationsRouter);
 app.use("/api/export", exportRouter);
+app.use("/api/analytics", analyticsRouter);
+app.use("/api/settings", settingsRouter);
+app.use("/api/campaigns", campaignsRouter);
 
 // Health check
 app.get("/api/health", (req, res) => {

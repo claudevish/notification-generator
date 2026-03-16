@@ -44,7 +44,7 @@ function PortalHeader() {
         <h1 className="text-3xl font-bold text-gradient tracking-tight">
           SpeakX Notification Portal
         </h1>
-        <p className="mt-2 text-sm text-zinc-400 max-w-md mx-auto">
+        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 max-w-md mx-auto">
           Upload your learning journey CSV to auto-generate targeted push
           notifications with AI-powered images across 6 user segments.
         </p>
@@ -70,8 +70,8 @@ function UploadZone({ getRootProps, getInputProps, isDragActive, uploading }) {
         isDragActive
           ? "border-brand-500 bg-brand-600/10 scale-[1.01] shadow-neon-md"
           : uploading
-            ? "border-zinc-700 bg-zinc-900/50 cursor-wait"
-            : "border-brand-500/20 bg-zinc-900/30 hover:border-brand-500/40 hover:bg-brand-600/5 hover:shadow-neon-sm"
+            ? "border-zinc-700 bg-zinc-100/50 dark:bg-zinc-900/50 cursor-wait"
+            : "border-brand-500/20 bg-zinc-100/30 dark:bg-zinc-900/30 hover:border-brand-500/40 hover:bg-brand-600/5 hover:shadow-neon-sm"
       }`}
     >
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
@@ -86,8 +86,8 @@ function UploadZone({ getRootProps, getInputProps, isDragActive, uploading }) {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl glass-card shadow-neon-sm">
               <Loader2 className="w-7 h-7 text-brand-400 animate-spin" />
             </div>
-            <p className="text-sm text-zinc-300 font-medium">Processing CSV &amp; generating notifications...</p>
-            <div className="w-48 h-1 bg-zinc-800 rounded-full mx-auto overflow-hidden">
+            <p className="text-sm text-zinc-700 dark:text-zinc-300 font-medium">Processing CSV &amp; generating notifications...</p>
+            <div className="w-48 h-1 bg-zinc-200 dark:bg-zinc-800 rounded-full mx-auto overflow-hidden">
               <div className="h-full bg-gradient-to-r from-brand-500 to-neon-cyan rounded-full animate-pulse" style={{ width: "70%" }} />
             </div>
           </div>
@@ -104,7 +104,7 @@ function UploadZone({ getRootProps, getInputProps, isDragActive, uploading }) {
               <Upload className="w-7 h-7 text-zinc-500 group-hover:text-brand-400 transition-colors" />
             </div>
             <div>
-              <p className="text-sm text-zinc-200 font-medium">Drag &amp; drop your CSV file here</p>
+              <p className="text-sm text-zinc-800 dark:text-zinc-200 font-medium">Drag &amp; drop your CSV file here</p>
               <p className="text-xs text-zinc-500 mt-1">or click to browse &middot; .csv files only</p>
             </div>
           </div>
@@ -127,7 +127,7 @@ function UploadResult({ result, navigate }) {
     );
   }
   return (
-    <div className="mt-6 rounded-xl overflow-hidden border border-emerald-500/20 bg-gradient-to-r from-emerald-900/15 to-zinc-900/50">
+    <div className="mt-6 rounded-xl overflow-hidden border border-emerald-500/20 bg-gradient-to-r from-emerald-900/15 to-zinc-100/50 dark:to-zinc-900/50">
       <div className="p-5">
         <div className="flex items-center gap-2 mb-4">
           <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
@@ -137,17 +137,17 @@ function UploadResult({ result, navigate }) {
         <div className="grid grid-cols-3 gap-3 mb-4">
           <button onClick={() => navigate(`/stories?batch_id=${result.batch_id}`)} className="glass-card rounded-lg p-3 text-center group cursor-pointer hover-lift">
             <BookOpen className="w-4 h-4 text-brand-400 mx-auto mb-1" />
-            <p className="text-lg font-bold text-zinc-100">{result.stories}</p>
+            <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{result.stories}</p>
             <p className="text-[10px] text-zinc-500 uppercase group-hover:text-brand-400 transition-colors">Stories <ArrowRight className="w-2.5 h-2.5 inline ml-0.5" /></p>
           </button>
           <button onClick={() => navigate(`/segments?batch_id=${result.batch_id}`)} className="glass-card rounded-lg p-3 text-center group cursor-pointer hover-lift">
             <Users className="w-4 h-4 text-emerald-400 mx-auto mb-1" />
-            <p className="text-lg font-bold text-zinc-100">{result.segments}</p>
+            <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{result.segments}</p>
             <p className="text-[10px] text-zinc-500 uppercase group-hover:text-emerald-400 transition-colors">Segments <ArrowRight className="w-2.5 h-2.5 inline ml-0.5" /></p>
           </button>
           <button onClick={() => navigate(`/notifications?batch_id=${result.batch_id}`)} className="glass-card rounded-lg p-3 text-center group cursor-pointer hover-lift">
             <Bell className="w-4 h-4 text-amber-400 mx-auto mb-1" />
-            <p className="text-lg font-bold text-zinc-100">{result.notifications}</p>
+            <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{result.notifications}</p>
             <p className="text-[10px] text-zinc-500 uppercase group-hover:text-amber-400 transition-colors">Notifications <ArrowRight className="w-2.5 h-2.5 inline ml-0.5" /></p>
           </button>
         </div>
@@ -160,7 +160,7 @@ function BatchCard({ batch, navigate, onDelete }) {
   return (
     <div className="glass-card rounded-xl p-4 flex items-center gap-4 hover-lift group">
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-zinc-200 truncate mb-2">{batch.name}</p>
+        <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 truncate mb-2">{batch.name}</p>
         <div className="flex items-center gap-2 flex-wrap">
           <StatPill icon={BookOpen} value={batch.story_count} label="stories" color="bg-brand-600/10 text-brand-400 border-brand-500/20 hover:bg-brand-600/20" onClick={() => navigate(`/stories?batch_id=${batch.id}`)} />
           {batch.segments_count > 0 && <StatPill icon={Users} value={batch.segments_count} label="segments" color="bg-emerald-600/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-600/20" onClick={() => navigate(`/segments?batch_id=${batch.id}`)} />}
@@ -218,7 +218,7 @@ export default function UploadPage() {
       <div className="flex items-center gap-4 mb-6 px-1">
         <div className="flex items-center gap-2 text-[11px] text-zinc-500">
           <FileSpreadsheet className="w-3.5 h-3.5 text-zinc-600" />
-          <span className="font-medium text-zinc-400">Supported:</span>
+          <span className="font-medium text-zinc-500 dark:text-zinc-400">Supported:</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-[10px] text-zinc-500 glass-card px-2 py-0.5 rounded-md">SpeakX Journey CSV</span>
@@ -239,7 +239,7 @@ export default function UploadPage() {
       {batches.length > 0 && (
         <div className="mt-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Previous Uploads</h3>
+            <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Previous Uploads</h3>
             <span className="text-[10px] text-zinc-600">{batches.length} batch{batches.length !== 1 ? "es" : ""}</span>
           </div>
           <div className="space-y-2">

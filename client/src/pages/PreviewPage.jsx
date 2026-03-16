@@ -119,7 +119,7 @@ export default function PreviewPage() {
               setSelectedStory("");
               setSelectedSegment("");
             }}
-            className="appearance-none bg-zinc-900 border border-zinc-800 rounded-lg pl-3 pr-8 py-2 text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-brand-500 cursor-pointer"
+            className="appearance-none bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg pl-3 pr-8 py-2 text-sm text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-brand-500 cursor-pointer"
           >
             <option value="">All Uploads</option>
             {batches.map((b) => (
@@ -135,7 +135,7 @@ export default function PreviewPage() {
             setSelectedStory(e.target.value);
             setSelectedSegment("");
           }}
-          className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-brand-500"
+          className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-brand-500"
         >
           <option value="">All Stories</option>
           {stories.map((s) => (
@@ -146,7 +146,7 @@ export default function PreviewPage() {
         <select
           value={selectedSegment}
           onChange={(e) => setSelectedSegment(e.target.value)}
-          className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-brand-500"
+          className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-brand-500"
         >
           <option value="">All Segments</option>
           {segments.map((s) => (
@@ -155,7 +155,7 @@ export default function PreviewPage() {
         </select>
 
         {/* Language tabs */}
-        <div className="flex bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden ml-auto">
+        <div className="flex bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden ml-auto">
           {["English", "Hindi", "Hinglish", "All"].map((lang) => (
             <button
               key={lang}
@@ -163,7 +163,7 @@ export default function PreviewPage() {
               className={`px-3 py-1.5 text-xs font-medium transition-colors ${
                 langTab === lang
                   ? "bg-brand-600 text-white"
-                  : "text-zinc-400 hover:text-zinc-200"
+                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
               }`}
             >
               {lang}
@@ -194,7 +194,7 @@ export default function PreviewPage() {
             {Object.entries(grouped).map(([segId, group]) => (
               <div key={segId}>
                 <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                  <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
                     {group.name}
                   </h3>
                   <span className="text-[10px] text-zinc-600">{group.story}</span>
@@ -226,8 +226,8 @@ export default function PreviewPage() {
                             <ChevronDown className={`w-3 h-3 transition-transform ${showPrompt === n.id ? "rotate-180" : ""}`} />
                           </button>
                           {showPrompt === n.id && (
-                            <div className="mt-1 bg-zinc-800/50 rounded-md p-2 relative group">
-                              <p className="text-[10px] text-zinc-400 leading-relaxed pr-6">
+                            <div className="mt-1 bg-zinc-100/50 dark:bg-zinc-800/50 rounded-md p-2 relative group">
+                              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 leading-relaxed pr-6">
                                 {n.image_prompt}
                               </p>
                               <button
@@ -256,7 +256,7 @@ export default function PreviewPage() {
                 <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">
                   Notification Image (984×360)
                 </p>
-                <div className="rounded-xl overflow-hidden border border-zinc-800 shadow-2xl">
+                <div className="rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-2xl">
                   <img
                     src={previewNotif.image_url}
                     alt={`${previewNotif.title} preview`}
@@ -277,11 +277,11 @@ export default function PreviewPage() {
 
             {/* Image prompt */}
             {previewNotif?.image_prompt && (
-              <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-3">
+              <div className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3">
                 <p className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold mb-1.5">
                   AI Image Prompt
                 </p>
-                <p className="text-xs text-zinc-400 leading-relaxed">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   {previewNotif.image_prompt}
                 </p>
                 <button

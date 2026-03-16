@@ -128,7 +128,7 @@ export default function GeneratorPage() {
           <select
             value={selectedBatch}
             onChange={(e) => handleBatchChange(e.target.value)}
-            className="appearance-none bg-zinc-900 border border-zinc-800 rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-brand-500 cursor-pointer"
+            className="appearance-none bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-brand-500 cursor-pointer"
           >
             <option value="">All Uploads</option>
             {batches.map((b) => (
@@ -164,7 +164,7 @@ export default function GeneratorPage() {
               <div className="flex items-center gap-3">
                 <Zap className="w-5 h-5 text-brand-400" />
                 <div>
-                  <p className="text-sm font-medium text-zinc-200">
+                  <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
                     {pendingStories.length} stories without segments
                   </p>
                   <p className="text-xs text-zinc-500">
@@ -188,9 +188,9 @@ export default function GeneratorPage() {
                 type="checkbox"
                 checked={selected.size === stories.length && stories.length > 0}
                 onChange={toggleAll}
-                className="w-4 h-4 rounded border-zinc-600 bg-zinc-800 text-brand-600 focus:ring-brand-500 focus:ring-offset-0"
+                className="w-4 h-4 rounded border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-800 text-brand-600 focus:ring-brand-500 focus:ring-offset-0"
               />
-              <span className="text-sm text-zinc-400">Select all ({stories.length})</span>
+              <span className="text-sm text-zinc-500 dark:text-zinc-400">Select all ({stories.length})</span>
             </label>
           </div>
 
@@ -202,7 +202,7 @@ export default function GeneratorPage() {
                 className={`flex items-center gap-4 p-3 rounded-lg border transition-colors cursor-pointer ${
                   selected.has(story.id)
                     ? "bg-brand-600/5 border-brand-600/30"
-                    : "bg-zinc-900 border-zinc-800 hover:border-zinc-700"
+                    : "bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700"
                 }`}
                 onClick={() => toggle(story.id)}
               >
@@ -210,11 +210,11 @@ export default function GeneratorPage() {
                   type="checkbox"
                   checked={selected.has(story.id)}
                   onChange={() => toggle(story.id)}
-                  className="w-4 h-4 rounded border-zinc-600 bg-zinc-800 text-brand-600 focus:ring-brand-500 focus:ring-offset-0"
+                  className="w-4 h-4 rounded border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-800 text-brand-600 focus:ring-brand-500 focus:ring-offset-0"
                   onClick={(e) => e.stopPropagation()}
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-zinc-200 truncate">
+                  <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200 truncate">
                     {story.title}
                   </p>
                   <p className="text-xs text-zinc-500 mt-0.5">
@@ -237,7 +237,7 @@ export default function GeneratorPage() {
           {/* Results */}
           {results.length > 0 && (
             <div className="mt-8 space-y-2">
-              <h3 className="text-sm font-semibold text-zinc-300 mb-3">Results</h3>
+              <h3 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-3">Results</h3>
               {results.map((r) => (
                 <div
                   key={r.id}
@@ -252,7 +252,7 @@ export default function GeneratorPage() {
                       r.success ? "text-emerald-400" : "text-red-400"
                     }`}
                   />
-                  <p className="text-sm text-zinc-300">
+                  <p className="text-sm text-zinc-700 dark:text-zinc-300">
                     {r.title} &mdash;{" "}
                     {r.success
                       ? `${r.segments} segments created`

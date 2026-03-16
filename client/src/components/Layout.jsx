@@ -2,7 +2,7 @@ import Sidebar from "./Sidebar";
 
 export default function Layout({ children }) {
   return (
-    <div className="min-h-screen bg-zinc-950 bg-grid relative">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 bg-grid relative transition-colors duration-300">
       {/* Ambient glow orbs */}
       <div
         className="orb-glow"

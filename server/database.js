@@ -67,6 +67,46 @@ function initTables() {
     CREATE INDEX IF NOT EXISTS idx_stories_batch ON stories(batch_id);
     CREATE INDEX IF NOT EXISTS idx_segments_story ON segments(story_id);
     CREATE INDEX IF NOT EXISTS idx_notifications_segment ON notifications(segment_id);
+
+    CREATE TABLE IF NOT EXISTS notification_events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      notification_id INTEGER NOT NULL REFERENCES notifications(id) ON DELETE CASCADE,
+      event_type TEXT NOT NULL CHECK(event_type IN ('sent','delivered','opened','clicked')),
+      count INTEGER DEFAULT 0,
+      recorded_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_events_notification ON notification_events(notification_id);
+    CREATE INDEX IF NOT EXISTS idx_events_type ON notification_events(event_type);
+
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS campaigns (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      clevertap_campaign_id TEXT,
+      status TEXT NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','scheduled','sent','failed')),
+      notification_ids TEXT NOT NULL,
+      segment_targeting TEXT,
+      scheduled_at DATETIME,
+      sent_at DATETIME,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS campaign_events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      campaign_id INTEGER NOT NULL REFERENCES campaigns(id) ON DELETE CASCADE,
+      event_type TEXT NOT NULL CHECK(event_type IN ('sent','delivered','opened','clicked','failed')),
+      count INTEGER DEFAULT 0,
+      recorded_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_campaign_events ON campaign_events(campaign_id);
   `);
 
   // Migration: add image_path column to notifications if missing

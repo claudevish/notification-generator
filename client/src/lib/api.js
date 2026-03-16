@@ -109,6 +109,93 @@ export const api = {
     return res.json();
   },
 
+  // Analytics
+  async getAnalyticsOverview() {
+    const res = await request("/analytics/overview");
+    return res.json();
+  },
+
+  async getAnalyticsBySegment() {
+    const res = await request("/analytics/by-segment");
+    return res.json();
+  },
+
+  async getAnalyticsByLanguage() {
+    const res = await request("/analytics/by-language");
+    return res.json();
+  },
+
+  async getAnalyticsTimeline() {
+    const res = await request("/analytics/timeline");
+    return res.json();
+  },
+
+  async getTopNotifications() {
+    const res = await request("/analytics/top-notifications");
+    return res.json();
+  },
+
+  async seedAnalytics() {
+    const res = await request("/analytics/seed", { method: "POST" });
+    return res.json();
+  },
+
+  // Settings
+  async getSettings() {
+    const res = await request("/settings");
+    return res.json();
+  },
+
+  async saveSettings(data) {
+    const res = await request("/settings", {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  async testCleverTapConnection() {
+    const res = await request("/settings/test-connection");
+    return res.json();
+  },
+
+  async testPush(data) {
+    const res = await request("/campaigns/test-push", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  // Campaigns
+  async getCampaigns() {
+    const res = await request("/campaigns");
+    return res.json();
+  },
+
+  async createCampaign(data) {
+    const res = await request("/campaigns", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  async getCampaign(id) {
+    const res = await request(`/campaigns/${id}`);
+    return res.json();
+  },
+
+  async sendCampaign(id) {
+    const res = await request(`/campaigns/${id}/send`, { method: "POST" });
+    return res.json();
+  },
+
+  async deleteCampaign(id) {
+    const res = await request(`/campaigns/${id}`, { method: "DELETE" });
+    return res.json();
+  },
+
   // Health
   async getHealth() {
     const res = await request("/health");

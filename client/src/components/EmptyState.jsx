@@ -9,7 +9,7 @@ export default function EmptyState({ icon: Icon, title, description, action }) {
           <div className="absolute inset-0 w-14 h-14 rounded-xl bg-brand-500/10 animate-glow-pulse" />
         </div>
       )}
-      <h3 className="text-base font-semibold text-zinc-200">{title}</h3>
+      <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200">{title}</h3>
       {description && (
         <p className="mt-1.5 text-sm text-zinc-500 max-w-sm">{description}</p>
       )}

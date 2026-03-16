@@ -120,7 +120,7 @@ export default function StoriesPage() {
           <select
             value={selectedBatch}
             onChange={(e) => handleBatchChange(e.target.value)}
-            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-200 focus-neon cursor-pointer"
+            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 focus-neon cursor-pointer"
           >
             <option value="">All Uploads</option>
             {batches.map((b) => (
@@ -140,7 +140,7 @@ export default function StoriesPage() {
             placeholder="Search stories..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full glass-card rounded-lg pl-10 pr-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus-neon"
+            className="w-full glass-card rounded-lg pl-10 pr-4 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-500 focus-neon"
           />
         </div>
       </div>
@@ -186,7 +186,7 @@ export default function StoriesPage() {
                   className="border-b border-brand-500/5 hover:bg-brand-600/5 transition-colors"
                 >
                   <td className="py-3 pr-4">
-                    <p className="text-zinc-100 font-medium">{story.title}</p>
+                    <p className="text-zinc-900 dark:text-zinc-100 font-medium">{story.title}</p>
                     {story.story_id && (
                       <p className="text-xs text-zinc-500 mt-0.5">{story.story_id}</p>
                     )}
@@ -199,7 +199,7 @@ export default function StoriesPage() {
                       {story.difficulty || "N/A"}
                     </Badge>
                   </td>
-                  <td className="py-3 pr-4 text-zinc-400">
+                  <td className="py-3 pr-4 text-zinc-500 dark:text-zinc-400">
                     {story.lesson_number || "-"}
                   </td>
                   {!selectedBatch && (
@@ -207,7 +207,7 @@ export default function StoriesPage() {
                       {story.batch_name ? (
                         <button
                           onClick={() => handleBatchChange(String(story.batch_id))}
-                          className="text-xs text-zinc-400 hover:text-brand-400 transition-colors truncate max-w-[120px] block"
+                          className="text-xs text-zinc-500 dark:text-zinc-400 hover:text-brand-400 transition-colors truncate max-w-[120px] block"
                           title={story.batch_name}
                         >
                           {story.batch_name}
@@ -250,7 +250,7 @@ export default function StoriesPage() {
                       {story.segments_count > 0 && (
                         <button
                           onClick={() => navigate(`/notifications?story_id=${story.id}`)}
-                          className="p-1.5 rounded-md text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.05] transition-colors"
+                          className="p-1.5 rounded-md text-zinc-500 hover:text-zinc-300 hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-colors"
                           aria-label="View generated content"
                         >
                           <Eye className="w-3.5 h-3.5" />

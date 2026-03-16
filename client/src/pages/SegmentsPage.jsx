@@ -131,7 +131,7 @@ function SegmentOverview({ segments, stories, onSegmentTypeClick }) {
 
       {/* Segment type distribution — CLICKABLE */}
       <div>
-        <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-4">
+        <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-4">
           Segment Distribution
         </h3>
         <div className="glass-card rounded-xl divide-y divide-brand-500/10 overflow-hidden">
@@ -144,7 +144,7 @@ function SegmentOverview({ segments, stories, onSegmentTypeClick }) {
               <button
                 key={name}
                 onClick={() => onSegmentTypeClick(name)}
-                className="w-full px-5 py-4 flex items-center gap-4 hover:bg-white/[0.03] transition-colors cursor-pointer text-left group"
+                className="w-full px-5 py-4 flex items-center gap-4 hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-colors cursor-pointer text-left group"
               >
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -153,10 +153,10 @@ function SegmentOverview({ segments, stories, onSegmentTypeClick }) {
                   <Icon className="w-4 h-4" style={{ color: meta.color }} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-zinc-200">
+                  <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
                     {meta.short}
                   </p>
-                  <div className="mt-1.5 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="mt-1.5 h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all"
                       style={{
@@ -168,7 +168,7 @@ function SegmentOverview({ segments, stories, onSegmentTypeClick }) {
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
                   <div className="text-right">
-                    <span className="text-sm font-semibold text-zinc-300 tabular-nums">
+                    <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 tabular-nums">
                       {count}
                     </span>
                     <span className="text-[10px] text-zinc-600 ml-1.5">
@@ -185,7 +185,7 @@ function SegmentOverview({ segments, stories, onSegmentTypeClick }) {
 
       {/* Segment type cards — CLICKABLE */}
       <div>
-        <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-4">
+        <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-4">
           Segment Types
         </h3>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -200,7 +200,7 @@ function SegmentOverview({ segments, stories, onSegmentTypeClick }) {
                 disabled={count === 0}
                 className={`glass-card rounded-xl p-4 space-y-2 text-left transition-all group ${
                   count > 0
-                    ? "hover:border-brand-500/20 hover:bg-white/[0.03] cursor-pointer"
+                    ? "hover:border-brand-500/20 hover:bg-black/[0.03] dark:hover:bg-white/[0.03] cursor-pointer"
                     : "opacity-50 cursor-not-allowed"
                 }`}
               >
@@ -215,7 +215,7 @@ function SegmentOverview({ segments, stories, onSegmentTypeClick }) {
                         style={{ color: meta.color }}
                       />
                     </div>
-                    <p className="text-sm font-semibold text-zinc-200">
+                    <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
                       {meta.short}
                     </p>
                   </div>
@@ -284,7 +284,7 @@ function SegmentTypeDetail({ segmentName, batchId, onBack }) {
       <div className="flex items-center gap-3">
         <button
           onClick={onBack}
-          className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.05] transition-colors"
+          className="p-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-colors"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -295,7 +295,7 @@ function SegmentTypeDetail({ segmentName, batchId, onBack }) {
           <Icon className="w-5 h-5" style={{ color: meta.color }} />
         </div>
         <div>
-          <h2 className="text-lg font-bold text-zinc-100">{meta.short}</h2>
+          <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{meta.short}</h2>
           <p className="text-xs text-zinc-500">{meta.description}</p>
         </div>
         <div className="ml-auto flex items-center gap-2">
@@ -323,7 +323,7 @@ function SegmentTypeDetail({ segmentName, batchId, onBack }) {
           {Object.entries(byStory).map(([storyId, group]) => (
             <div key={storyId}>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-semibold text-zinc-300">
+                <h3 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
                   {group.title}
                 </h3>
                 <button
@@ -361,7 +361,7 @@ function NotifPreviewCard({ notification: n }) {
       )}
       <div className="p-3 space-y-1.5">
         <div className="flex items-center justify-between gap-2">
-          <p className="text-xs font-bold text-zinc-100 leading-snug truncate">
+          <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100 leading-snug truncate">
             {n.title}
           </p>
           <Badge
@@ -376,7 +376,7 @@ function NotifPreviewCard({ notification: n }) {
             {n.language}
           </Badge>
         </div>
-        <p className="text-[11px] text-zinc-400 leading-relaxed line-clamp-2">
+        <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed line-clamp-2">
           {n.body}
         </p>
         {n.cta && (
@@ -419,7 +419,7 @@ function StorySegments({
                   onChange={(e) =>
                     setForm({ ...form, segment_name: e.target.value })
                   }
-                  className="w-full bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-sm text-zinc-100 focus-neon"
+                  className="w-full bg-zinc-100/80 dark:bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-sm text-zinc-900 dark:text-zinc-100 focus-neon"
                 />
                 <textarea
                   value={form.logic_description}
@@ -427,7 +427,7 @@ function StorySegments({
                     setForm({ ...form, logic_description: e.target.value })
                   }
                   rows={2}
-                  className="w-full bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-xs text-zinc-300 focus-neon resize-none"
+                  className="w-full bg-zinc-100/80 dark:bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-xs text-zinc-700 dark:text-zinc-300 focus-neon resize-none"
                 />
                 <div className="flex gap-1.5">
                   <button
@@ -438,7 +438,7 @@ function StorySegments({
                   </button>
                   <button
                     onClick={() => setEditing(null)}
-                    className="p-1.5 rounded-md bg-zinc-800 text-zinc-500 hover:bg-zinc-700"
+                    className="p-1.5 rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-500 hover:bg-zinc-300 dark:hover:bg-zinc-700"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -447,10 +447,10 @@ function StorySegments({
             ) : (
               <button
                 onClick={() => onSelect(isSelected ? null : seg.id)}
-                className={`w-full bg-zinc-900 border rounded-xl p-4 space-y-3 text-left transition-all cursor-pointer group ${
+                className={`w-full bg-zinc-50 dark:bg-zinc-900 border rounded-xl p-4 space-y-3 text-left transition-all cursor-pointer group ${
                   isSelected
                     ? "border-brand-500 ring-1 ring-brand-500/30"
-                    : "border-zinc-800 hover:border-brand-500/20"
+                    : "border-zinc-200 dark:border-zinc-800 hover:border-brand-500/20"
                 }`}
               >
                 <div className="flex items-start justify-between">
@@ -464,7 +464,7 @@ function StorySegments({
                         style={{ color: meta.color }}
                       />
                     </div>
-                    <p className="text-sm font-medium text-zinc-200 leading-tight">
+                    <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200 leading-tight">
                       {meta.short}
                     </p>
                   </div>
@@ -474,7 +474,7 @@ function StorySegments({
                   >
                     <button
                       onClick={() => onEdit(seg)}
-                      className="p-1 rounded text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.05]"
+                      className="p-1 rounded text-zinc-500 hover:text-zinc-300 hover:bg-black/[0.05] dark:hover:bg-white/[0.05]"
                       aria-label="Edit segment"
                     >
                       <Pencil className="w-3 h-3" />
@@ -556,7 +556,7 @@ function SegmentNotifPreview({ segmentId, segmentName }) {
   return (
     <div className="mt-4 glass-surface rounded-xl p-4">
       <div className="flex items-center justify-between mb-3">
-        <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+        <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
           Notification Preview &mdash; {meta.short}
         </h4>
         <button
@@ -707,7 +707,7 @@ export default function SegmentsPage() {
           <select
             value={selectedBatch}
             onChange={(e) => handleBatchChange(e.target.value)}
-            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-200 focus-neon cursor-pointer"
+            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 focus-neon cursor-pointer"
           >
             <option value="">All Uploads</option>
             {batches.map((b) => (
@@ -724,7 +724,7 @@ export default function SegmentsPage() {
           <select
             value={selectedStory}
             onChange={(e) => handleStoryChange(e.target.value)}
-            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-200 focus-neon cursor-pointer"
+            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 focus-neon cursor-pointer"
           >
             <option value="">
               {selectedBatch ? "All Stories in Batch" : "All Stories — Overview"}
@@ -750,7 +750,7 @@ export default function SegmentsPage() {
                 handleStoryChange("");
               }
             }}
-            className="text-xs font-medium text-zinc-400 hover:text-zinc-200 flex items-center gap-1"
+            className="text-xs font-medium text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 flex items-center gap-1"
           >
             <ChevronLeft className="w-3 h-3" />
             Back to overview

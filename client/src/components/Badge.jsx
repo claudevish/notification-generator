@@ -1,5 +1,5 @@
 const VARIANTS = {
-  default: "bg-zinc-800/60 text-zinc-300 border-zinc-700/50",
+  default: "bg-zinc-200/60 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-300/50 dark:border-zinc-700/50",
   purple: "bg-brand-600/10 text-brand-400 border-brand-500/20",
   green: "bg-emerald-600/10 text-emerald-400 border-emerald-500/20",
   amber: "bg-amber-600/10 text-amber-400 border-amber-500/20",

@@ -68,7 +68,7 @@ export default function NotificationCard({ notification, onRegenerate, onUpdate 
               </button>
               <button
                 onClick={() => setEditing(false)}
-                className="p-1.5 rounded-md hover:bg-zinc-800/60 text-zinc-500 transition-colors"
+                className="p-1.5 rounded-md hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60 text-zinc-500 transition-colors"
                 aria-label="Cancel"
               >
                 <X className="w-3.5 h-3.5" />
@@ -78,7 +78,7 @@ export default function NotificationCard({ notification, onRegenerate, onUpdate 
             <>
               <button
                 onClick={startEdit}
-                className="p-1.5 rounded-md hover:bg-white/[0.05] text-zinc-500 hover:text-zinc-300 transition-colors"
+                className="p-1.5 rounded-md hover:bg-black/[0.05] dark:hover:bg-white/[0.05] text-zinc-500 hover:text-zinc-300 transition-colors"
                 aria-label="Edit notification"
               >
                 <Pencil className="w-3.5 h-3.5" />
@@ -103,7 +103,7 @@ export default function NotificationCard({ notification, onRegenerate, onUpdate 
               Title ({form.title.length}/35)
             </label>
             <input
-              className="w-full mt-0.5 bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-sm text-zinc-100 focus-neon"
+              className="w-full mt-0.5 bg-zinc-100/80 dark:bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-sm text-zinc-900 dark:text-zinc-100 focus-neon"
               maxLength={35}
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -114,7 +114,7 @@ export default function NotificationCard({ notification, onRegenerate, onUpdate 
               Body ({form.body.length}/65)
             </label>
             <textarea
-              className="w-full mt-0.5 bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-sm text-zinc-100 focus-neon resize-none"
+              className="w-full mt-0.5 bg-zinc-100/80 dark:bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-sm text-zinc-900 dark:text-zinc-100 focus-neon resize-none"
               maxLength={65}
               rows={2}
               value={form.body}
@@ -126,7 +126,7 @@ export default function NotificationCard({ notification, onRegenerate, onUpdate 
               CTA ({form.cta.length}/20)
             </label>
             <input
-              className="w-full mt-0.5 bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-sm text-zinc-100 focus-neon"
+              className="w-full mt-0.5 bg-zinc-100/80 dark:bg-zinc-800/60 border border-brand-500/10 rounded-md px-2.5 py-1.5 text-sm text-zinc-900 dark:text-zinc-100 focus-neon"
               maxLength={20}
               value={form.cta}
               onChange={(e) => setForm({ ...form, cta: e.target.value })}
@@ -137,11 +137,11 @@ export default function NotificationCard({ notification, onRegenerate, onUpdate 
         <>
           <div>
             <p className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-0.5">Title</p>
-            <p className="text-sm font-semibold text-zinc-100">{notification.title}</p>
+            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{notification.title}</p>
           </div>
           <div>
             <p className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-0.5">Body</p>
-            <p className="text-sm text-zinc-300">{notification.body}</p>
+            <p className="text-sm text-zinc-700 dark:text-zinc-300">{notification.body}</p>
           </div>
           <div className="flex items-center gap-2">
             <p className="text-xs text-zinc-500 uppercase tracking-wider font-semibold">CTA</p>

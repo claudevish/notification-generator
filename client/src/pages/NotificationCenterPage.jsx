@@ -125,7 +125,7 @@ export default function NotificationCenterPage() {
               setSelectedSegment("");
               setPreviewNotif(null);
             }}
-            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2 text-sm text-zinc-200 focus-neon cursor-pointer"
+            className="appearance-none glass-card rounded-lg pl-3 pr-8 py-2 text-sm text-zinc-800 dark:text-zinc-200 focus-neon cursor-pointer"
           >
             <option value="">All Uploads</option>
             {batches.map((b) => (
@@ -143,7 +143,7 @@ export default function NotificationCenterPage() {
             setSelectedSegment("");
             setPreviewNotif(null);
           }}
-          className="glass-card rounded-lg px-3 py-2 text-sm text-zinc-200 focus-neon"
+          className="glass-card rounded-lg px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 focus-neon"
         >
           <option value="">All Stories</option>
           {stories
@@ -162,7 +162,7 @@ export default function NotificationCenterPage() {
             setSelectedSegment(e.target.value);
             setPreviewNotif(null);
           }}
-          className="glass-card rounded-lg px-3 py-2 text-sm text-zinc-200 focus-neon"
+          className="glass-card rounded-lg px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 focus-neon"
         >
           <option value="">All Segments</option>
           {segments.map((s) => (
@@ -181,7 +181,7 @@ export default function NotificationCenterPage() {
               className={`px-3 py-1.5 text-xs font-medium transition-colors ${
                 langTab === lang
                   ? "bg-brand-600 text-white"
-                  : "text-zinc-400 hover:text-zinc-200"
+                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
               }`}
             >
               {lang}
@@ -212,7 +212,7 @@ export default function NotificationCenterPage() {
             {Object.entries(grouped).map(([segId, group]) => (
               <div key={segId}>
                 <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                  <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
                     {group.name}
                   </h3>
                   <span className="text-[10px] text-zinc-600">{group.story}</span>
@@ -245,7 +245,7 @@ export default function NotificationCenterPage() {
                           </button>
                           {showPrompt === n.id && (
                             <div className="mt-1 glass-card rounded-md p-2 relative group">
-                              <p className="text-[10px] text-zinc-400 leading-relaxed pr-6">
+                              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 leading-relaxed pr-6">
                                 {n.image_prompt}
                               </p>
                               <button
@@ -299,7 +299,7 @@ export default function NotificationCenterPage() {
                 <p className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold mb-1.5">
                   AI Image Prompt
                 </p>
-                <p className="text-xs text-zinc-400 leading-relaxed">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   {previewNotif.image_prompt}
                 </p>
                 <button

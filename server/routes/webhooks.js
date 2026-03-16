@@ -136,7 +136,8 @@ router.post("/test-day0", async (req, res) => {
     const userState = {
       username: username || identity,
       story_name: story_name || "The Quiet Boy",
-      cliffhanger_text: cliffhanger_text || "Ravi has never spoken up in class... today that changes.",
+      cliffhanger_text: cliffhanger_text || null,
+      journey_day: 0,
       lessons_completed: 0,
       lesson_started: false,
       time_spent: 0,
@@ -269,6 +270,21 @@ router.post("/preview-schedule", (req, res) => {
       send_time: new Date(s.send_at).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true }),
     })),
   });
+});
+
+// ─── VIEW ALL SENT LOGS (recent) ─────────────────────────────
+router.get("/sent-log", (req, res) => {
+  const db = getDb();
+  const limit = parseInt(req.query.limit) || 50;
+  const logs = db.prepare(`
+    SELECT sl.*, uj.username
+    FROM sent_log sl
+    LEFT JOIN user_journeys uj ON uj.identity = sl.identity
+    ORDER BY sl.sent_at DESC
+    LIMIT ?
+  `).all(limit);
+
+  res.json(logs);
 });
 
 export default router;

@@ -230,6 +230,40 @@ export const api = {
     return res.json();
   },
 
+  // Automation / Webhooks
+  async getJourneys() {
+    const res = await request("/webhooks/journeys");
+    return res.json();
+  },
+
+  async getJourney(identity) {
+    const res = await request(`/webhooks/journey/${encodeURIComponent(identity)}`);
+    return res.json();
+  },
+
+  async getSentLog(limit = 50) {
+    const res = await request(`/webhooks/sent-log?limit=${limit}`);
+    return res.json();
+  },
+
+  async runDailyCheck() {
+    const res = await request("/webhooks/daily-check", { method: "POST" });
+    return res.json();
+  },
+
+  async processPending() {
+    const res = await request("/webhooks/process-pending", { method: "POST" });
+    return res.json();
+  },
+
+  async testDay0(data) {
+    const res = await request("/webhooks/test-day0", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
   // Health
   async getHealth() {
     const res = await request("/health");

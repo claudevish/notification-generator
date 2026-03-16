@@ -11,6 +11,7 @@ import NotificationCenterPage from "./pages/NotificationCenterPage";
 import CampaignsPage from "./pages/CampaignsPage";
 import ExportPage from "./pages/ExportPage";
 import SettingsPage from "./pages/SettingsPage";
+import AutomationDashboard from "./pages/AutomationDashboard";
 
 function ToasterWrapper() {
   const { theme } = useTheme();
@@ -54,6 +55,7 @@ export default function App() {
             <Route path="/campaigns" element={<CampaignsPage />} />
             <Route path="/export" element={<ExportPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/automation" element={<AutomationDashboard />} />
           </Routes>
         </Layout>
       </BrowserRouter>

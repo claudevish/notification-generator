@@ -12,6 +12,8 @@
 
 import { getDb } from "../database.js";
 import { SEGMENT_EVENT_MAP } from "../routes/events.js";
+import { WORD_OF_THE_DAY } from "../data/word-of-the-day.js";
+import { CLIFFHANGERS } from "../data/cliffhangers.js";
 
 // ─── CONSTANTS ───────────────────────────────────────────────
 const DND_START_HOUR = 23; // 11 PM
@@ -184,18 +186,34 @@ function calculateDay0Schedule(paymentTime) {
 
 /**
  * Resolve the final notification content based on user state.
- * Handles adaptive copy for cliffhanger, social proof, and progress report.
+ * Uses Word of the Day library and Cliffhanger library for dynamic content.
  */
 function resolveNotificationContent(template, userState) {
   const username = userState.username || "there";
   const storyName = userState.story_name || "The Quiet Boy";
-  const cliffhangerText = userState.cliffhanger_text || "Something incredible is about to happen...";
   const lessonCount = userState.lessons_completed || 0;
   const timeSpent = userState.time_spent || 0;
+  const journeyDay = userState.journey_day || 0;
+
+  // Resolve cliffhanger from library based on story + lesson progress
+  const storyCliffhangers = CLIFFHANGERS[storyName] || CLIFFHANGERS["The Quiet Boy"] || [];
+  const lessonIndex = Math.min(lessonCount, storyCliffhangers.length - 1);
+  const cliffhanger = storyCliffhangers[Math.max(0, lessonIndex)] || { teaser: "Something incredible is about to happen...", hook: "What happens next?" };
+  const cliffhangerText = userState.cliffhanger_text || cliffhanger.teaser;
+
+  // Resolve Word of the Day from library based on story + day
+  const storyWords = WORD_OF_THE_DAY[storyName] || WORD_OF_THE_DAY["The Quiet Boy"] || [];
+  const dayIndex = Math.min(journeyDay, storyWords.length - 1);
+  const wordOfDay = storyWords[Math.max(0, dayIndex)] || { word: "Confident", meaning: "feeling sure about yourself", example: "Practice makes you confident." };
 
   let title = template.title || "";
   let body = template.body || "";
   let image = template.image || "onboarding_story";
+
+  // Special handling for Word of the Day — use library content
+  if (template.name === "Word of the Day") {
+    body = `Hey {{username}}! Today's word: ${wordOfDay.word} — ${wordOfDay.meaning}. "${wordOfDay.example}" Tap to learn more!`;
+  }
 
   // Handle variants
   if (template.title_variants) {
@@ -220,14 +238,19 @@ function resolveNotificationContent(template, userState) {
   title = title
     .replace(/\{\{username\}\}/g, username)
     .replace(/\{\{story_name\}\}/g, storyName)
-    .replace(/\{\{cliffhanger_text\}\}/g, cliffhangerText);
+    .replace(/\{\{cliffhanger_text\}\}/g, cliffhangerText)
+    .replace(/\{\{cliffhanger_hook\}\}/g, cliffhanger.hook);
 
   body = body
     .replace(/\{\{username\}\}/g, username)
     .replace(/\{\{story_name\}\}/g, storyName)
     .replace(/\{\{cliffhanger_text\}\}/g, cliffhangerText)
+    .replace(/\{\{cliffhanger_hook\}\}/g, cliffhanger.hook)
     .replace(/\{\{lesson_count\}\}/g, String(lessonCount))
-    .replace(/\{\{time_spent\}\}/g, String(timeSpent));
+    .replace(/\{\{time_spent\}\}/g, String(timeSpent))
+    .replace(/\{\{word\}\}/g, wordOfDay.word)
+    .replace(/\{\{word_meaning\}\}/g, wordOfDay.meaning)
+    .replace(/\{\{word_example\}\}/g, wordOfDay.example);
 
   const imageUrl = JOURNEY_IMAGES[image] || JOURNEY_IMAGES.onboarding_story;
 
@@ -433,10 +456,11 @@ async function processScheduledNotification(identity, scheduledNotif, db) {
   const userState = {
     username: journey.username || identity,
     story_name: journey.story_name || "The Quiet Boy",
-    cliffhanger_text: journey.cliffhanger_text || "Something incredible is about to happen...",
+    cliffhanger_text: journey.cliffhanger_text || null,
     lessons_completed: journey.lessons_completed || 0,
     lesson_started: journey.lesson_started || false,
-    time_spent: (journey.lessons_completed || 0) * 4, // ~4 min per lesson estimate
+    time_spent: (journey.lessons_completed || 0) * 4,
+    journey_day: journey.current_day || 0,
   };
 
   const { title, body, imageUrl } = resolveNotificationContent(template, userState);

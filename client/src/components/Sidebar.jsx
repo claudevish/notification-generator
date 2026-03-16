@@ -12,6 +12,7 @@ import {
   Bell,
   Sun,
   Moon,
+  Activity,
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
@@ -24,6 +25,7 @@ const NAV_ITEMS = [
   { to: "/notifications", icon: BellRing, label: "Notifications" },
   { to: "/campaigns", icon: Rocket, label: "Campaigns" },
   { to: "/export", icon: Download, label: "Export" },
+  { to: "/automation", icon: Activity, label: "Automation" },
   { to: "/settings", icon: Settings, label: "Settings" },
 ];
 

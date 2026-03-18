@@ -345,7 +345,7 @@ async function processUserEvent(identity, eventName, eventProperties, eventTimes
     db.prepare(`
       INSERT INTO user_journeys (identity, username, first_event, current_day, payment_time, lesson_started, lessons_completed, story_name, cliffhanger_text, created_at)
       VALUES (?, ?, ?, 0, NULL, 0, 0, 'The Quiet Boy', 'Something incredible is about to happen...', datetime('now'))
-    `).run(identity, eventProperties?.username || identity);
+    `).run(identity, eventProperties?.username || identity, eventName);
 
     journey = db.prepare("SELECT * FROM user_journeys WHERE identity = ?").get(identity);
   }

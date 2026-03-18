@@ -19,7 +19,7 @@ import { CLIFFHANGERS } from "../data/cliffhangers.js";
 const DND_START_HOUR = 23; // 11 PM
 const DND_END_HOUR = 7;   // 7 AM
 const MIN_GAP_MINUTES = 20;
-const SPEAKX_CHANNEL = "Speakx";
+const SPEAKX_CHANNEL = "general_updates";
 
 // Journey image URLs hosted on GitHub
 const JOURNEY_IMAGES = {

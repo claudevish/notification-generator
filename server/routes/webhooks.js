@@ -21,13 +21,52 @@ import {
 const router = Router();
 
 // ─── MAIN WEBHOOK ENDPOINT ──────────────────────────────────
-// CleverTap sends event data here
+// Handles TWO formats:
+// Format A (simulate/direct): { event, identity, timestamp, properties }
+// Format B (CleverTap Journey): { profiles: [{ identity, phone, email, objectId }] }
 router.post("/clevertap", async (req, res) => {
   try {
-    const { event, identity, timestamp, properties } = req.body;
+    const body = req.body;
+    const results = [];
+
+    // Format B: CleverTap Journey webhook (profiles array)
+    if (body.profiles && Array.isArray(body.profiles)) {
+      for (const profile of body.profiles) {
+        const userIdentity = profile.identity || profile.phone || profile.objectId;
+
+        if (!userIdentity) continue;
+
+        const result = await processUserEvent(
+          userIdentity,
+          "payment_success",
+          {
+            username: profile.Name || profile.name || profile.identity || userIdentity,
+            email: profile.email || null,
+            phone: profile.phone || null,
+            source: "clevertap_journey",
+          },
+          new Date().toISOString()
+        );
+
+        results.push({
+          identity: userIdentity,
+          journey_day: result.journey?.current_day,
+          scheduled: "Day 0 notifications scheduled",
+        });
+      }
+
+      return res.json({
+        success: true,
+        message: `Processed ${results.length} profile(s) from CleverTap Journey`,
+        results,
+      });
+    }
+
+    // Format A: Direct webhook / simulate format
+    const { event, identity, timestamp, properties } = body;
 
     if (!event || !identity) {
-      return res.status(400).json({ error: "event and identity are required" });
+      return res.status(400).json({ error: "event and identity are required (or send profiles array)" });
     }
 
     const result = await processUserEvent(

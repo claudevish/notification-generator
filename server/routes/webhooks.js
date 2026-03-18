@@ -267,6 +267,72 @@ router.get("/journeys", (req, res) => {
   res.json(journeys);
 });
 
+// ─── REAL-TIME TEST: Schedule Day 0 with custom intervals ────
+// Schedules all 6 notifications at N-minute intervals so you can
+// watch them arrive in real time via the cron processor
+router.post("/test-realtime", async (req, res) => {
+  try {
+    const { identity, username, story_name, interval_minutes } = req.body;
+
+    if (!identity) {
+      return res.status(400).json({ error: "identity (phone number) is required" });
+    }
+
+    const gap = interval_minutes || 5;
+    const db = getDb();
+    const now = new Date();
+
+    // Create/update user journey
+    const existing = db.prepare("SELECT * FROM user_journeys WHERE identity = ?").get(identity);
+    if (!existing) {
+      db.prepare(`
+        INSERT INTO user_journeys (identity, username, first_event, payment_time, current_day, lesson_started, lessons_completed, story_name, cliffhanger_text, created_at)
+        VALUES (?, ?, 'payment_success', ?, 0, 0, 0, ?, 'Something incredible is about to happen...', datetime('now'))
+      `).run(identity, username || identity, now.toISOString(), story_name || "The Quiet Boy");
+    } else {
+      db.prepare(`
+        UPDATE user_journeys SET username = ?, payment_time = ?, current_day = 0,
+        story_name = ?, updated_at = datetime('now') WHERE identity = ?
+      `).run(username || existing.username || identity, now.toISOString(), story_name || existing.story_name || "The Quiet Boy", identity);
+    }
+
+    // Clear any existing pending notifications
+    db.prepare("DELETE FROM scheduled_notifications WHERE identity = ? AND journey_day = 0 AND status = 'pending'").run(identity);
+
+    // Schedule all 6 with custom intervals
+    const insert = db.prepare(`
+      INSERT INTO scheduled_notifications (identity, journey_day, slot, notification_name, segment, send_at, status, created_at)
+      VALUES (?, 0, ?, ?, ?, ?, 'pending', datetime('now'))
+    `);
+
+    const schedule = [];
+    for (let i = 0; i < DAY0_TEMPLATES.length; i++) {
+      const t = DAY0_TEMPLATES[i];
+      const sendAt = new Date(now.getTime() + (i * gap * 60 * 1000));
+      insert.run(identity, t.slot, t.name, t.segment, sendAt.toISOString());
+      schedule.push({
+        slot: t.slot,
+        name: t.name,
+        send_at: sendAt.toISOString(),
+        send_time_ist: sendAt.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true, timeZone: "Asia/Kolkata" }),
+        minutes_from_now: i * gap,
+      });
+    }
+
+    res.json({
+      success: true,
+      identity,
+      username: username || identity,
+      interval_minutes: gap,
+      total_duration_minutes: (DAY0_TEMPLATES.length - 1) * gap,
+      message: `Scheduled ${schedule.length} notifications at ${gap}-min intervals. Cron will pick them up automatically.`,
+      schedule,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // ─── MANUAL TRIGGER: Process pending now ─────────────────────
 router.post("/process-pending", async (req, res) => {
   try {

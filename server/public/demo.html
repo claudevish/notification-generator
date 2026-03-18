@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NotifyGen — Day 0 Automation Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --card: #1a1a1a;
+      --card-hover: #222;
+      --border: #2a2a2a;
+      --accent: #8b5cf6;
+      --accent-dim: rgba(139, 92, 246, 0.15);
+      --green: #22c55e;
+      --green-dim: rgba(34, 197, 94, 0.15);
+      --yellow: #f59e0b;
+      --yellow-dim: rgba(245, 158, 11, 0.15);
+      --red: #ef4444;
+      --red-dim: rgba(239, 68, 68, 0.15);
+      --text: #f0f0f0;
+      --text-muted: #888;
+      --text-dim: #555;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+
+    /* ── Header ──────────────────────────── */
+    header {
+      text-align: center;
+      padding: 48px 0 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+    header .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    header .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-size: 18px;
+    }
+    header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 6px;
+    }
+    .badge-speakx {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--accent-dim);
+      color: var(--accent);
+      margin-top: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Sections ─────────────────────────── */
+    .section {
+      margin-bottom: 36px;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: '';
+      width: 3px; height: 16px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* ── Card ──────────────────────────────── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    /* ── Form ──────────────────────────────── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 560px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    input, select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+    select { cursor: pointer; }
+    option { background: var(--card); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #7c3aed; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+    .btn-secondary:hover { background: #333; }
+
+    /* ── Response Box ─────────────────────── */
+    .response-box {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: none;
+    }
+    .response-box.visible { display: block; animation: fadeIn 0.3s ease; }
+    .response-header {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .schedule-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .schedule-item:last-child { border-bottom: none; }
+    .schedule-slot {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .schedule-name { flex: 1; color: var(--text); font-weight: 500; }
+    .schedule-time {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .schedule-mins {
+      font-size: 11px;
+      color: var(--text-dim);
+      padding: 2px 8px;
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    /* ── Tracker ───────────────────────────── */
+    .tracker-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .tracker-status .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s ease infinite;
+    }
+    .tracker-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .notif-card {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .notif-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      border-radius: 3px 0 0 3px;
+      transition: background 0.4s;
+    }
+    .notif-card.pending::before { background: var(--yellow); }
+    .notif-card.sent::before { background: var(--green); }
+    .notif-card.sent { border-color: rgba(34,197,94,0.2); }
+    .notif-card.failed::before { background: var(--red); }
+    .notif-card.failed { border-color: rgba(239,68,68,0.2); }
+
+    .notif-slot {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      transition: all 0.4s;
+    }
+    .notif-card.pending .notif-slot { background: var(--yellow-dim); color: var(--yellow); }
+    .notif-card.sent .notif-slot { background: var(--green-dim); color: var(--green); }
+    .notif-card.failed .notif-slot { background: var(--red-dim); color: var(--red); }
+
+    .notif-info { flex: 1; min-width: 0; }
+    .notif-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+    .notif-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+    }
+    .notif-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .notif-card.pending .notif-status-badge { background: var(--yellow-dim); color: var(--yellow); }
+    .notif-card.sent .notif-status-badge { background: var(--green-dim); color: var(--green); }
+    .notif-card.failed .notif-status-badge { background: var(--red-dim); color: var(--red); }
+
+    .notif-content {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      animation: slideDown 0.3s ease;
+    }
+    .notif-title-text {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    .notif-body-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── Phone Preview ────────────────────── */
+    .phone-preview-section {
+      margin-top: 24px;
+      display: none;
+    }
+    .phone-preview-section.visible { display: block; }
+    .phone-frame {
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .phone-notif {
+      background: #2a2a2e;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      animation: slideIn 0.4s ease;
+      border: 1px solid #3a3a3e;
+    }
+    .phone-notif-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .phone-app-icon {
+      width: 20px; height: 20px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, #6d28d9, var(--accent));
+      display: grid; place-items: center;
+      font-size: 10px;
+    }
+    .phone-app-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #aaa;
+      flex: 1;
+    }
+    .phone-time {
+      font-size: 11px;
+      color: #666;
+    }
+    .phone-notif-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .phone-notif-body {
+      font-size: 13px;
+      color: #bbb;
+      line-height: 1.4;
+    }
+    .phone-notif-image {
+      margin-top: 10px;
+      width: 100%;
+      height: 120px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-dim), var(--green-dim));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ── Footer ────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 32px 0 16px;
+      border-top: 1px solid var(--border);
+      margin-top: 20px;
+    }
+    footer p {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    footer span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── Animations ────────────────────────── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; max-height: 0; }
+      to { opacity: 1; max-height: 200px; }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+
+    /* ── Empty state ───────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+    .empty-state .icon { font-size: 32px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <div class="logo-icon">N</div>
+        <h1>NotifyGen</h1>
+      </div>
+      <p>Day 0 Automation Demo &mdash; Real-time Notification Engine</p>
+      <div class="badge-speakx">SPEAKX INTERNAL</div>
+    </header>
+
+    <!-- Section 1: Simulate Payment -->
+    <div class="section">
+      <div class="section-title">Simulate Payment Event</div>
+      <div class="card">
+        <form id="paymentForm" onsubmit="return false;">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="identity">Phone Number (Identity)</label>
+              <input type="text" id="identity" value="+917002530372" placeholder="+91XXXXXXXXXX" />
+            </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" value="vBarry" placeholder="Display name" />
+            </div>
+            <div class="form-group">
+              <label for="story">Story</label>
+              <select id="story">
+                <option>The Quiet Boy</option>
+                <option>The Magic Garden</option>
+                <option>Lost in the City</option>
+                <option>The Brave Little Girl</option>
+                <option>The Secret Letter</option>
+                <option>The Helpful Neighbour</option>
+                <option>The Big Race</option>
+                <option>The Broken Bridge</option>
+                <option>A New Beginning</option>
+                <option>The Treasure Hunt</option>
+                <option>The Lost Puppy</option>
+                <option>The School Play</option>
+                <option>The Night Market</option>
+                <option>The Festival</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="interval">Interval (minutes)</label>
+              <select id="interval">
+                <option value="1">1 min</option>
+                <option value="2" selected>2 min</option>
+                <option value="3">3 min</option>
+                <option value="5">5 min</option>
+                <option value="10">10 min</option>
+              </select>
+            </div>
+            <div class="form-group full-width" style="flex-direction: row; gap: 12px; margin-top: 4px;">
+              <button class="btn btn-primary" id="startBtn" onclick="startJourney()">
+                Start Day 0 Journey
+              </button>
+              <button class="btn btn-secondary" id="fireAllBtn" onclick="fireAll()">
+                Fire All Now
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Schedule Response -->
+        <div class="response-box" id="scheduleResponse">
+          <div class="response-header" id="responseHeader"></div>
+          <div id="scheduleList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Live Notification Tracker -->
+    <div class="section">
+      <div class="section-title">Live Notification Tracker</div>
+      <div class="card">
+        <div id="trackerEmpty" class="empty-state">
+          <div class="icon">&#128276;</div>
+          <p>Start a journey above to track notifications in real time</p>
+        </div>
+        <div id="trackerActive" style="display:none;">
+          <div class="tracker-status">
+            <div class="dot" id="pollingDot"></div>
+            <span id="trackerStatusText">Polling every 10s...</span>
+          </div>
+          <div class="tracker-grid" id="trackerGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Phone Notification Preview -->
+    <div class="section">
+      <div class="section-title">Notification Preview</div>
+      <div class="card">
+        <div id="previewEmpty" class="empty-state">
+          <div class="icon">&#128241;</div>
+          <p>Sent notifications will appear here as phone-style previews</p>
+        </div>
+        <div class="phone-preview-section" id="phonePreview">
+          <div class="phone-frame" id="phoneFrame"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>Powered by <span>NotifyGen v5</span> &mdash; Autonomous Notification Engine</p>
+    </footer>
+  </div>
+
+  <script>
+    let currentIdentity = null;
+    let pollInterval = null;
+    let knownSentSlots = new Set();
+
+    async function startJourney() {
+      const identity = document.getElementById('identity').value.trim();
+      const username = document.getElementById('username').value.trim();
+      const story_name = document.getElementById('story').value;
+      const interval_minutes = parseInt(document.getElementById('interval').value);
+
+      if (!identity) { alert('Phone number is required'); return; }
+
+      const btn = document.getElementById('startBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Scheduling...';
+
+      try {
+        const res = await fetch('/api/webhooks/test-realtime', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identity, username, story_name, interval_minutes })
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+          alert('Error: ' + (data.error || 'Unknown error'));
+          return;
+        }
+
+        showScheduleResponse(data);
+        currentIdentity = identity;
+        knownSentSlots.clear();
+        startPolling();
+      } catch (err) {
+        alert('Network error: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Start Day 0 Journey';
+      }
+    }
+
+    async function fireAll() {
+      const identity = document.getElementById('identity').value.trim();
+      const username = document.getElementById('username').value.trim();
+      const story_name = document.getElementById('story').value;
+
+      if (!identity) { alert('Phone number is required'); return; }
+
+      const btn = document.getElementById('fireAllBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Firing...';
+
+      try {
+        const res = await fetch('/api/webhooks/test-day0', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identity, username, story_name })
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+          alert('Error: ' + (data.error || 'Unknown error'));
+          return;
+        }
+
+        showFireAllResponse(data);
+        currentIdentity = identity;
+      } catch (err) {
+        alert('Network error: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Fire All Now';
+      }
+    }
+
+    function showScheduleResponse(data) {
+      const box = document.getElementById('scheduleResponse');
+      const header = document.getElementById('responseHeader');
+      const list = document.getElementById('scheduleList');
+
+      header.innerHTML = '&#10003; ' + data.schedule.length + ' notifications scheduled &mdash; ' + data.interval_minutes + ' min intervals (' + data.total_duration_minutes + ' min total)';
+      list.innerHTML = data.schedule.map(s =>
+        '<div class="schedule-item">' +
+          '<div class="schedule-slot">' + s.slot + '</div>' +
+          '<div class="schedule-name">' + escapeHtml(s.name) + '</div>' +
+          '<div class="schedule-time">' + s.send_time_ist + '</div>' +
+          '<div class="schedule-mins">+' + s.minutes_from_now + 'm</div>' +
+        '</div>'
+      ).join('');
+
+      box.classList.add('visible');
+    }
+
+    function showFireAllResponse(data) {
+      const box = document.getElementById('scheduleResponse');
+      const header = document.getElementById('responseHeader');
+      const list = document.getElementById('scheduleList');
+
+      header.innerHTML = '&#9889; Fired ' + data.total_sent + '/' + data.total_scheduled + ' notifications immediately';
+      list.innerHTML = data.notifications.map(n =>
+        '<div class="schedule-item">' +
+          '<div class="schedule-slot">' + n.slot + '</div>' +
+          '<div class="schedule-name">' + escapeHtml(n.name) + '</div>' +
+          '<div class="schedule-time">' + n.status + '</div>' +
+        '</div>'
+      ).join('');
+
+      box.classList.add('visible');
+
+      // Show phone previews for sent notifications
+      const phoneFrame = document.getElementById('phoneFrame');
+      phoneFrame.innerHTML = '';
+      const sentNotifs = data.notifications.filter(n => n.status.includes('Sent'));
+      sentNotifs.forEach(n => addPhonePreview(n));
+      if (sentNotifs.length > 0) {
+        document.getElementById('phonePreview').classList.add('visible');
+        document.getElementById('previewEmpty').style.display = 'none';
+      }
+
+      // Also show in tracker
+      showFireAllTracker(data.notifications);
+    }
+
+    function showFireAllTracker(notifications) {
+      const empty = document.getElementById('trackerEmpty');
+      const active = document.getElementById('trackerActive');
+      const grid = document.getElementById('trackerGrid');
+      const statusText = document.getElementById('trackerStatusText');
+      const dot = document.getElementById('pollingDot');
+
+      empty.style.display = 'none';
+      active.style.display = 'block';
+      statusText.textContent = 'All notifications fired';
+      dot.style.background = 'var(--green)';
+      dot.style.animation = 'none';
+
+      grid.innerHTML = notifications.map(n => {
+        const isSent = n.status.includes('Sent');
+        const isFailed = n.status.includes('Failed') || n.status.includes('Error');
+        const cls = isSent ? 'sent' : (isFailed ? 'failed' : 'pending');
+        const statusIcon = isSent ? '&#10004;' : (isFailed ? '&#10008;' : '&#9203;');
+        const statusLabel = isSent ? 'Sent' : (isFailed ? 'Failed' : 'Pending');
+        return '<div class="notif-card ' + cls + '">' +
+          '<div class="notif-slot">' + n.slot + '</div>' +
+          '<div class="notif-info">' +
+            '<div class="notif-name">' + escapeHtml(n.name) + '</div>' +
+            '<div class="notif-meta">' +
+              '<span class="notif-status-badge">' + statusIcon + ' ' + statusLabel + '</span>' +
+            '</div>' +
+            (isSent && n.title ? '<div class="notif-content"><div class="notif-title-text">' + escapeHtml(n.title) + '</div><div class="notif-body-text">' + escapeHtml(n.body || '') + '</div></div>' : '') +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function startPolling() {
+      if (pollInterval) clearInterval(pollInterval);
+
+      const empty = document.getElementById('trackerEmpty');
+      const active = document.getElementById('trackerActive');
+      empty.style.display = 'none';
+      active.style.display = 'block';
+
+      pollJourney();
+      pollInterval = setInterval(pollJourney, 10000);
+    }
+
+    async function pollJourney() {
+      if (!currentIdentity) return;
+
+      try {
+        const res = await fetch('/api/webhooks/journey/' + encodeURIComponent(currentIdentity));
+        if (!res.ok) return;
+        const data = await res.json();
+        renderTracker(data);
+      } catch (err) {
+        // silent fail on poll
+      }
+    }
+
+    function renderTracker(data) {
+      const grid = document.getElementById('trackerGrid');
+      const statusText = document.getElementById('trackerStatusText');
+      const dot = document.getElementById('pollingDot');
+
+      const scheduled = data.scheduled || [];
+      const sentLog = data.sent_log || [];
+
+      // Build a merged view: for each scheduled slot, check if it was sent
+      const sentBySlot = {};
+      sentLog.forEach(s => {
+        if (!sentBySlot[s.slot] || s.status === 'delivered') {
+          sentBySlot[s.slot] = s;
+        }
+      });
+
+      const allDone = scheduled.every(s => s.status !== 'pending');
+      const pendingCount = scheduled.filter(s => s.status === 'pending').length;
+
+      if (allDone && scheduled.length > 0) {
+        statusText.textContent = 'All notifications processed';
+        dot.style.background = 'var(--green)';
+        dot.style.animation = 'none';
+        if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+      } else {
+        statusText.textContent = 'Polling every 10s... ' + pendingCount + ' pending';
+      }
+
+      grid.innerHTML = scheduled.map(s => {
+        const sent = sentBySlot[s.slot];
+        const isSent = s.status === 'sent' || s.status === 'delivered' || (sent && sent.status === 'delivered');
+        const isFailed = s.status === 'failed' || (sent && sent.status === 'failed');
+        const isPending = !isSent && !isFailed;
+        const cls = isSent ? 'sent' : (isFailed ? 'failed' : 'pending');
+        const statusIcon = isSent ? '&#10004;' : (isFailed ? '&#10008;' : '&#9203;');
+        const statusLabel = isSent ? 'Sent' : (isFailed ? 'Failed' : 'Pending');
+
+        const sendTime = formatIST(s.send_at);
+
+        let contentHtml = '';
+        if (isSent && sent) {
+          contentHtml = '<div class="notif-content">' +
+            '<div class="notif-title-text">' + escapeHtml(sent.title || '') + '</div>' +
+            '<div class="notif-body-text">' + escapeHtml(sent.body || '') + '</div>' +
+          '</div>';
+
+          // Add phone preview if new
+          if (!knownSentSlots.has(s.slot)) {
+            knownSentSlots.add(s.slot);
+            addPhonePreview({
+              title: sent.title,
+              body: sent.body,
+              image: sent.image_url,
+              sent_at: sent.sent_at
+            });
+            document.getElementById('phonePreview').classList.add('visible');
+            document.getElementById('previewEmpty').style.display = 'none';
+          }
+        }
+
+        return '<div class="notif-card ' + cls + '">' +
+          '<div class="notif-slot">' + s.slot + '</div>' +
+          '<div class="notif-info">' +
+            '<div class="notif-name">' + escapeHtml(s.notification_name) + '</div>' +
+            '<div class="notif-meta">' +
+              '<span class="notif-status-badge">' + statusIcon + ' ' + statusLabel + '</span>' +
+              '<span>' + sendTime + '</span>' +
+            '</div>' +
+            contentHtml +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function addPhonePreview(n) {
+      const frame = document.getElementById('phoneFrame');
+      const time = n.sent_at ? formatIST(n.sent_at) : 'just now';
+      const hasImage = n.image && n.image !== 'null' && n.image !== '';
+
+      const el = document.createElement('div');
+      el.className = 'phone-notif';
+      el.innerHTML =
+        '<div class="phone-notif-header">' +
+          '<div class="phone-app-icon">S</div>' +
+          '<div class="phone-app-name">SpeakX</div>' +
+          '<div class="phone-time">' + time + '</div>' +
+        '</div>' +
+        '<div class="phone-notif-title">' + escapeHtml(n.title || '') + '</div>' +
+        '<div class="phone-notif-body">' + escapeHtml(n.body || '') + '</div>' +
+        (hasImage ? '<div class="phone-notif-image"><img src="' + escapeHtml(n.image) + '" alt="notification image" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.parentElement.innerHTML=\'&#127912; Notification Image\'" /></div>' : '');
+
+      // Prepend (newest at top)
+      frame.insertBefore(el, frame.firstChild);
+    }
+
+    function formatIST(isoStr) {
+      if (!isoStr) return '';
+      try {
+        const d = new Date(isoStr);
+        return d.toLocaleTimeString('en-IN', {
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          hour12: true, timeZone: 'Asia/Kolkata'
+        });
+      } catch {
+        return isoStr;
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

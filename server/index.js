@@ -96,6 +96,12 @@ app.post("/api/generate-all", (req, res) => {
   res.json({ message: `Generated for ${stories.length} stories`, stories: stories.length, segments: totalSegments });
 });
 
+// Serve demo page and public assets
+app.use(express.static(join(__dirname, "public")));
+app.get("/demo", (req, res) => {
+  res.sendFile(join(__dirname, "public", "demo.html"));
+});
+
 // Serve built client in production
 const clientDist = join(__dirname, "..", "client", "dist");
 app.use(express.static(clientDist));

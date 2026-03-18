@@ -128,8 +128,14 @@ const DAY0_TEMPLATES = [
  */
 function calculateDay0Schedule(paymentTime) {
   const paymentDate = new Date(paymentTime);
+  // Calculate DND start (11 PM IST = 17:30 UTC) for the same IST day
+  const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+  const paymentIST = new Date(paymentDate.getTime() + IST_OFFSET_MS);
   const dndStart = new Date(paymentDate);
-  dndStart.setHours(DND_START_HOUR, 0, 0, 0);
+  // Set to 23:00 IST (= 17:30 UTC) on the same IST day
+  dndStart.setTime(
+    Date.UTC(paymentIST.getUTCFullYear(), paymentIST.getUTCMonth(), paymentIST.getUTCDate(), DND_START_HOUR, 0, 0, 0) - IST_OFFSET_MS
+  );
 
   // If payment is after DND start, only slot 1 (immediate)
   if (paymentDate >= dndStart) {
@@ -324,8 +330,9 @@ async function sendPush(identity, title, body, imageUrl) {
  */
 function isDNDActive(date) {
   const d = date ? new Date(date) : new Date();
-  const hour = d.getHours();
-  return hour >= DND_START_HOUR || hour < DND_END_HOUR;
+  // Convert to IST (UTC+5:30) since DND hours are in Indian time
+  const istHour = new Date(d.getTime() + (5.5 * 60 * 60 * 1000)).getUTCHours();
+  return istHour >= DND_START_HOUR || istHour < DND_END_HOUR;
 }
 
 // ─── USER JOURNEY PROCESSOR ─────────────────────────────────

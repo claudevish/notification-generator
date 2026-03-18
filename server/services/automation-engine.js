@@ -271,11 +271,12 @@ function resolveNotificationContent(template, userState) {
 async function sendPush(identity, title, body, imageUrl) {
   const db = getDb();
 
-  const accountId = db.prepare("SELECT value FROM settings WHERE key = 'clevertap_account_id'").get();
-  const passcode = db.prepare("SELECT value FROM settings WHERE key = 'clevertap_passcode'").get();
-  const region = db.prepare("SELECT value FROM settings WHERE key = 'clevertap_region'").get();
+  // Try env vars first (Railway), then fall back to DB settings
+  const ctAccountId = process.env.CLEVERTAP_ACCOUNT_ID || db.prepare("SELECT value FROM settings WHERE key = 'clevertap_account_id'").get()?.value;
+  const ctPasscode = process.env.CLEVERTAP_PASSCODE || db.prepare("SELECT value FROM settings WHERE key = 'clevertap_passcode'").get()?.value;
+  const ctRegion = process.env.CLEVERTAP_REGION || db.prepare("SELECT value FROM settings WHERE key = 'clevertap_region'").get()?.value || "in1";
 
-  if (!accountId?.value || !passcode?.value) {
+  if (!ctAccountId || !ctPasscode) {
     throw new Error("CleverTap credentials not configured");
   }
 
@@ -287,7 +288,7 @@ async function sendPush(identity, title, body, imageUrl) {
     aps3: "https://aps3.api.clevertap.com",
     mec1: "https://mec1.api.clevertap.com",
   };
-  const baseUrl = regionMap[region?.value] || regionMap.in1;
+  const baseUrl = regionMap[ctRegion] || regionMap.in1;
 
   const payload = {
     to: { Identity: [String(identity)] },
@@ -312,8 +313,8 @@ async function sendPush(identity, title, body, imageUrl) {
   const response = await fetch(`${baseUrl}/1/send/push.json`, {
     method: "POST",
     headers: {
-      "X-CleverTap-Account-Id": accountId.value,
-      "X-CleverTap-Passcode": passcode.value,
+      "X-CleverTap-Account-Id": ctAccountId,
+      "X-CleverTap-Passcode": ctPasscode,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),

@@ -3,29 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NotifyGen — Day 0 Automation Demo</title>
+  <title>NotifyGen — Day 0 Live Demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0a;
-      --card: #1a1a1a;
-      --card-hover: #222;
-      --border: #2a2a2a;
+      --bg: #09090b;
+      --card: #18181b;
+      --border: #27272a;
       --accent: #8b5cf6;
-      --accent-dim: rgba(139, 92, 246, 0.15);
+      --accent-dark: #7c3aed;
+      --accent-dim: rgba(139, 92, 246, 0.12);
       --green: #22c55e;
-      --green-dim: rgba(34, 197, 94, 0.15);
+      --green-dim: rgba(34, 197, 94, 0.12);
       --yellow: #f59e0b;
-      --yellow-dim: rgba(245, 158, 11, 0.15);
+      --yellow-dim: rgba(245, 158, 11, 0.12);
       --red: #ef4444;
-      --red-dim: rgba(239, 68, 68, 0.15);
-      --text: #f0f0f0;
-      --text-muted: #888;
-      --text-dim: #555;
+      --text: #fafafa;
+      --text-muted: #a1a1aa;
+      --text-dim: #52525b;
     }
 
     body {
@@ -34,839 +33,1165 @@
       color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    .container {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 24px 20px 60px;
-    }
-
-    /* ── Header ──────────────────────────── */
-    header {
-      text-align: center;
-      padding: 48px 0 40px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 40px;
-    }
-    header .logo {
-      display: inline-flex;
+    /* ── START SCREEN ─────────────────────── */
+    #startScreen {
+      display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
     }
-    header .logo-icon {
-      width: 36px; height: 36px;
-      background: var(--accent);
-      border-radius: 10px;
-      display: grid; place-items: center;
-      font-size: 18px;
+
+    .start-container {
+      text-align: center;
+      max-width: 460px;
+      width: 100%;
     }
-    header h1 {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, var(--accent), #c084fc);
+
+    .logo-text {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent), #c084fc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      line-height: 1.1;
     }
-    header p {
+
+    .start-subtitle {
+      font-size: 16px;
       color: var(--text-muted);
-      font-size: 14px;
-      margin-top: 6px;
+      margin-bottom: 48px;
+      font-weight: 400;
     }
-    .badge-speakx {
-      display: inline-block;
+
+    .input-group {
+      display: flex;
+      align-items: stretch;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .input-group:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .input-prefix {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.03);
+      border-right: 1px solid var(--border);
+      user-select: none;
+    }
+
+    .phone-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 16px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 500;
+      outline: none;
+      letter-spacing: 0.5px;
+    }
+
+    .phone-input::placeholder {
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 28px;
+      border: none;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+      color: #fff;
+      transition: all 0.25s;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .start-note {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* ── JOURNEY SCREEN ──────────────────── */
+    #journeyScreen {
+      display: none;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .journey-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .journey-header .logo-small {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+
+    .journey-header .journey-sub {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    /* ── TIMELINE ─────────────────────────── */
+    .timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-dim), transparent);
+      border-radius: 2px;
+    }
+
+    .timeline-step {
+      position: relative;
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .timeline-step.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -33px;
+      top: 18px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 2px solid var(--accent);
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      z-index: 1;
+    }
+
+    .timeline-dot.done {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .timeline-dot.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-dim);
+      animation: dotPulse 2s ease infinite;
+    }
+
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .step-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .step-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .step-time {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    .processing-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .processing-dot::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: dotPulse 1.5s ease infinite;
+    }
+
+    /* ── DETAILS CARD (inside step) ──────── */
+    .details-card {
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 13px;
+    }
+
+    .detail-row:not(:last-child) {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+    }
+
+    .detail-value {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── NOTIFICATION SCHEDULE GRID ───────── */
+    .notif-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 560px) {
+      .notif-grid { grid-template-columns: 1fr; }
+    }
+
+    .notif-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .notif-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+
+    .notif-card.scheduled {
+      animation: subtleGlow 3s ease infinite;
+    }
+
+    .notif-card.delivered {
+      border-color: rgba(34, 197, 94, 0.3);
+      background: var(--green-dim);
+    }
+
+    .notif-card.delivered::before {
+      opacity: 1;
+      background: linear-gradient(135deg, rgba(34,197,94,0.05), transparent);
+    }
+
+    .notif-slot-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .notif-card.scheduled .notif-slot-badge {
+      background: var(--yellow-dim);
+      color: var(--yellow);
+    }
+
+    .notif-card.delivered .notif-slot-badge {
+      background: var(--green-dim);
+      color: var(--green);
+    }
+
+    .notif-card .notif-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .notif-card .notif-time {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       padding: 3px 10px;
       border-radius: 20px;
       font-size: 11px;
       font-weight: 600;
-      background: var(--accent-dim);
-      color: var(--accent);
-      margin-top: 12px;
-      letter-spacing: 0.5px;
     }
 
-    /* ── Sections ─────────────────────────── */
-    .section {
-      margin-bottom: 36px;
+    .status-badge.scheduled {
+      background: var(--yellow-dim);
+      color: var(--yellow);
     }
-    .section-title {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
+
+    .status-badge.delivered {
+      background: var(--green-dim);
+      color: var(--green);
+    }
+
+    /* ── LIVE DELIVERY SECTION ────────────── */
+    .live-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .live-pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: dotPulse 1.5s ease infinite;
+      flex-shrink: 0;
+    }
+
+    .delivery-counter {
+      font-size: 14px;
       color: var(--text-muted);
       margin-bottom: 16px;
+    }
+
+    .delivery-counter strong {
+      color: var(--text);
+    }
+
+    /* ── PHONE NOTIFICATION ──────────────── */
+    .phone-notif-container {
+      margin-top: 20px;
+    }
+
+    .phone-notif {
+      background: #1e1e22;
+      border-radius: 18px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      border: 1px solid #2a2a2e;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      animation: phoneSlideIn 0.5s ease;
+      max-width: 400px;
+    }
+
+    .phone-notif-top {
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-    .section-title::before {
-      content: '';
-      width: 3px; height: 16px;
-      background: var(--accent);
-      border-radius: 2px;
+      margin-bottom: 10px;
     }
 
-    /* ── Card ──────────────────────────────── */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
-    }
-
-    /* ── Form ──────────────────────────────── */
-    .form-grid {
+    .phone-app-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #6d28d9, var(--accent));
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
     }
-    @media (max-width: 560px) {
-      .form-grid { grid-template-columns: 1fr; }
-    }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group.full-width { grid-column: 1 / -1; }
-    label {
+
+    .phone-app-name {
       font-size: 12px;
       font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      color: #71717a;
+      flex: 1;
     }
-    input, select {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 14px;
-      transition: border-color 0.2s;
-    }
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-dim);
-    }
-    select { cursor: pointer; }
-    option { background: var(--card); }
 
-    .btn {
+    .phone-time {
+      font-size: 11px;
+      color: #52525b;
+    }
+
+    .phone-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #fafafa;
+    }
+
+    .phone-body {
+      font-size: 13px;
+      color: #a1a1aa;
+      line-height: 1.5;
+    }
+
+    /* ── CELEBRATION ──────────────────────── */
+    .celebration {
+      text-align: center;
+      padding: 32px 20px;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    .celebration-emoji {
+      font-size: 48px;
+      margin-bottom: 12px;
+      animation: celebBounce 0.6s ease;
+    }
+
+    .celebration-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--green), #86efac);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .celebration-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    /* ── RESET BUTTON ────────────────────── */
+    .btn-reset {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 8px;
+      margin-top: 24px;
       padding: 12px 28px;
-      border: none;
-      border-radius: 10px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card);
+      color: var(--text);
       font-family: inherit;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
-      margin-top: 8px;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-    }
-    .btn-primary:hover { background: #7c3aed; transform: translateY(-1px); }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-    .btn-secondary {
-      background: var(--border);
-      color: var(--text);
-    }
-    .btn-secondary:hover { background: #333; }
-
-    /* ── Response Box ─────────────────────── */
-    .response-box {
-      margin-top: 20px;
-      padding: 16px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      display: none;
-    }
-    .response-box.visible { display: block; animation: fadeIn 0.3s ease; }
-    .response-header {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--green);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .schedule-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
-    .schedule-item:last-child { border-bottom: none; }
-    .schedule-slot {
-      width: 28px; height: 28px;
-      border-radius: 8px;
-      background: var(--accent-dim);
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 12px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-    }
-    .schedule-name { flex: 1; color: var(--text); font-weight: 500; }
-    .schedule-time {
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .schedule-mins {
-      font-size: 11px;
-      color: var(--text-dim);
-      padding: 2px 8px;
-      background: var(--border);
-      border-radius: 4px;
     }
 
-    /* ── Tracker ───────────────────────────── */
-    .tracker-status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
+    .btn-reset:hover {
+      border-color: var(--text-dim);
+      background: var(--border);
     }
-    .tracker-status .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: pulse 1.5s ease infinite;
-    }
-    .tracker-grid {
-      display: grid;
-      gap: 12px;
-    }
-    .notif-card {
-      display: flex;
-      gap: 16px;
-      padding: 16px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      transition: all 0.4s ease;
-      position: relative;
+
+    /* ── CONFETTI ─────────────────────────── */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
       overflow: hidden;
     }
-    .notif-card::before {
-      content: '';
+
+    .confetti-piece {
       position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      border-radius: 3px 0 0 3px;
-      transition: background 0.4s;
-    }
-    .notif-card.pending::before { background: var(--yellow); }
-    .notif-card.sent::before { background: var(--green); }
-    .notif-card.sent { border-color: rgba(34,197,94,0.2); }
-    .notif-card.failed::before { background: var(--red); }
-    .notif-card.failed { border-color: rgba(239,68,68,0.2); }
-
-    .notif-slot {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      display: grid; place-items: center;
-      font-weight: 700;
-      font-size: 14px;
-      flex-shrink: 0;
-      transition: all 0.4s;
-    }
-    .notif-card.pending .notif-slot { background: var(--yellow-dim); color: var(--yellow); }
-    .notif-card.sent .notif-slot { background: var(--green-dim); color: var(--green); }
-    .notif-card.failed .notif-slot { background: var(--red-dim); color: var(--red); }
-
-    .notif-info { flex: 1; min-width: 0; }
-    .notif-name {
-      font-weight: 600;
-      font-size: 14px;
-      margin-bottom: 2px;
-    }
-    .notif-meta {
-      font-size: 12px;
-      color: var(--text-muted);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 12px;
-    }
-    .notif-status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .notif-card.pending .notif-status-badge { background: var(--yellow-dim); color: var(--yellow); }
-    .notif-card.sent .notif-status-badge { background: var(--green-dim); color: var(--green); }
-    .notif-card.failed .notif-status-badge { background: var(--red-dim); color: var(--red); }
-
-    .notif-content {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid var(--border);
-      animation: slideDown 0.3s ease;
-    }
-    .notif-title-text {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: var(--text);
-    }
-    .notif-body-text {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.5;
+      top: -20px;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: confettiFall linear forwards;
     }
 
-    /* ── Phone Preview ────────────────────── */
-    .phone-preview-section {
-      margin-top: 24px;
-      display: none;
-    }
-    .phone-preview-section.visible { display: block; }
-    .phone-frame {
-      max-width: 380px;
-      margin: 0 auto;
-    }
-    .phone-notif {
-      background: #2a2a2e;
-      border-radius: 16px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      animation: slideIn 0.4s ease;
-      border: 1px solid #3a3a3e;
-    }
-    .phone-notif-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    .phone-app-icon {
-      width: 20px; height: 20px;
-      border-radius: 5px;
-      background: linear-gradient(135deg, #6d28d9, var(--accent));
-      display: grid; place-items: center;
-      font-size: 10px;
-    }
-    .phone-app-name {
-      font-size: 12px;
-      font-weight: 600;
-      color: #aaa;
-      flex: 1;
-    }
-    .phone-time {
-      font-size: 11px;
-      color: #666;
-    }
-    .phone-notif-title {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .phone-notif-body {
-      font-size: 13px;
-      color: #bbb;
-      line-height: 1.4;
-    }
-    .phone-notif-image {
-      margin-top: 10px;
-      width: 100%;
-      height: 120px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent-dim), var(--green-dim));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-
-    /* ── Footer ────────────────────────────── */
+    /* ── FOOTER ───────────────────────────── */
     footer {
       text-align: center;
-      padding: 32px 0 16px;
+      padding: 32px 24px;
       border-top: 1px solid var(--border);
-      margin-top: 20px;
-    }
-    footer p {
-      font-size: 12px;
-      color: var(--text-dim);
-    }
-    footer span {
-      color: var(--accent);
-      font-weight: 600;
+      margin-top: 48px;
     }
 
-    /* ── Animations ────────────────────────── */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    footer p {
+      font-size: 13px;
+      color: var(--text-dim);
     }
-    @keyframes slideDown {
-      from { opacity: 0; max-height: 0; }
-      to { opacity: 1; max-height: 200px; }
+
+    footer strong {
+      color: var(--accent);
+      font-weight: 700;
     }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-12px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+
+    /* ── SPINNER ──────────────────────────── */
     .spinner {
-      width: 16px; height: 16px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: #fff;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.7s linear infinite;
       display: inline-block;
     }
 
-    /* ── Empty state ───────────────────────── */
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-dim);
-      font-size: 14px;
+    /* ── ANIMATIONS ───────────────────────── */
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
-    .empty-state .icon { font-size: 32px; margin-bottom: 8px; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes phoneSlideIn {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes subtleGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+      50% { box-shadow: 0 0 12px 0 rgba(245, 158, 11, 0.06); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes celebBounce {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── RESPONSIVE ───────────────────────── */
+    @media (max-width: 480px) {
+      .logo-text { font-size: 42px; }
+      .start-subtitle { font-size: 14px; }
+      .step-title { font-size: 16px; }
+      .celebration-stats { gap: 20px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Header -->
-    <header>
-      <div class="logo">
-        <div class="logo-icon">N</div>
-        <h1>NotifyGen</h1>
-      </div>
-      <p>Day 0 Automation Demo &mdash; Real-time Notification Engine</p>
-      <div class="badge-speakx">SPEAKX INTERNAL</div>
-    </header>
 
-    <!-- Section 1: Simulate Payment -->
-    <div class="section">
-      <div class="section-title">Simulate Payment Event</div>
-      <div class="card">
-        <form id="paymentForm" onsubmit="return false;">
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="identity">Phone Number (Identity)</label>
-              <input type="text" id="identity" value="+917002530372" placeholder="+91XXXXXXXXXX" />
+  <!-- ═══════════════ SCREEN 1: START ═══════════════ -->
+  <div id="startScreen">
+    <div class="start-container">
+      <div class="logo-text">NotifyGen</div>
+      <p class="start-subtitle">Day 0 Notification Automation &mdash; Live Demo</p>
+
+      <div class="input-group">
+        <div class="input-prefix">+91</div>
+        <input
+          type="tel"
+          id="phoneInput"
+          class="phone-input"
+          placeholder="Enter phone number"
+          maxlength="10"
+          autocomplete="off"
+          aria-label="Phone number"
+        />
+      </div>
+
+      <button class="btn-primary" id="startBtn" onclick="startDemo()">
+        Simulate Payment &rarr;
+      </button>
+
+      <p class="start-note">
+        This will simulate a user making their first trial payment on SpeakX
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SCREEN 2: JOURNEY ═══════════════ -->
+  <div id="journeyScreen">
+
+    <div class="journey-header">
+      <div class="logo-small">NotifyGen</div>
+      <div class="journey-sub">Live Automation Walkthrough</div>
+    </div>
+
+    <div class="timeline">
+
+      <!-- Step 1: Payment Received -->
+      <div class="timeline-step" id="step1">
+        <div class="timeline-dot done" id="dot1"></div>
+        <div class="step-card">
+          <div class="step-icon">&#9989;</div>
+          <div class="step-title">Payment Received</div>
+          <div class="step-desc" id="step1Desc">User just purchased the 7-day SpeakX Premium trial</div>
+          <div class="step-time" id="step1Time"></div>
+          <div class="processing-dot" id="step1Processing">Processing...</div>
+        </div>
+      </div>
+
+      <!-- Step 2: Webhook Fired -->
+      <div class="timeline-step" id="step2">
+        <div class="timeline-dot" id="dot2"></div>
+        <div class="step-card">
+          <div class="step-icon">&#128279;</div>
+          <div class="step-title">Notification Engine Activated</div>
+          <div class="step-desc">Payment event detected &mdash; NotifyGen automation engine triggered</div>
+          <div class="step-time" id="step2Time"></div>
+          <div class="processing-dot" id="step2Processing">Initializing journey...</div>
+        </div>
+      </div>
+
+      <!-- Step 3: Journey Created -->
+      <div class="timeline-step" id="step3">
+        <div class="timeline-dot" id="dot3"></div>
+        <div class="step-card">
+          <div class="step-icon">&#128100;</div>
+          <div class="step-title">User Journey Initialized</div>
+          <div class="step-desc">Personalized notification journey created for this user</div>
+          <div class="details-card" id="step3Details">
+            <div class="detail-row">
+              <span class="detail-label">Story</span>
+              <span class="detail-value">The Quiet Boy</span>
             </div>
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" id="username" value="vBarry" placeholder="Display name" />
+            <div class="detail-row">
+              <span class="detail-label">Journey Day</span>
+              <span class="detail-value">0</span>
             </div>
-            <div class="form-group">
-              <label for="story">Story</label>
-              <select id="story">
-                <option>The Quiet Boy</option>
-                <option>The Magic Garden</option>
-                <option>Lost in the City</option>
-                <option>The Brave Little Girl</option>
-                <option>The Secret Letter</option>
-                <option>The Helpful Neighbour</option>
-                <option>The Big Race</option>
-                <option>The Broken Bridge</option>
-                <option>A New Beginning</option>
-                <option>The Treasure Hunt</option>
-                <option>The Lost Puppy</option>
-                <option>The School Play</option>
-                <option>The Night Market</option>
-                <option>The Festival</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="interval">Interval (minutes)</label>
-              <select id="interval">
-                <option value="1">1 min</option>
-                <option value="2" selected>2 min</option>
-                <option value="3">3 min</option>
-                <option value="5">5 min</option>
-                <option value="10">10 min</option>
-              </select>
-            </div>
-            <div class="form-group full-width" style="flex-direction: row; gap: 12px; margin-top: 4px;">
-              <button class="btn btn-primary" id="startBtn" onclick="startJourney()">
-                Start Day 0 Journey
-              </button>
-              <button class="btn btn-secondary" id="fireAllBtn" onclick="fireAll()">
-                Fire All Now
-              </button>
+            <div class="detail-row">
+              <span class="detail-label">User</span>
+              <span class="detail-value" id="step3User">Demo User</span>
             </div>
           </div>
-        </form>
-
-        <!-- Schedule Response -->
-        <div class="response-box" id="scheduleResponse">
-          <div class="response-header" id="responseHeader"></div>
-          <div id="scheduleList"></div>
+          <div class="step-time" id="step3Time"></div>
+          <div class="processing-dot" id="step3Processing">Scheduling notifications...</div>
         </div>
       </div>
-    </div>
 
-    <!-- Section 2: Live Notification Tracker -->
-    <div class="section">
-      <div class="section-title">Live Notification Tracker</div>
-      <div class="card">
-        <div id="trackerEmpty" class="empty-state">
-          <div class="icon">&#128276;</div>
-          <p>Start a journey above to track notifications in real time</p>
+      <!-- Step 4: Notification Schedule -->
+      <div class="timeline-step" id="step4">
+        <div class="timeline-dot" id="dot4"></div>
+        <div class="step-card">
+          <div class="step-icon">&#128276;</div>
+          <div class="step-title">6 Notifications Scheduled</div>
+          <div class="step-desc">All Day 0 notifications are queued and ready to deliver</div>
+          <div class="notif-grid" id="notifGrid"></div>
+          <div class="step-time" id="step4Time"></div>
         </div>
-        <div id="trackerActive" style="display:none;">
-          <div class="tracker-status">
-            <div class="dot" id="pollingDot"></div>
-            <span id="trackerStatusText">Polling every 10s...</span>
+      </div>
+
+      <!-- Step 5: Live Delivery -->
+      <div class="timeline-step" id="step5">
+        <div class="timeline-dot active" id="dot5"></div>
+        <div class="step-card">
+          <div class="step-icon">&#128241;</div>
+          <div class="live-header">
+            <div class="live-pulse" id="livePulse"></div>
+            <div class="step-title">Notifications Delivering...</div>
           </div>
-          <div class="tracker-grid" id="trackerGrid"></div>
+          <div class="delivery-counter" id="deliveryCounter"><strong>0</strong> / 6 Delivered</div>
+          <div class="phone-notif-container" id="phoneContainer"></div>
         </div>
       </div>
-    </div>
 
-    <!-- Section 3: Phone Notification Preview -->
-    <div class="section">
-      <div class="section-title">Notification Preview</div>
-      <div class="card">
-        <div id="previewEmpty" class="empty-state">
-          <div class="icon">&#128241;</div>
-          <p>Sent notifications will appear here as phone-style previews</p>
-        </div>
-        <div class="phone-preview-section" id="phonePreview">
-          <div class="phone-frame" id="phoneFrame"></div>
+      <!-- Step 6: Complete (hidden initially) -->
+      <div class="timeline-step" id="stepComplete" style="display:none;">
+        <div class="timeline-dot done" id="dotComplete"></div>
+        <div class="step-card">
+          <div class="celebration">
+            <div class="celebration-emoji">&#127881;</div>
+            <div class="celebration-title">All 6 Day 0 Notifications Delivered!</div>
+            <div class="step-desc">The entire Day 0 automation completed successfully</div>
+            <div class="celebration-stats">
+              <div class="stat-item">
+                <div class="stat-value" id="statTime">-</div>
+                <div class="stat-label">Total Time</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">6</div>
+                <div class="stat-label">Notifications Sent</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">The Quiet Boy</div>
+                <div class="stat-label">Story Assigned</div>
+              </div>
+            </div>
+            <button class="btn-reset" onclick="resetDemo()">&#8635; Reset Demo</button>
+          </div>
         </div>
       </div>
+
     </div>
 
-    <!-- Footer -->
     <footer>
-      <p>Powered by <span>NotifyGen v5</span> &mdash; Autonomous Notification Engine</p>
+      <p><strong>NotifyGen v5</strong> &mdash; Autonomous Notification Engine for SpeakX</p>
     </footer>
   </div>
 
+  <!-- ═══════════════ CONFETTI CONTAINER ═══════════════ -->
+  <div class="confetti-container" id="confettiContainer"></div>
+
   <script>
-    let currentIdentity = null;
-    let pollInterval = null;
-    let knownSentSlots = new Set();
+    var pollTimer = null;
+    var currentIdentity = null;
+    var knownDelivered = {};
+    var demoStartTime = null;
+    var scheduleData = [];
 
-    async function startJourney() {
-      const identity = document.getElementById('identity').value.trim();
-      const username = document.getElementById('username').value.trim();
-      const story_name = document.getElementById('story').value;
-      const interval_minutes = parseInt(document.getElementById('interval').value);
-
-      if (!identity) { alert('Phone number is required'); return; }
-
-      const btn = document.getElementById('startBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Scheduling...';
-
-      try {
-        const res = await fetch('/api/webhooks/test-realtime', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ identity, username, story_name, interval_minutes })
-        });
-        const data = await res.json();
-
-        if (!data.success) {
-          alert('Error: ' + (data.error || 'Unknown error'));
-          return;
-        }
-
-        showScheduleResponse(data);
-        currentIdentity = identity;
-        knownSentSlots.clear();
-        startPolling();
-      } catch (err) {
-        alert('Network error: ' + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = 'Start Day 0 Journey';
-      }
-    }
-
-    async function fireAll() {
-      const identity = document.getElementById('identity').value.trim();
-      const username = document.getElementById('username').value.trim();
-      const story_name = document.getElementById('story').value;
-
-      if (!identity) { alert('Phone number is required'); return; }
-
-      const btn = document.getElementById('fireAllBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Firing...';
-
-      try {
-        const res = await fetch('/api/webhooks/test-day0', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ identity, username, story_name })
-        });
-        const data = await res.json();
-
-        if (!data.success) {
-          alert('Error: ' + (data.error || 'Unknown error'));
-          return;
-        }
-
-        showFireAllResponse(data);
-        currentIdentity = identity;
-      } catch (err) {
-        alert('Network error: ' + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = 'Fire All Now';
-      }
-    }
-
-    function showScheduleResponse(data) {
-      const box = document.getElementById('scheduleResponse');
-      const header = document.getElementById('responseHeader');
-      const list = document.getElementById('scheduleList');
-
-      header.innerHTML = '&#10003; ' + data.schedule.length + ' notifications scheduled &mdash; ' + data.interval_minutes + ' min intervals (' + data.total_duration_minutes + ' min total)';
-      list.innerHTML = data.schedule.map(s =>
-        '<div class="schedule-item">' +
-          '<div class="schedule-slot">' + s.slot + '</div>' +
-          '<div class="schedule-name">' + escapeHtml(s.name) + '</div>' +
-          '<div class="schedule-time">' + s.send_time_ist + '</div>' +
-          '<div class="schedule-mins">+' + s.minutes_from_now + 'm</div>' +
-        '</div>'
-      ).join('');
-
-      box.classList.add('visible');
-    }
-
-    function showFireAllResponse(data) {
-      const box = document.getElementById('scheduleResponse');
-      const header = document.getElementById('responseHeader');
-      const list = document.getElementById('scheduleList');
-
-      header.innerHTML = '&#9889; Fired ' + data.total_sent + '/' + data.total_scheduled + ' notifications immediately';
-      list.innerHTML = data.notifications.map(n =>
-        '<div class="schedule-item">' +
-          '<div class="schedule-slot">' + n.slot + '</div>' +
-          '<div class="schedule-name">' + escapeHtml(n.name) + '</div>' +
-          '<div class="schedule-time">' + n.status + '</div>' +
-        '</div>'
-      ).join('');
-
-      box.classList.add('visible');
-
-      // Show phone previews for sent notifications
-      const phoneFrame = document.getElementById('phoneFrame');
-      phoneFrame.innerHTML = '';
-      const sentNotifs = data.notifications.filter(n => n.status.includes('Sent'));
-      sentNotifs.forEach(n => addPhonePreview(n));
-      if (sentNotifs.length > 0) {
-        document.getElementById('phonePreview').classList.add('visible');
-        document.getElementById('previewEmpty').style.display = 'none';
-      }
-
-      // Also show in tracker
-      showFireAllTracker(data.notifications);
-    }
-
-    function showFireAllTracker(notifications) {
-      const empty = document.getElementById('trackerEmpty');
-      const active = document.getElementById('trackerActive');
-      const grid = document.getElementById('trackerGrid');
-      const statusText = document.getElementById('trackerStatusText');
-      const dot = document.getElementById('pollingDot');
-
-      empty.style.display = 'none';
-      active.style.display = 'block';
-      statusText.textContent = 'All notifications fired';
-      dot.style.background = 'var(--green)';
-      dot.style.animation = 'none';
-
-      grid.innerHTML = notifications.map(n => {
-        const isSent = n.status.includes('Sent');
-        const isFailed = n.status.includes('Failed') || n.status.includes('Error');
-        const cls = isSent ? 'sent' : (isFailed ? 'failed' : 'pending');
-        const statusIcon = isSent ? '&#10004;' : (isFailed ? '&#10008;' : '&#9203;');
-        const statusLabel = isSent ? 'Sent' : (isFailed ? 'Failed' : 'Pending');
-        return '<div class="notif-card ' + cls + '">' +
-          '<div class="notif-slot">' + n.slot + '</div>' +
-          '<div class="notif-info">' +
-            '<div class="notif-name">' + escapeHtml(n.name) + '</div>' +
-            '<div class="notif-meta">' +
-              '<span class="notif-status-badge">' + statusIcon + ' ' + statusLabel + '</span>' +
-            '</div>' +
-            (isSent && n.title ? '<div class="notif-content"><div class="notif-title-text">' + escapeHtml(n.title) + '</div><div class="notif-body-text">' + escapeHtml(n.body || '') + '</div></div>' : '') +
-          '</div>' +
-        '</div>';
-      }).join('');
-    }
-
-    function startPolling() {
-      if (pollInterval) clearInterval(pollInterval);
-
-      const empty = document.getElementById('trackerEmpty');
-      const active = document.getElementById('trackerActive');
-      empty.style.display = 'none';
-      active.style.display = 'block';
-
-      pollJourney();
-      pollInterval = setInterval(pollJourney, 10000);
-    }
-
-    async function pollJourney() {
-      if (!currentIdentity) return;
-
-      try {
-        const res = await fetch('/api/webhooks/journey/' + encodeURIComponent(currentIdentity));
-        if (!res.ok) return;
-        const data = await res.json();
-        renderTracker(data);
-      } catch (err) {
-        // silent fail on poll
-      }
-    }
-
-    function renderTracker(data) {
-      const grid = document.getElementById('trackerGrid');
-      const statusText = document.getElementById('trackerStatusText');
-      const dot = document.getElementById('pollingDot');
-
-      const scheduled = data.scheduled || [];
-      const sentLog = data.sent_log || [];
-
-      // Build a merged view: for each scheduled slot, check if it was sent
-      const sentBySlot = {};
-      sentLog.forEach(s => {
-        if (!sentBySlot[s.slot] || s.status === 'delivered') {
-          sentBySlot[s.slot] = s;
-        }
+    function getIST() {
+      return new Date().toLocaleTimeString('en-IN', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: true, timeZone: 'Asia/Kolkata'
       });
-
-      const allDone = scheduled.every(s => s.status !== 'pending');
-      const pendingCount = scheduled.filter(s => s.status === 'pending').length;
-
-      if (allDone && scheduled.length > 0) {
-        statusText.textContent = 'All notifications processed';
-        dot.style.background = 'var(--green)';
-        dot.style.animation = 'none';
-        if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
-      } else {
-        statusText.textContent = 'Polling every 10s... ' + pendingCount + ' pending';
-      }
-
-      grid.innerHTML = scheduled.map(s => {
-        const sent = sentBySlot[s.slot];
-        const isSent = s.status === 'sent' || s.status === 'delivered' || (sent && sent.status === 'delivered');
-        const isFailed = s.status === 'failed' || (sent && sent.status === 'failed');
-        const isPending = !isSent && !isFailed;
-        const cls = isSent ? 'sent' : (isFailed ? 'failed' : 'pending');
-        const statusIcon = isSent ? '&#10004;' : (isFailed ? '&#10008;' : '&#9203;');
-        const statusLabel = isSent ? 'Sent' : (isFailed ? 'Failed' : 'Pending');
-
-        const sendTime = formatIST(s.send_at);
-
-        let contentHtml = '';
-        if (isSent && sent) {
-          contentHtml = '<div class="notif-content">' +
-            '<div class="notif-title-text">' + escapeHtml(sent.title || '') + '</div>' +
-            '<div class="notif-body-text">' + escapeHtml(sent.body || '') + '</div>' +
-          '</div>';
-
-          // Add phone preview if new
-          if (!knownSentSlots.has(s.slot)) {
-            knownSentSlots.add(s.slot);
-            addPhonePreview({
-              title: sent.title,
-              body: sent.body,
-              image: sent.image_url,
-              sent_at: sent.sent_at
-            });
-            document.getElementById('phonePreview').classList.add('visible');
-            document.getElementById('previewEmpty').style.display = 'none';
-          }
-        }
-
-        return '<div class="notif-card ' + cls + '">' +
-          '<div class="notif-slot">' + s.slot + '</div>' +
-          '<div class="notif-info">' +
-            '<div class="notif-name">' + escapeHtml(s.notification_name) + '</div>' +
-            '<div class="notif-meta">' +
-              '<span class="notif-status-badge">' + statusIcon + ' ' + statusLabel + '</span>' +
-              '<span>' + sendTime + '</span>' +
-            '</div>' +
-            contentHtml +
-          '</div>' +
-        '</div>';
-      }).join('');
-    }
-
-    function addPhonePreview(n) {
-      const frame = document.getElementById('phoneFrame');
-      const time = n.sent_at ? formatIST(n.sent_at) : 'just now';
-      const hasImage = n.image && n.image !== 'null' && n.image !== '';
-
-      const el = document.createElement('div');
-      el.className = 'phone-notif';
-      el.innerHTML =
-        '<div class="phone-notif-header">' +
-          '<div class="phone-app-icon">S</div>' +
-          '<div class="phone-app-name">SpeakX</div>' +
-          '<div class="phone-time">' + time + '</div>' +
-        '</div>' +
-        '<div class="phone-notif-title">' + escapeHtml(n.title || '') + '</div>' +
-        '<div class="phone-notif-body">' + escapeHtml(n.body || '') + '</div>' +
-        (hasImage ? '<div class="phone-notif-image"><img src="' + escapeHtml(n.image) + '" alt="notification image" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.parentElement.innerHTML=\'&#127912; Notification Image\'" /></div>' : '');
-
-      // Prepend (newest at top)
-      frame.insertBefore(el, frame.firstChild);
-    }
-
-    function formatIST(isoStr) {
-      if (!isoStr) return '';
-      try {
-        const d = new Date(isoStr);
-        return d.toLocaleTimeString('en-IN', {
-          hour: '2-digit', minute: '2-digit', second: '2-digit',
-          hour12: true, timeZone: 'Asia/Kolkata'
-        });
-      } catch {
-        return isoStr;
-      }
     }
 
     function escapeHtml(str) {
       if (!str) return '';
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
+      var d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
     }
+
+    function showStep(id, delay) {
+      return new Promise(function(resolve) {
+        setTimeout(function() {
+          var el = document.getElementById(id);
+          if (el) {
+            el.classList.add('visible');
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          resolve();
+        }, delay);
+      });
+    }
+
+    function markDotDone(id) {
+      var dot = document.getElementById(id);
+      if (dot) {
+        dot.classList.remove('active');
+        dot.classList.add('done');
+      }
+    }
+
+    function hideProcessing(id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    }
+
+    async function startDemo() {
+      var phone = document.getElementById('phoneInput').value.trim();
+      if (!phone || phone.length < 10) {
+        document.getElementById('phoneInput').focus();
+        return;
+      }
+
+      var identity = '+91' + phone.replace(/^(\+91|91)/, '');
+      currentIdentity = identity;
+      demoStartTime = Date.now();
+
+      var btn = document.getElementById('startBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Initiating...';
+
+      try {
+        var res = await fetch('/api/webhooks/test-realtime', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            identity: identity,
+            username: 'Demo User',
+            story_name: 'The Quiet Boy',
+            interval_minutes: 3
+          })
+        });
+
+        var data = await res.json();
+
+        if (!data.success) {
+          alert('Something went wrong. Please try again.');
+          btn.disabled = false;
+          btn.innerHTML = 'Simulate Payment &rarr;';
+          return;
+        }
+
+        scheduleData = data.schedule || [];
+
+        // Transition to journey screen
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('journeyScreen').style.display = 'block';
+
+        // Play through the steps
+        await playJourney(identity, data);
+
+      } catch (err) {
+        alert('Connection error. Is the server running?');
+        btn.disabled = false;
+        btn.innerHTML = 'Simulate Payment &rarr;';
+      }
+    }
+
+    async function playJourney(identity, data) {
+      // Step 1: Payment Received
+      document.getElementById('step1Desc').textContent =
+        'User ' + identity + ' just purchased the 7-day SpeakX Premium trial';
+      document.getElementById('step1Time').textContent = getIST() + ' IST';
+      await showStep('step1', 300);
+
+      // Step 2: Webhook Fired
+      await showStep('step2', 2000);
+      hideProcessing('step1Processing');
+      markDotDone('dot1');
+      document.getElementById('step2Time').textContent = getIST() + ' IST';
+
+      // Step 3: Journey Created
+      await showStep('step3', 2000);
+      hideProcessing('step2Processing');
+      markDotDone('dot2');
+      document.getElementById('step3User').textContent = data.username || 'Demo User';
+      document.getElementById('step3Time').textContent = getIST() + ' IST';
+
+      // Step 4: Notification Schedule
+      await showStep('step4', 2000);
+      hideProcessing('step3Processing');
+      markDotDone('dot3');
+      document.getElementById('step4Time').textContent = getIST() + ' IST';
+      renderScheduleGrid(data.schedule || []);
+
+      // Step 5: Live Delivery
+      await showStep('step5', 2000);
+      markDotDone('dot4');
+
+      // Start polling
+      startPolling(identity);
+    }
+
+    function renderScheduleGrid(schedule) {
+      var grid = document.getElementById('notifGrid');
+      var names = [
+        'Trial Payment', 'Onboarding Nudge', 'Word of the Day',
+        'Cliffhanger', 'Social Proof', 'Progress Report'
+      ];
+      grid.innerHTML = schedule.map(function(s, i) {
+        var friendlyName = names[i] || s.name;
+        return '<div class="notif-card scheduled" id="notifCard' + s.slot + '">' +
+          '<div class="notif-slot-badge">' + s.slot + '</div>' +
+          '<div class="notif-name">' + escapeHtml(friendlyName) + '</div>' +
+          '<div class="notif-time">' + s.send_time_ist + ' IST</div>' +
+          '<div class="status-badge scheduled" id="notifBadge' + s.slot + '">Scheduled &#9203;</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function startPolling(identity) {
+      knownDelivered = {};
+      pollJourney(identity);
+      pollTimer = setInterval(function() {
+        pollJourney(identity);
+      }, 8000);
+    }
+
+    async function pollJourney(identity) {
+      try {
+        var res = await fetch('/api/webhooks/journey/' + encodeURIComponent(identity));
+        if (!res.ok) return;
+        var data = await res.json();
+        processDeliveryUpdate(data);
+      } catch (e) {
+        // silent
+      }
+    }
+
+    function processDeliveryUpdate(data) {
+      var scheduled = data.scheduled || [];
+      var sentLog = data.sent_log || [];
+      var deliveredCount = 0;
+
+      // Build lookup from sent_log
+      var sentBySlot = {};
+      sentLog.forEach(function(s) {
+        if (s.status === 'delivered' || s.status === 'sent') {
+          sentBySlot[s.slot] = s;
+        }
+      });
+
+      // Also check scheduled status
+      scheduled.forEach(function(s) {
+        if (s.status === 'sent' || s.status === 'delivered') {
+          if (!sentBySlot[s.slot]) {
+            sentBySlot[s.slot] = s;
+          }
+        }
+      });
+
+      // Update each card
+      for (var slot in sentBySlot) {
+        var sent = sentBySlot[slot];
+        deliveredCount++;
+
+        if (!knownDelivered[slot]) {
+          knownDelivered[slot] = true;
+
+          // Update schedule card
+          var card = document.getElementById('notifCard' + slot);
+          if (card) {
+            card.classList.remove('scheduled');
+            card.classList.add('delivered');
+            var slotBadge = card.querySelector('.notif-slot-badge');
+            if (slotBadge) {
+              slotBadge.style.background = 'var(--green-dim)';
+              slotBadge.style.color = 'var(--green)';
+            }
+          }
+
+          var badge = document.getElementById('notifBadge' + slot);
+          if (badge) {
+            badge.className = 'status-badge delivered';
+            badge.innerHTML = 'Delivered &#10004;';
+          }
+
+          // Add phone notification
+          addPhoneNotification(sent);
+        }
+      }
+
+      // Update counter
+      document.getElementById('deliveryCounter').innerHTML =
+        '<strong>' + deliveredCount + '</strong> / 6 Delivered';
+
+      // Check if all done
+      if (deliveredCount >= 6) {
+        onAllDelivered();
+      }
+    }
+
+    function addPhoneNotification(notif) {
+      var container = document.getElementById('phoneContainer');
+      var el = document.createElement('div');
+      el.className = 'phone-notif';
+
+      var time = getIST();
+
+      el.innerHTML =
+        '<div class="phone-notif-top">' +
+          '<div class="phone-app-icon">S</div>' +
+          '<div class="phone-app-name">SpeakX</div>' +
+          '<div class="phone-time">' + time + '</div>' +
+        '</div>' +
+        '<div class="phone-title">' + escapeHtml(notif.title || notif.notification_name || '') + '</div>' +
+        '<div class="phone-body">' + escapeHtml(notif.body || '') + '</div>';
+
+      container.insertBefore(el, container.firstChild);
+    }
+
+    function onAllDelivered() {
+      if (pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+
+      // Hide live pulse
+      var pulse = document.getElementById('livePulse');
+      if (pulse) pulse.style.animation = 'none';
+
+      // Update step 5 title
+      var dot5 = document.getElementById('dot5');
+      if (dot5) {
+        dot5.classList.remove('active');
+        dot5.classList.add('done');
+      }
+
+      // Calculate total time
+      var elapsed = Math.round((Date.now() - demoStartTime) / 1000);
+      var mins = Math.floor(elapsed / 60);
+      var secs = elapsed % 60;
+      var timeStr = mins > 0 ? mins + 'm ' + secs + 's' : secs + 's';
+
+      document.getElementById('statTime').textContent = timeStr;
+
+      // Show completion step
+      var completeStep = document.getElementById('stepComplete');
+      completeStep.style.display = 'block';
+      setTimeout(function() {
+        completeStep.classList.add('visible');
+        completeStep.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 500);
+
+      // Fire confetti
+      fireConfetti();
+    }
+
+    function fireConfetti() {
+      var container = document.getElementById('confettiContainer');
+      var colors = ['#8b5cf6', '#22c55e', '#f59e0b', '#3b82f6', '#ef4444', '#c084fc', '#06b6d4'];
+      var pieces = 80;
+
+      for (var i = 0; i < pieces; i++) {
+        var piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.width = (Math.random() * 8 + 4) + 'px';
+        piece.style.height = (Math.random() * 8 + 4) + 'px';
+        piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        piece.style.animationDelay = (Math.random() * 1.5) + 's';
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        container.appendChild(piece);
+      }
+
+      setTimeout(function() {
+        container.innerHTML = '';
+      }, 5000);
+    }
+
+    function resetDemo() {
+      if (pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+
+      currentIdentity = null;
+      knownDelivered = {};
+      demoStartTime = null;
+      scheduleData = [];
+
+      // Reset all timeline steps
+      var steps = document.querySelectorAll('.timeline-step');
+      steps.forEach(function(s) {
+        s.classList.remove('visible');
+      });
+
+      // Reset dots
+      var dots = document.querySelectorAll('.timeline-dot');
+      dots.forEach(function(d) {
+        d.classList.remove('done', 'active');
+      });
+
+      // Reset processing indicators
+      ['step1Processing', 'step2Processing', 'step3Processing'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.style.display = '';
+      });
+
+      // Clear dynamic content
+      document.getElementById('notifGrid').innerHTML = '';
+      document.getElementById('phoneContainer').innerHTML = '';
+      document.getElementById('stepComplete').style.display = 'none';
+      document.getElementById('confettiContainer').innerHTML = '';
+
+      // Switch screens
+      document.getElementById('journeyScreen').style.display = 'none';
+      document.getElementById('startScreen').style.display = 'flex';
+
+      // Reset button
+      var btn = document.getElementById('startBtn');
+      btn.disabled = false;
+      btn.innerHTML = 'Simulate Payment &rarr;';
+
+      // Clear input
+      document.getElementById('phoneInput').value = '';
+      document.getElementById('phoneInput').focus();
+    }
+
+    // Allow Enter key to start
+    document.getElementById('phoneInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') startDemo();
+    });
   </script>
 </body>
 </html>

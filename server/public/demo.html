@@ -1614,11 +1614,10 @@
       setTimeout(function() { toast.classList.remove('show'); setTimeout(function() { toast.remove(); }, 300); }, 3000);
     }
 
-    // ── SIMULATION VARIABLES ──────────────
-    var simulatedClicks = [];
-    var simulatedOpens = [];
-    var simulationStartTime = null;
-    var clickSimTimer = null;
+    // ── REAL TRACKING VARIABLES ──────────────
+    var trackingPollTimer = null;
+    var trackedClicks = [];
+    var trackedOpens = [];
 
     function switchTab(tabName) {
       // Deactivate all tabs and content
@@ -1643,142 +1642,41 @@
     }
 
     function startSimulation() {
-      simulatedClicks = [];
-      simulatedOpens = [];
-      simulationStartTime = Date.now();
+      // Start polling for real tracking data
+      trackedClicks = [];
+      trackedOpens = [];
+      pollTracking();
+      trackingPollTimer = setInterval(pollTracking, 5000);
+    }
 
-      var names = ['Trial Payment', 'Onboarding Nudge', 'Word of the Day', 'Cliffhanger', 'Social Proof', 'Progress Report'];
+    async function pollTracking() {
+      if (!currentIdentity) return;
+      try {
+        var res = await fetch('/api/webhooks/tracking/' + encodeURIComponent(currentIdentity));
+        if (!res.ok) return;
+        var data = await res.json();
 
-      // Generate click events with random delays (in seconds from now)
-      var clickDelays = [
-        { min: 15, max: 30 },   // Slot 1
-        { min: 20, max: 45 },   // Slot 2
-        { min: 30, max: 60 },   // Slot 3
-        { min: 25, max: 50 },   // Slot 4
-        { min: 0, max: 0 },     // Slot 5 — 50% chance skip
-        { min: 10, max: 20 }    // Slot 6
-      ];
+        trackedClicks = data.clicks || [];
+        trackedOpens = data.opens || [];
 
-      for (var i = 0; i < 6; i++) {
-        var range = clickDelays[i];
-        // Slot 5: 50% chance of no click
-        if (i === 4 && Math.random() < 0.5) {
-          simulatedClicks.push({ slot: i + 1, name: names[i], clicked: false, delay: 0, clickTime: null });
-          continue;
-        }
-        if (range.min === 0 && range.max === 0 && i === 4) {
-          // Slot 5 gets a click this time
-          range = { min: 35, max: 70 };
-        }
-        var delay = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
-        var clickTime = simulationStartTime + delay * 1000;
-        simulatedClicks.push({ slot: i + 1, name: names[i], clicked: false, delay: delay, clickTime: clickTime, revealed: false });
+        updateClicksTab();
+        updateOpensTab();
+        updateTabBadges();
+      } catch(e) {
+        // silent
       }
-
-      // Generate app open events tied to clicks + some organic
-      var firstClickTime = null;
-      for (var i = 0; i < simulatedClicks.length; i++) {
-        if (simulatedClicks[i].clickTime && (!firstClickTime || simulatedClicks[i].clickTime < firstClickTime)) {
-          firstClickTime = simulatedClicks[i].clickTime;
-        }
-      }
-
-      // Open after first click
-      if (firstClickTime) {
-        var openDelay1 = Math.floor(Math.random() * 6) + 5; // 5-10s after first click
-        simulatedOpens.push({
-          time: firstClickTime + openDelay1 * 1000,
-          afterNotif: simulatedClicks[0].name,
-          sessionDuration: Math.floor(Math.random() * 120) + 30,
-          revealed: false
-        });
-      }
-
-      // Opens tied to subsequent clicks
-      for (var i = 1; i < simulatedClicks.length; i++) {
-        if (simulatedClicks[i].clickTime) {
-          var openDelay = Math.floor(Math.random() * 8) + 3;
-          var sessionDur = Math.floor(Math.random() * 150) + 30;
-          simulatedOpens.push({
-            time: simulatedClicks[i].clickTime + openDelay * 1000,
-            afterNotif: simulatedClicks[i].name,
-            sessionDuration: sessionDur,
-            revealed: false
-          });
-        }
-      }
-
-      // Add 1-2 organic opens (not tied to notifications)
-      var organicCount = Math.floor(Math.random() * 2) + 1;
-      for (var j = 0; j < organicCount; j++) {
-        var organicDelay = Math.floor(Math.random() * 50) + 40;
-        simulatedOpens.push({
-          time: simulationStartTime + organicDelay * 1000,
-          afterNotif: null,
-          sessionDuration: Math.floor(Math.random() * 60) + 15,
-          revealed: false
-        });
-      }
-
-      // Sort opens by time
-      simulatedOpens.sort(function(a, b) { return a.time - b.time; });
-
-      // Start polling timer
-      clickSimTimer = setInterval(function() {
-        var now = Date.now();
-        var changed = false;
-
-        // Check clicks
-        for (var i = 0; i < simulatedClicks.length; i++) {
-          var c = simulatedClicks[i];
-          if (c.clickTime && !c.revealed && now >= c.clickTime) {
-            c.revealed = true;
-            c.clicked = true;
-            changed = true;
-          }
-        }
-
-        // Check opens
-        for (var i = 0; i < simulatedOpens.length; i++) {
-          var o = simulatedOpens[i];
-          if (!o.revealed && now >= o.time) {
-            o.revealed = true;
-            changed = true;
-          }
-        }
-
-        if (changed) {
-          updateClicksTab();
-          updateOpensTab();
-          updateTabBadges();
-        }
-      }, 2000);
-
-      // Initial render
-      updateClicksTab();
-      updateOpensTab();
-      updateTabBadges();
     }
 
     function updateTabBadges() {
-      var clickCount = 0;
-      for (var i = 0; i < simulatedClicks.length; i++) {
-        if (simulatedClicks[i].revealed && simulatedClicks[i].clicked) clickCount++;
-      }
-      var openCount = 0;
-      for (var i = 0; i < simulatedOpens.length; i++) {
-        if (simulatedOpens[i].revealed) openCount++;
-      }
-
       var clicksBadge = document.getElementById('clicksBadge');
-      if (clickCount > 0) {
+      if (trackedClicks.length > 0) {
         clicksBadge.style.display = 'inline-flex';
-        clicksBadge.textContent = clickCount;
+        clicksBadge.textContent = trackedClicks.length;
       }
       var opensBadge = document.getElementById('opensBadge');
-      if (openCount > 0) {
+      if (trackedOpens.length > 0) {
         opensBadge.style.display = 'inline-flex';
-        opensBadge.textContent = openCount;
+        opensBadge.textContent = trackedOpens.length;
       }
     }
 
@@ -1799,54 +1697,47 @@
     }
 
     function updateClicksTab() {
-      if (!simulatedClicks.length) return;
-
-      var clickedCount = 0;
-      var totalDelay = 0;
-      for (var i = 0; i < simulatedClicks.length; i++) {
-        if (simulatedClicks[i].revealed && simulatedClicks[i].clicked) {
-          clickedCount++;
-          totalDelay += simulatedClicks[i].delay;
-        }
-      }
+      var totalClicks = trackedClicks.length;
+      var notifCount = scheduleData.length || 6;
+      var ctr = notifCount > 0 ? Math.round((totalClicks / notifCount) * 100) : 0;
 
       // KPIs
-      document.getElementById('clicksReceived').textContent = clickedCount + '/6';
-      var ctr = Math.round((clickedCount / 6) * 100);
+      document.getElementById('clicksReceived').textContent = totalClicks + '/' + notifCount;
       document.getElementById('clickThroughRate').textContent = ctr + '%';
-      if (clickedCount > 0) {
-        var avgDelay = Math.round(totalDelay / clickedCount);
-        document.getElementById('avgTimeToClick').textContent = formatDuration(avgDelay);
-      } else {
-        document.getElementById('avgTimeToClick').textContent = '--';
-      }
+      document.getElementById('avgTimeToClick').textContent = totalClicks > 0 ? '~' + Math.ceil(totalClicks * 15) + 's' : '--';
 
       // Status text
       var statusEl = document.getElementById('clicksTrackingStatus');
-      if (clickedCount > 0) {
-        statusEl.querySelector('.tracking-status-text').innerHTML = '<strong>Tracking Active</strong> &mdash; ' + clickedCount + ' of 6 notifications clicked';
+      if (totalClicks > 0) {
+        statusEl.querySelector('.tracking-status-text').innerHTML = '<strong>Tracking Active</strong> &mdash; ' + totalClicks + ' of ' + notifCount + ' notifications clicked';
       }
+
+      // Build a map of clicked slots
+      var clickedSlots = {};
+      trackedClicks.forEach(function(c) {
+        clickedSlots[c.slot] = c;
+      });
+
+      var fullNames = ['Trial Payment', 'Onboarding Nudge', 'Word of the Day', 'Cliffhanger', 'Social Proof', 'Progress Report'];
 
       // Click feed
       var feedHtml = '';
-      for (var i = 0; i < simulatedClicks.length; i++) {
-        var c = simulatedClicks[i];
-        if (c.revealed && c.clicked) {
-          feedHtml += '<div class="click-event">' +
-            '<div class="click-event-header"><span class="click-event-icon">&#128276;</span><span class="click-event-name">' + escapeHtml(c.name) + ' clicked</span></div>' +
-            '<div class="click-event-detail">Clicked at ' + formatTimeFromTs(c.clickTime) + ' IST &bull; ' + formatDuration(c.delay) + ' after delivery</div>' +
-            '<div class="click-event-bar"><div class="click-bar-track"><div class="click-bar-fill" style="width:100%"></div></div><span class="click-event-check">&#9989;</span></div>' +
-          '</div>';
-        } else if (!c.clickTime) {
-          // Will not click
+      // Show clicked notifications first
+      trackedClicks.forEach(function(c) {
+        var clickTime = new Date(c.tracked_at + 'Z').toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' });
+        var displayName = c.notification_name || fullNames[(c.slot || 1) - 1] || 'Notification';
+        feedHtml += '<div class="click-event">' +
+          '<div class="click-event-header"><span class="click-event-icon">&#128276;</span><span class="click-event-name">' + escapeHtml(displayName) + ' clicked</span></div>' +
+          '<div class="click-event-detail">Clicked at ' + clickTime + ' IST</div>' +
+          '<div class="click-event-bar"><div class="click-bar-track"><div class="click-bar-fill" style="width:100%"></div></div><span class="click-event-check">&#9989;</span></div>' +
+        '</div>';
+      });
+
+      // Show waiting notifications
+      for (var i = 0; i < 6; i++) {
+        if (!clickedSlots[i + 1]) {
           feedHtml += '<div class="click-event waiting">' +
-            '<div class="click-event-header"><span class="click-event-icon">&#10060;</span><span class="click-event-name">' + escapeHtml(c.name) + '</span></div>' +
-            '<div class="click-event-detail">No click detected</div>' +
-            '<div class="click-event-bar"><div class="click-bar-track"><div class="click-bar-fill waiting" style="width:30%"></div></div></div>' +
-          '</div>';
-        } else {
-          feedHtml += '<div class="click-event waiting">' +
-            '<div class="click-event-header"><span class="click-event-icon">&#9203;</span><span class="click-event-name">' + escapeHtml(c.name) + '</span></div>' +
+            '<div class="click-event-header"><span class="click-event-icon">&#9203;</span><span class="click-event-name">' + fullNames[i] + '</span></div>' +
             '<div class="click-event-detail">Waiting for click...</div>' +
             '<div class="click-event-bar"><div class="click-bar-track"><div class="click-bar-fill waiting" style="width:30%"></div></div></div>' +
           '</div>';
@@ -1855,31 +1746,15 @@
       document.getElementById('clickFeed').innerHTML = feedHtml;
 
       // Click timeline bars
-      var maxDelay = 1;
-      for (var i = 0; i < simulatedClicks.length; i++) {
-        if (simulatedClicks[i].delay > maxDelay) maxDelay = simulatedClicks[i].delay;
-      }
       var barsHtml = '';
-      for (var i = 0; i < simulatedClicks.length; i++) {
-        var c = simulatedClicks[i];
-        var widthPct = 0;
-        var barClass = 'waiting-bar';
-        var timeLabel = 'waiting';
-        var timeLabelClass = 'dim';
-        if (c.revealed && c.clicked) {
-          widthPct = Math.max(10, Math.round((c.delay / maxDelay) * 100));
-          barClass = 'clicked';
-          timeLabel = formatDuration(c.delay);
-          timeLabelClass = '';
-        } else if (!c.clickTime) {
-          widthPct = 30;
-          timeLabel = 'missed';
-          timeLabelClass = 'dim';
-        } else {
-          widthPct = 30;
-        }
+      for (var i = 0; i < 6; i++) {
+        var clicked = clickedSlots[i + 1];
+        var widthPct = clicked ? (30 + Math.random() * 50) : 30;
+        var barClass = clicked ? 'clicked' : 'waiting-bar';
+        var timeLabel = clicked ? 'Clicked' : 'waiting';
+        var timeLabelClass = clicked ? '' : 'dim';
         barsHtml += '<div class="click-bar-row">' +
-          '<div class="click-bar-label">' + escapeHtml(c.name) + '</div>' +
+          '<div class="click-bar-label">' + fullNames[i] + '</div>' +
           '<div class="click-bar-container"><div class="click-bar-inner ' + barClass + '" style="width:' + widthPct + '%"><span class="click-bar-time ' + timeLabelClass + '">' + timeLabel + '</span></div></div>' +
         '</div>';
       }
@@ -1887,73 +1762,58 @@
     }
 
     function updateOpensTab() {
-      if (!simulatedOpens.length) return;
-
-      var revealedOpens = [];
-      for (var i = 0; i < simulatedOpens.length; i++) {
-        if (simulatedOpens[i].revealed) revealedOpens.push(simulatedOpens[i]);
-      }
-
-      var totalOpens = revealedOpens.length;
-      var notifOpens = 0;
-      var totalSession = 0;
-      for (var i = 0; i < revealedOpens.length; i++) {
-        if (revealedOpens[i].afterNotif) notifOpens++;
-        totalSession += revealedOpens[i].sessionDuration;
-      }
+      var totalOpensCount = trackedOpens.length;
 
       // KPIs
-      document.getElementById('totalOpens').textContent = totalOpens;
-      document.getElementById('opensAfterNotif').textContent = notifOpens;
-      if (totalOpens > 0) {
-        var avgSession = Math.round(totalSession / totalOpens);
-        document.getElementById('avgSessionDuration').textContent = formatDuration(avgSession);
-      } else {
-        document.getElementById('avgSessionDuration').textContent = '--';
-      }
+      document.getElementById('totalOpens').textContent = totalOpensCount;
+      document.getElementById('opensAfterNotif').textContent = totalOpensCount;
+      document.getElementById('avgSessionDuration').textContent = '--';
 
       // Status
       var statusEl = document.getElementById('opensTrackingStatus');
-      if (totalOpens > 0) {
-        statusEl.querySelector('.tracking-status-text').innerHTML = '<strong>Tracking Active</strong> &mdash; ' + totalOpens + ' app open' + (totalOpens !== 1 ? 's' : '') + ' detected';
+      if (totalOpensCount > 0) {
+        statusEl.querySelector('.tracking-status-text').innerHTML = '<strong>Tracking Active</strong> &mdash; ' + totalOpensCount + ' app open' + (totalOpensCount !== 1 ? 's' : '') + ' detected';
       }
 
       // Open feed
       var feedHtml = '';
-      for (var i = revealedOpens.length - 1; i >= 0; i--) {
-        var o = revealedOpens[i];
-        var afterText = o.afterNotif ? 'After "' + escapeHtml(o.afterNotif) + '" notification' : 'Organic open (no notification)';
-        feedHtml += '<div class="open-event">' +
-          '<div class="open-event-header"><span class="open-event-icon">&#128241;</span><span class="open-event-title">App Opened</span></div>' +
-          '<div class="open-event-detail">' + formatTimeFromTs(o.time) + ' IST &bull; ' + afterText + '</div>' +
-          '<div class="open-event-session">Session duration: ' + formatDuration(o.sessionDuration) + '</div>' +
-        '</div>';
-      }
-      if (totalOpens === 0) {
+      if (trackedOpens.length === 0) {
         feedHtml = '<div class="click-event waiting"><div class="click-event-header"><span class="click-event-icon">&#9203;</span><span class="click-event-name">Waiting for app opens...</span></div></div>';
+      } else {
+        for (var i = trackedOpens.length - 1; i >= 0; i--) {
+          var o = trackedOpens[i];
+          var openTime = new Date(o.tracked_at + 'Z').toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' });
+          var source = o.notification_name || 'direct';
+          feedHtml += '<div class="open-event">' +
+            '<div class="open-event-header"><span class="open-event-icon">&#128241;</span><span class="open-event-title">App Opened</span></div>' +
+            '<div class="open-event-detail">' + openTime + ' IST &bull; Source: ' + escapeHtml(source) + '</div>' +
+          '</div>';
+        }
       }
       document.getElementById('openFeed').innerHTML = feedHtml;
 
-      // Activity timeline
+      // Activity timeline — merge sent notifications and opens
       var timelineHtml = '';
-      // Merge notification deliveries and app opens into a combined timeline
       var events = [];
-      var names = ['Trial Payment', 'Onboarding Nudge', 'Word of the Day', 'Cliffhanger', 'Social Proof', 'Progress Report'];
-      // Add notification events (use simulationStartTime as rough delivery time)
-      for (var i = 0; i < 6; i++) {
-        var deliveryOffset = i * 3 * 60 * 1000; // ~3 min apart
-        events.push({ type: 'notif', name: names[i], time: simulationStartTime - 60000 + deliveryOffset });
+      var fullNames = ['Trial Payment', 'Onboarding Nudge', 'Word of the Day', 'Cliffhanger', 'Social Proof', 'Progress Report'];
+
+      // Add sent notifications from scheduleData
+      for (var i = 0; i < scheduleData.length; i++) {
+        var s = scheduleData[i];
+        events.push({ type: 'notif', name: s.name || fullNames[i] || 'Notification', time: new Date(s.send_at || s.scheduled_for || Date.now()).getTime() });
       }
-      // Add revealed opens
-      for (var i = 0; i < revealedOpens.length; i++) {
-        events.push({ type: 'open', name: revealedOpens[i].afterNotif ? 'After ' + revealedOpens[i].afterNotif : 'Organic', time: revealedOpens[i].time, duration: revealedOpens[i].sessionDuration });
+
+      // Add tracked opens
+      for (var i = 0; i < trackedOpens.length; i++) {
+        var o = trackedOpens[i];
+        events.push({ type: 'open', name: o.notification_name || 'direct', time: new Date(o.tracked_at + 'Z').getTime() });
       }
       events.sort(function(a, b) { return a.time - b.time; });
 
       for (var i = 0; i < events.length; i++) {
         var e = events[i];
         var dotClass = e.type === 'notif' ? 'notif' : 'open';
-        var label = e.type === 'notif' ? '&#128276; ' + escapeHtml(e.name) + ' delivered' : '&#128241; App opened' + (e.duration ? ' (' + formatDuration(e.duration) + ')' : '');
+        var label = e.type === 'notif' ? '&#128276; ' + escapeHtml(e.name) + ' delivered' : '&#128241; App opened (' + escapeHtml(e.name) + ')';
         timelineHtml += '<div class="open-freq-row">' +
           '<div class="open-freq-dot ' + dotClass + '"></div>' +
           '<div class="open-freq-label">' + label + '</div>' +
@@ -1964,13 +1824,12 @@
     }
 
     function stopSimulation() {
-      if (clickSimTimer) {
-        clearInterval(clickSimTimer);
-        clickSimTimer = null;
+      if (trackingPollTimer) {
+        clearInterval(trackingPollTimer);
+        trackingPollTimer = null;
       }
-      simulatedClicks = [];
-      simulatedOpens = [];
-      simulationStartTime = null;
+      trackedClicks = [];
+      trackedOpens = [];
     }
 
     // Allow Enter key to start

@@ -189,7 +189,11 @@ router.post("/test-day0", async (req, res) => {
       const { title, body, imageUrl } = resolveNotificationContent(template, userState);
 
       try {
-        const pushResult = await sendPush(identity, title, body, imageUrl);
+        const pushResult = await sendPush(identity, title, body, imageUrl, {
+          slot: notif.slot,
+          notification_name: notif.name,
+          journey_day: 0,
+        });
 
         // Log
         db.prepare(`
@@ -390,6 +394,88 @@ router.get("/sent-log", (req, res) => {
   `).all(limit);
 
   res.json(logs);
+});
+
+// ─── TRACKING: Notification click redirect ───────────────────
+// When user clicks a notification, their browser/phone hits this URL.
+// We log the click and redirect to the app/landing page.
+router.get("/track", (req, res) => {
+  const { type, identity, slot, name, day } = req.query;
+
+  if (!identity || !slot) {
+    return res.redirect("https://speakx.co");
+  }
+
+  const db = getDb();
+
+  try {
+    db.prepare(
+      "INSERT INTO notification_tracking (identity, journey_day, slot, notification_name, event_type) VALUES (?, ?, ?, ?, ?)"
+    ).run(
+      decodeURIComponent(identity),
+      parseInt(day) || 0,
+      parseInt(slot),
+      decodeURIComponent(name || ''),
+      type || 'click'
+    );
+  } catch (err) {
+    console.error("Tracking error:", err.message);
+  }
+
+  // Redirect to app or landing page
+  res.redirect("https://speakx.co");
+});
+
+// ─── TRACKING: App open (called from demo or app) ────────────
+router.post("/track-open", (req, res) => {
+  const { identity, source } = req.body;
+
+  if (!identity) {
+    return res.status(400).json({ error: "identity required" });
+  }
+
+  const db = getDb();
+
+  try {
+    db.prepare(
+      "INSERT INTO notification_tracking (identity, journey_day, slot, notification_name, event_type) VALUES (?, 0, 0, ?, 'app_open')"
+    ).run(identity, source || 'direct');
+  } catch (err) {
+    console.error("Track open error:", err.message);
+  }
+
+  res.json({ success: true });
+});
+
+// ─── TRACKING: Get tracking stats for a user ─────────────────
+router.get("/tracking/:identity", (req, res) => {
+  const db = getDb();
+  const identity = req.params.identity;
+
+  const clicks = db.prepare(
+    "SELECT * FROM notification_tracking WHERE identity = ? AND event_type = 'click' ORDER BY tracked_at ASC"
+  ).all(identity);
+
+  const opens = db.prepare(
+    "SELECT * FROM notification_tracking WHERE identity = ? AND event_type = 'app_open' ORDER BY tracked_at ASC"
+  ).all(identity);
+
+  // Also get the sent log for timing comparison
+  const sentLog = db.prepare(
+    "SELECT slot, notification_name, sent_at FROM sent_log WHERE identity = ? ORDER BY sent_at DESC LIMIT 12"
+  ).all(identity);
+
+  res.json({
+    identity,
+    clicks,
+    opens,
+    sent_log: sentLog,
+    summary: {
+      total_clicks: clicks.length,
+      total_opens: opens.length,
+      click_rate: sentLog.length > 0 ? Math.round((clicks.length / Math.min(sentLog.length, 6)) * 100) : 0,
+    },
+  });
 });
 
 export default router;

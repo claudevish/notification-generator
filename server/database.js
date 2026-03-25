@@ -160,6 +160,19 @@ function initTables() {
 
     CREATE INDEX IF NOT EXISTS idx_sent_identity ON sent_log(identity);
     CREATE INDEX IF NOT EXISTS idx_sent_time ON sent_log(sent_at);
+
+    CREATE TABLE IF NOT EXISTS notification_tracking (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      identity TEXT NOT NULL,
+      journey_day INTEGER DEFAULT 0,
+      slot INTEGER NOT NULL,
+      notification_name TEXT,
+      event_type TEXT NOT NULL CHECK(event_type IN ('click', 'app_open')),
+      tracked_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_tracking_identity ON notification_tracking(identity);
+    CREATE INDEX IF NOT EXISTS idx_tracking_type ON notification_tracking(event_type);
   `);
 
   // Migration: add image_path column to notifications if missing

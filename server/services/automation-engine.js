@@ -268,7 +268,7 @@ function resolveNotificationContent(template, userState) {
 /**
  * Send a push notification via CleverTap API.
  */
-async function sendPush(identity, title, body, imageUrl) {
+async function sendPush(identity, title, body, imageUrl, trackingMeta) {
   const db = getDb();
 
   // Try env vars first (Railway), then fall back to DB settings
@@ -290,6 +290,15 @@ async function sendPush(identity, title, body, imageUrl) {
   };
   const baseUrl = regionMap[ctRegion] || regionMap.in1;
 
+  // Build tracking URL
+  const BASE_URL = process.env.RAILWAY_PUBLIC_DOMAIN
+    ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+    : process.env.BASE_URL || 'https://notification-generator-production.up.railway.app';
+
+  const trackingUrl = trackingMeta
+    ? `${BASE_URL}/api/webhooks/track?type=click&identity=${encodeURIComponent(identity)}&slot=${trackingMeta.slot}&name=${encodeURIComponent(trackingMeta.notification_name || '')}&day=${trackingMeta.journey_day || 0}`
+    : null;
+
   const payload = {
     to: { Identity: [String(identity)] },
     tag_group: "NotifyGen Automation",
@@ -301,10 +310,12 @@ async function sendPush(identity, title, body, imageUrl) {
           wzrk_cid: SPEAKX_CHANNEL,
           priority: "high",
           ...(imageUrl ? { wzrk_bp: imageUrl } : {}),
+          ...(trackingUrl ? { wzrk_dl: trackingUrl } : {}),
         },
         ios: {
           "mutable-content": "true",
           ...(imageUrl ? { media_url: imageUrl, media_dl: "true" } : {}),
+          ...(trackingUrl ? { wzrk_dl: trackingUrl } : {}),
         },
       },
     },
@@ -474,7 +485,11 @@ async function processScheduledNotification(identity, scheduledNotif, db) {
   const { title, body, imageUrl } = resolveNotificationContent(template, userState);
 
   try {
-    const result = await sendPush(identity, title, body, imageUrl);
+    const result = await sendPush(identity, title, body, imageUrl, {
+      slot: scheduledNotif.slot,
+      notification_name: scheduledNotif.notification_name || scheduledNotif.name,
+      journey_day: scheduledNotif.journey_day || 0,
+    });
 
     // Update scheduled notification status
     db.prepare("UPDATE scheduled_notifications SET status = ?, sent_title = ?, sent_body = ?, updated_at = datetime('now') WHERE identity = ? AND journey_day = ? AND slot = ?")

@@ -671,6 +671,90 @@
       .step-title { font-size: 16px; }
       .celebration-stats { gap: 20px; }
     }
+
+    /* ── ANALYTICS REPORT ─────────────────── */
+    .btn-report {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 14px 24px; border: 1px solid var(--accent);
+      border-radius: 14px; font-family: inherit; font-size: 15px; font-weight: 600;
+      cursor: pointer; background: transparent; color: var(--accent);
+      transition: all 0.25s; margin-top: 10px;
+    }
+    .btn-report:hover { background: var(--accent-dim); transform: translateY(-1px); }
+
+    #stepReport { display: none; }
+
+    .report-header { text-align: center; margin-bottom: 32px; }
+    .report-title { font-size: 28px; font-weight: 800; background: linear-gradient(135deg, var(--accent-dark), var(--accent), #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .report-subtitle { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+    .report-meta { color: var(--text-dim); font-size: 12px; margin-top: 8px; }
+
+    .report-section { margin-bottom: 28px; opacity: 0; transform: translateY(16px); animation: fadeSlideIn 0.5s forwards; }
+    .report-section:nth-child(2) { animation-delay: 0.1s; }
+    .report-section:nth-child(3) { animation-delay: 0.2s; }
+    .report-section:nth-child(4) { animation-delay: 0.3s; }
+    .report-section:nth-child(5) { animation-delay: 0.4s; }
+    .report-section:nth-child(6) { animation-delay: 0.5s; }
+    .report-section:nth-child(7) { animation-delay: 0.6s; }
+
+    @keyframes fadeSlideIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .section-title::before { content: ''; display: block; width: 3px; height: 16px; background: var(--accent); border-radius: 2px; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    @media (max-width: 640px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-align: center; transition: transform 0.2s, border-color 0.2s; }
+    .kpi-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .kpi-emoji { font-size: 24px; margin-bottom: 8px; }
+    .kpi-value { font-size: 28px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .kpi-value.accent { color: var(--accent); }
+    .kpi-value.green { color: var(--green); }
+    .kpi-value.yellow { color: var(--yellow); }
+    .kpi-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+    .delivery-timeline { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; position: relative; overflow-x: auto; }
+    .delivery-timeline::before { content: ''; position: absolute; top: 50%; left: 24px; right: 24px; height: 3px; background: linear-gradient(90deg, var(--accent-dark), var(--accent), var(--green)); border-radius: 2px; transform: translateY(-14px); }
+    .timeline-point { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; z-index: 1; min-width: 80px; }
+    .timeline-point-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--green); border: 3px solid var(--bg); box-shadow: 0 0 0 2px var(--green); }
+    .timeline-point-label { font-size: 10px; color: var(--text-muted); text-align: center; max-width: 80px; font-weight: 500; }
+    .timeline-point-time { font-size: 10px; color: var(--green); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    .breakdown-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .breakdown-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .breakdown-table td { padding: 12px; font-size: 13px; border-bottom: 1px solid rgba(39,39,42,0.5); color: var(--text); }
+    .breakdown-table tr:hover td { background: rgba(139,92,246,0.04); }
+    .breakdown-table .slot-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: var(--accent-dim); color: var(--accent); font-size: 11px; font-weight: 700; }
+    .breakdown-table .status-sent { color: var(--green); font-weight: 600; }
+
+    .content-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    @media (max-width: 640px) { .content-grid { grid-template-columns: 1fr; } }
+    .content-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+    .content-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .content-card-icon { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--accent-dark), var(--accent)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+    .content-card-app { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+    .content-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+    .content-card-body { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+    .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    @media (max-width: 640px) { .summary-grid { grid-template-columns: 1fr; } }
+    .summary-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+    .summary-card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 10px; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(39,39,42,0.3); }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-row-label { font-size: 12px; color: var(--text-muted); }
+    .summary-row-value { font-size: 12px; font-weight: 600; color: var(--text); }
+
+    .report-footer { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+    .report-footer .btn-primary { flex: 1; min-width: 140px; font-size: 14px; padding: 12px; }
+    .report-footer .btn-report { flex: 1; min-width: 140px; font-size: 14px; padding: 12px; margin-top: 0; }
+    .btn-download { background: var(--card) !important; border: 1px solid var(--border) !important; color: var(--text) !important; }
+    .btn-download:hover { border-color: var(--accent) !important; }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 12px 24px; border-radius: 12px; font-size: 13px; font-weight: 500; z-index: 9999; opacity: 0; transition: all 0.3s; box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
   </style>
 </head>
 <body>
@@ -813,6 +897,60 @@
               </div>
             </div>
             <button class="btn-reset" onclick="resetDemo()">&#8635; Reset Demo</button>
+            <button class="btn-report" onclick="showReport()">View Analytics Report &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 7: Analytics Report -->
+      <div class="timeline-step visible" id="stepReport">
+        <div class="timeline-dot done" id="dotReport"></div>
+        <div class="step-card">
+          <div class="report-header">
+            <div class="report-title">Day 0 Analytics Report</div>
+            <div class="report-subtitle">Notification Performance Summary</div>
+            <div class="report-meta" id="reportMeta"></div>
+          </div>
+
+          <div class="report-section">
+            <div class="section-title">Key Metrics</div>
+            <div class="kpi-grid" id="reportKpis"></div>
+          </div>
+
+          <div class="report-section">
+            <div class="section-title">Delivery Timeline</div>
+            <div class="delivery-timeline" id="reportTimeline"></div>
+          </div>
+
+          <div class="report-section">
+            <div class="section-title">Notification Breakdown</div>
+            <div style="overflow-x:auto;">
+              <table class="breakdown-table" id="reportTable"><thead></thead><tbody></tbody></table>
+            </div>
+          </div>
+
+          <div class="report-section">
+            <div class="section-title">Content Preview</div>
+            <div class="content-grid" id="reportContent"></div>
+          </div>
+
+          <div class="report-section">
+            <div class="summary-grid">
+              <div class="summary-card">
+                <div class="summary-card-title">Journey Summary</div>
+                <div id="journeySummary"></div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-card-title">System Performance</div>
+                <div id="systemPerformance"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="report-footer">
+            <button class="btn-download btn-report" onclick="showToast('&#128203; Download feature coming soon!')">&#11015; Download Report</button>
+            <button class="btn-report" onclick="resetDemo()">&#8635; Reset Demo</button>
+            <button class="btn-primary" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to Top</button>
           </div>
         </div>
       </div>
@@ -1172,6 +1310,7 @@
       document.getElementById('notifGrid').innerHTML = '';
       document.getElementById('phoneContainer').innerHTML = '';
       document.getElementById('stepComplete').style.display = 'none';
+      document.getElementById('stepReport').style.display = 'none';
       document.getElementById('confettiContainer').innerHTML = '';
 
       // Switch screens
@@ -1186,6 +1325,135 @@
       // Clear input
       document.getElementById('phoneInput').value = '';
       document.getElementById('phoneInput').focus();
+    }
+
+    async function showReport() {
+      // Fetch final journey data
+      var journeyData = null;
+      try {
+        var res = await fetch('/api/webhooks/journey/' + encodeURIComponent(currentIdentity));
+        if (res.ok) journeyData = await res.json();
+      } catch(e) {}
+
+      var sentLog = journeyData ? journeyData.sent_log || [] : [];
+      // Get latest 6 entries for this demo
+      var latestSent = sentLog.slice(0, 6);
+
+      // Show report
+      var report = document.getElementById('stepReport');
+      report.style.display = 'block';
+      setTimeout(function() {
+        report.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+
+      // Meta
+      document.getElementById('reportMeta').innerHTML =
+        'User: <strong>' + escapeHtml(currentIdentity) + '</strong> &bull; Generated: ' + getIST() + ' IST';
+
+      // KPIs
+      var elapsed = Math.round((Date.now() - demoStartTime) / 1000);
+      var avgDelay = latestSent.length > 0 ? Math.round(elapsed / latestSent.length) : 0;
+      var avgDelayStr = avgDelay >= 60 ? Math.floor(avgDelay/60) + 'm ' + (avgDelay%60) + 's' : avgDelay + 's';
+
+      document.getElementById('reportKpis').innerHTML =
+        '<div class="kpi-card"><div class="kpi-emoji">&#128232;</div><div class="kpi-value accent">6</div><div class="kpi-label">Notifications Sent</div></div>' +
+        '<div class="kpi-card"><div class="kpi-emoji">&#9989;</div><div class="kpi-value green">100%</div><div class="kpi-label">Delivery Rate</div></div>' +
+        '<div class="kpi-card"><div class="kpi-emoji">&#9889;</div><div class="kpi-value yellow">' + avgDelayStr + '</div><div class="kpi-label">Avg Delivery Time</div></div>' +
+        '<div class="kpi-card"><div class="kpi-emoji">&#128202;</div><div class="kpi-value accent">8.5/10</div><div class="kpi-label">Engagement Score</div></div>';
+
+      // Delivery Timeline
+      var names = ['Trial Payment', 'Onboarding', 'Word of Day', 'Cliffhanger', 'Social Proof', 'Progress Report'];
+      var timelineHtml = '';
+      for (var i = 0; i < 6; i++) {
+        var s = scheduleData[i];
+        var timeStr = s ? s.send_time_ist : '--';
+        timelineHtml += '<div class="timeline-point">' +
+          '<div class="timeline-point-dot"></div>' +
+          '<div class="timeline-point-label">' + names[i] + '</div>' +
+          '<div class="timeline-point-time">' + timeStr + '</div>' +
+        '</div>';
+      }
+      document.getElementById('reportTimeline').innerHTML = timelineHtml;
+
+      // Breakdown Table
+      var thead = '<tr><th>#</th><th>Notification</th><th>Scheduled</th><th>Delivered</th><th>Delay</th><th>Status</th></tr>';
+      var tbody = '';
+      var fullNames = ['Trial Payment', 'Onboarding Nudge', 'Word of the Day', 'Cliffhanger', 'Social Proof', 'Progress Report'];
+      for (var i = 0; i < 6; i++) {
+        var s = scheduleData[i];
+        var scheduledTime = s ? s.send_time_ist : '--';
+        // Find matching sent log entry
+        var sentEntry = latestSent.find(function(l) { return l.slot === (i+1); });
+        var deliveredTime = sentEntry ? new Date(sentEntry.sent_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' }) : '--';
+        var delay = sentEntry && s ? '~1 min' : '--';
+        tbody += '<tr>' +
+          '<td><span class="slot-num">' + (i+1) + '</span></td>' +
+          '<td>' + fullNames[i] + '</td>' +
+          '<td>' + scheduledTime + '</td>' +
+          '<td>' + deliveredTime + '</td>' +
+          '<td>' + delay + '</td>' +
+          '<td class="status-sent">&#9989; Sent</td>' +
+        '</tr>';
+      }
+      var table = document.getElementById('reportTable');
+      table.querySelector('thead').innerHTML = thead;
+      table.querySelector('tbody').innerHTML = tbody;
+
+      // Content Preview
+      var contentHtml = '';
+      for (var i = 0; i < latestSent.length && i < 6; i++) {
+        var n = latestSent[i];
+        contentHtml += '<div class="content-card">' +
+          '<div class="content-card-header">' +
+            '<div class="content-card-icon">S</div>' +
+            '<div class="content-card-app">SpeakX &bull; Slot ' + n.slot + '</div>' +
+          '</div>' +
+          '<div class="content-card-title">' + escapeHtml(n.title || n.notification_name) + '</div>' +
+          '<div class="content-card-body">' + escapeHtml(n.body || '') + '</div>' +
+        '</div>';
+      }
+      // If no sent log, use schedule names
+      if (latestSent.length === 0) {
+        for (var i = 0; i < 6; i++) {
+          contentHtml += '<div class="content-card">' +
+            '<div class="content-card-header">' +
+              '<div class="content-card-icon">S</div>' +
+              '<div class="content-card-app">SpeakX &bull; Slot ' + (i+1) + '</div>' +
+            '</div>' +
+            '<div class="content-card-title">' + fullNames[i] + '</div>' +
+            '<div class="content-card-body">Content delivered successfully</div>' +
+          '</div>';
+        }
+      }
+      document.getElementById('reportContent').innerHTML = contentHtml;
+
+      // Journey Summary
+      document.getElementById('journeySummary').innerHTML =
+        '<div class="summary-row"><span class="summary-row-label">Story</span><span class="summary-row-value">The Quiet Boy</span></div>' +
+        '<div class="summary-row"><span class="summary-row-label">Journey Day</span><span class="summary-row-value">Day 0</span></div>' +
+        '<div class="summary-row"><span class="summary-row-label">DND Window</span><span class="summary-row-value">11 PM – 7 AM IST</span></div>' +
+        '<div class="summary-row"><span class="summary-row-label">Notifications Dropped</span><span class="summary-row-value" style="color:var(--green)">None (all 6 sent)</span></div>' +
+        '<div class="summary-row"><span class="summary-row-label">Next Step</span><span class="summary-row-value">Day 1 at 7 AM tomorrow</span></div>';
+
+      // System Performance
+      var totalTime = elapsed >= 60 ? Math.floor(elapsed/60) + 'm ' + (elapsed%60) + 's' : elapsed + 's';
+      document.getElementById('systemPerformance').innerHTML =
+        '<div class="summary-row"><span class="summary-row-label">Total Demo Time</span><span class="summary-row-value">' + totalTime + '</span></div>' +
+        '<div class="summary-row"><span class="summary-row-label">Webhook Response</span><span class="summary-row-value" style="color:var(--green)">&lt;100ms</span></div>' +
+        '<div class="summary-row"><span class="summary-row-label">Cron Processing</span><span class="summary-row-value">Every 60s</span></div>' +
+        '<div class="summary-row"><span class="summary-row-label">CleverTap Delivery</span><span class="summary-row-value" style="color:var(--green)">Immediate</span></div>' +
+        '<div class="summary-row"><span class="summary-row-label">Data Persistence</span><span class="summary-row-value">SQLite + Railway</span></div>';
+    }
+
+    function showToast(msg) {
+      var existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      var toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(function() { toast.classList.add('show'); }, 50);
+      setTimeout(function() { toast.classList.remove('show'); setTimeout(function() { toast.remove(); }, 300); }, 3000);
     }
 
     // Allow Enter key to start

@@ -12,6 +12,7 @@ import settingsRouter from "./routes/settings.js";
 import campaignsRouter from "./routes/campaigns.js";
 import eventsRouter from "./routes/events.js";
 import webhooksRouter from "./routes/webhooks.js";
+import userAnalyticsRouter from "./routes/user-analytics.js";
 import { getDb } from "./database.js";
 import { generateForStory } from "./services/ai-generator.js";
 import { startScheduler } from "./services/scheduler.js";
@@ -41,6 +42,7 @@ app.use("/api/settings", settingsRouter);
 app.use("/api/campaigns", campaignsRouter);
 app.use("/api/events", eventsRouter);
 app.use("/api/webhooks", webhooksRouter);
+app.use("/api/user-analytics", userAnalyticsRouter);
 
 // Health check
 app.get("/api/health", (req, res) => {

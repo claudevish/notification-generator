@@ -12,6 +12,7 @@ import CampaignsPage from "./pages/CampaignsPage";
 import ExportPage from "./pages/ExportPage";
 import SettingsPage from "./pages/SettingsPage";
 import AutomationDashboard from "./pages/AutomationDashboard";
+import UserAnalyticsPage from "./pages/UserAnalyticsPage";
 
 function ToasterWrapper() {
   const { theme } = useTheme();
@@ -56,6 +57,7 @@ export default function App() {
             <Route path="/export" element={<ExportPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/automation" element={<AutomationDashboard />} />
+            <Route path="/user-analytics" element={<UserAnalyticsPage />} />
           </Routes>
         </Layout>
       </BrowserRouter>

@@ -13,6 +13,7 @@ import {
   Sun,
   Moon,
   Activity,
+  BarChart3,
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
@@ -26,6 +27,7 @@ const NAV_ITEMS = [
   { to: "/campaigns", icon: Rocket, label: "Campaigns" },
   { to: "/export", icon: Download, label: "Export" },
   { to: "/automation", icon: Activity, label: "Automation" },
+  { to: "/user-analytics", icon: BarChart3, label: "User Analytics" },
   { to: "/settings", icon: Settings, label: "Settings" },
 ];
 

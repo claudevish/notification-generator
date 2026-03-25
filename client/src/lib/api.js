@@ -264,6 +264,32 @@ export const api = {
     return res.json();
   },
 
+  // User Analytics
+  async getUserAnalyticsOverview() {
+    const res = await request("/user-analytics/overview");
+    return res.json();
+  },
+
+  async getUserEngagement() {
+    const res = await request("/user-analytics/engagement");
+    return res.json();
+  },
+
+  async getUserStoryPerformance() {
+    const res = await request("/user-analytics/stories");
+    return res.json();
+  },
+
+  async getUserHeatmapData() {
+    const res = await request("/user-analytics/heatmap");
+    return res.json();
+  },
+
+  async getTopUsers() {
+    const res = await request("/user-analytics/users");
+    return res.json();
+  },
+
   // Health
   async getHealth() {
     const res = await request("/health");

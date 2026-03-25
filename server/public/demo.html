@@ -755,6 +755,64 @@
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 12px 24px; border-radius: 12px; font-size: 13px; font-weight: 500; z-index: 9999; opacity: 0; transition: all 0.3s; box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ── TABS ─────────────────────────────── */
+    .report-tabs { display: flex; gap: 4px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 24px; }
+    .report-tab { flex: 1; padding: 10px 16px; border: none; border-radius: 8px; background: transparent; color: var(--text-muted); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .report-tab.active { background: var(--accent); color: #fff; }
+    .report-tab:not(.active):hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .report-tab-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--green); color: #fff; font-size: 10px; font-weight: 700; margin-left: 6px; }
+
+    /* ── TRACKING TAB STYLES ─────────────── */
+    .tracking-status { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; }
+    .tracking-pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--green); animation: dotPulse 1.5s ease infinite; flex-shrink: 0; }
+    .tracking-status-text { font-size: 13px; color: var(--text-muted); }
+    .tracking-status-text strong { color: var(--green); font-weight: 600; }
+
+    .click-kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+    @media (max-width: 640px) { .click-kpi-grid { grid-template-columns: 1fr; } }
+
+    .click-feed { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .click-event { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; animation: fadeSlideIn 0.4s ease forwards; }
+    .click-event.waiting { opacity: 0.5; }
+    .click-event-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .click-event-icon { font-size: 18px; }
+    .click-event-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .click-event-detail { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+    .click-event-bar { display: flex; align-items: center; gap: 8px; }
+    .click-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+    .click-bar-fill { height: 100%; border-radius: 3px; background: var(--green); transition: width 0.5s ease; }
+    .click-bar-fill.waiting { background: var(--text-dim); width: 30% !important; }
+    .click-event-check { font-size: 14px; }
+
+    .click-timeline { margin-top: 8px; }
+    .click-timeline-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .click-timeline-title::before { content: ''; display: block; width: 3px; height: 16px; background: var(--accent); border-radius: 2px; }
+    .click-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .click-bar-label { font-size: 12px; color: var(--text-muted); width: 110px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+    .click-bar-container { flex: 1; height: 20px; background: rgba(255,255,255,0.04); border-radius: 6px; overflow: hidden; position: relative; }
+    .click-bar-inner { height: 100%; border-radius: 6px; transition: width 0.5s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; }
+    .click-bar-inner.clicked { background: linear-gradient(90deg, var(--green), #4ade80); }
+    .click-bar-inner.waiting-bar { background: rgba(255,255,255,0.06); }
+    .click-bar-time { font-size: 10px; font-weight: 600; color: #fff; white-space: nowrap; }
+    .click-bar-time.dim { color: var(--text-dim); }
+
+    .open-event { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; animation: fadeSlideIn 0.4s ease forwards; }
+    .open-event-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .open-event-icon { font-size: 18px; }
+    .open-event-title { font-size: 14px; font-weight: 600; color: var(--text); }
+    .open-event-detail { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .open-event-session { font-size: 12px; color: var(--accent); font-weight: 500; }
+
+    .open-freq-timeline { margin-top: 8px; }
+    .open-freq-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding: 10px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+    .open-freq-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .open-freq-dot.notif { background: var(--accent); }
+    .open-freq-dot.open { background: var(--green); }
+    .open-freq-label { font-size: 12px; color: var(--text-muted); flex: 1; }
+    .open-freq-time { font-size: 11px; color: var(--text-dim); font-weight: 600; font-variant-numeric: tabular-nums; }
   </style>
 </head>
 <body>
@@ -912,38 +970,121 @@
             <div class="report-meta" id="reportMeta"></div>
           </div>
 
-          <div class="report-section">
-            <div class="section-title">Key Metrics</div>
-            <div class="kpi-grid" id="reportKpis"></div>
+          <div class="report-tabs">
+            <button class="report-tab active" onclick="switchTab('delivery')" id="tabBtnDelivery">Delivery Report</button>
+            <button class="report-tab" onclick="switchTab('clicks')" id="tabBtnClicks">Notification Clicks <span class="report-tab-badge" id="clicksBadge" style="display:none">0</span></button>
+            <button class="report-tab" onclick="switchTab('opens')" id="tabBtnOpens">App Opens <span class="report-tab-badge" id="opensBadge" style="display:none">0</span></button>
           </div>
 
-          <div class="report-section">
-            <div class="section-title">Delivery Timeline</div>
-            <div class="delivery-timeline" id="reportTimeline"></div>
-          </div>
+          <!-- ── TAB: Delivery Report ── -->
+          <div class="tab-content active" id="tabDelivery">
+            <div class="report-section">
+              <div class="section-title">Key Metrics</div>
+              <div class="kpi-grid" id="reportKpis"></div>
+            </div>
 
-          <div class="report-section">
-            <div class="section-title">Notification Breakdown</div>
-            <div style="overflow-x:auto;">
-              <table class="breakdown-table" id="reportTable"><thead></thead><tbody></tbody></table>
+            <div class="report-section">
+              <div class="section-title">Delivery Timeline</div>
+              <div class="delivery-timeline" id="reportTimeline"></div>
+            </div>
+
+            <div class="report-section">
+              <div class="section-title">Notification Breakdown</div>
+              <div style="overflow-x:auto;">
+                <table class="breakdown-table" id="reportTable"><thead></thead><tbody></tbody></table>
+              </div>
+            </div>
+
+            <div class="report-section">
+              <div class="section-title">Content Preview</div>
+              <div class="content-grid" id="reportContent"></div>
+            </div>
+
+            <div class="report-section">
+              <div class="summary-grid">
+                <div class="summary-card">
+                  <div class="summary-card-title">Journey Summary</div>
+                  <div id="journeySummary"></div>
+                </div>
+                <div class="summary-card">
+                  <div class="summary-card-title">System Performance</div>
+                  <div id="systemPerformance"></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="report-section">
-            <div class="section-title">Content Preview</div>
-            <div class="content-grid" id="reportContent"></div>
+          <!-- ── TAB: Notification Clicks ── -->
+          <div class="tab-content" id="tabClicks">
+            <div class="tracking-status" id="clicksTrackingStatus">
+              <div class="tracking-pulse"></div>
+              <div class="tracking-status-text"><strong>Tracking Active</strong> &mdash; Waiting for user to click notifications...</div>
+            </div>
+
+            <div class="click-kpi-grid">
+              <div class="kpi-card">
+                <div class="kpi-emoji">&#128276;</div>
+                <div class="kpi-value accent" id="clicksReceived">0/6</div>
+                <div class="kpi-label">Clicks Received</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-emoji">&#128200;</div>
+                <div class="kpi-value green" id="clickThroughRate">0%</div>
+                <div class="kpi-label">Click-through Rate</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-emoji">&#9201;</div>
+                <div class="kpi-value yellow" id="avgTimeToClick">--</div>
+                <div class="kpi-label">Avg Time to Click</div>
+              </div>
+            </div>
+
+            <div class="report-section" style="opacity:1;transform:none;">
+              <div class="section-title">Click Events Feed</div>
+              <div class="click-feed" id="clickFeed"></div>
+            </div>
+
+            <div class="report-section" style="opacity:1;transform:none;">
+              <div class="click-timeline">
+                <div class="click-timeline-title">Time to Click</div>
+                <div id="clickTimelineBars"></div>
+              </div>
+            </div>
           </div>
 
-          <div class="report-section">
-            <div class="summary-grid">
-              <div class="summary-card">
-                <div class="summary-card-title">Journey Summary</div>
-                <div id="journeySummary"></div>
+          <!-- ── TAB: App Opens ── -->
+          <div class="tab-content" id="tabOpens">
+            <div class="tracking-status" id="opensTrackingStatus">
+              <div class="tracking-pulse"></div>
+              <div class="tracking-status-text"><strong>Tracking Active</strong> &mdash; Waiting for app open events...</div>
+            </div>
+
+            <div class="click-kpi-grid">
+              <div class="kpi-card">
+                <div class="kpi-emoji">&#128241;</div>
+                <div class="kpi-value accent" id="totalOpens">0</div>
+                <div class="kpi-label">Total Opens</div>
               </div>
-              <div class="summary-card">
-                <div class="summary-card-title">System Performance</div>
-                <div id="systemPerformance"></div>
+              <div class="kpi-card">
+                <div class="kpi-emoji">&#128276;</div>
+                <div class="kpi-value green" id="opensAfterNotif">0</div>
+                <div class="kpi-label">Opens After Notification</div>
               </div>
+              <div class="kpi-card">
+                <div class="kpi-emoji">&#9201;</div>
+                <div class="kpi-value yellow" id="avgSessionDuration">--</div>
+                <div class="kpi-label">Avg Session Duration</div>
+              </div>
+            </div>
+
+            <div class="report-section" style="opacity:1;transform:none;">
+              <div class="section-title">App Open Events</div>
+              <div class="click-feed" id="openFeed"></div>
+            </div>
+
+            <div class="report-section" style="opacity:1;transform:none;">
+              <div class="section-title">Activity Timeline</div>
+              <div id="openFreqTimeline"></div>
             </div>
           </div>
 
@@ -1283,6 +1424,9 @@
         pollTimer = null;
       }
 
+      // Clean up simulation
+      stopSimulation();
+
       currentIdentity = null;
       knownDelivered = {};
       demoStartTime = null;
@@ -1312,6 +1456,17 @@
       document.getElementById('stepComplete').style.display = 'none';
       document.getElementById('stepReport').style.display = 'none';
       document.getElementById('confettiContainer').innerHTML = '';
+
+      // Reset tabs
+      switchTab('delivery');
+      var clicksBadge = document.getElementById('clicksBadge');
+      if (clicksBadge) { clicksBadge.style.display = 'none'; clicksBadge.textContent = '0'; }
+      var opensBadge = document.getElementById('opensBadge');
+      if (opensBadge) { opensBadge.style.display = 'none'; opensBadge.textContent = '0'; }
+      document.getElementById('clickFeed').innerHTML = '';
+      document.getElementById('openFeed').innerHTML = '';
+      document.getElementById('clickTimelineBars').innerHTML = '';
+      document.getElementById('openFreqTimeline').innerHTML = '';
 
       // Switch screens
       document.getElementById('journeyScreen').style.display = 'none';
@@ -1443,6 +1598,9 @@
         '<div class="summary-row"><span class="summary-row-label">Cron Processing</span><span class="summary-row-value">Every 60s</span></div>' +
         '<div class="summary-row"><span class="summary-row-label">CleverTap Delivery</span><span class="summary-row-value" style="color:var(--green)">Immediate</span></div>' +
         '<div class="summary-row"><span class="summary-row-label">Data Persistence</span><span class="summary-row-value">SQLite + Railway</span></div>';
+
+      // Start click/open simulation
+      startSimulation();
     }
 
     function showToast(msg) {
@@ -1454,6 +1612,365 @@
       document.body.appendChild(toast);
       setTimeout(function() { toast.classList.add('show'); }, 50);
       setTimeout(function() { toast.classList.remove('show'); setTimeout(function() { toast.remove(); }, 300); }, 3000);
+    }
+
+    // ── SIMULATION VARIABLES ──────────────
+    var simulatedClicks = [];
+    var simulatedOpens = [];
+    var simulationStartTime = null;
+    var clickSimTimer = null;
+
+    function switchTab(tabName) {
+      // Deactivate all tabs and content
+      var tabs = document.querySelectorAll('.report-tab');
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      var contents = document.querySelectorAll('.tab-content');
+      contents.forEach(function(c) { c.classList.remove('active'); });
+
+      // Activate selected
+      if (tabName === 'delivery') {
+        document.getElementById('tabBtnDelivery').classList.add('active');
+        document.getElementById('tabDelivery').classList.add('active');
+      } else if (tabName === 'clicks') {
+        document.getElementById('tabBtnClicks').classList.add('active');
+        document.getElementById('tabClicks').classList.add('active');
+        updateClicksTab();
+      } else if (tabName === 'opens') {
+        document.getElementById('tabBtnOpens').classList.add('active');
+        document.getElementById('tabOpens').classList.add('active');
+        updateOpensTab();
+      }
+    }
+
+    function startSimulation() {
+      simulatedClicks = [];
+      simulatedOpens = [];
+      simulationStartTime = Date.now();
+
+      var names = ['Trial Payment', 'Onboarding Nudge', 'Word of the Day', 'Cliffhanger', 'Social Proof', 'Progress Report'];
+
+      // Generate click events with random delays (in seconds from now)
+      var clickDelays = [
+        { min: 15, max: 30 },   // Slot 1
+        { min: 20, max: 45 },   // Slot 2
+        { min: 30, max: 60 },   // Slot 3
+        { min: 25, max: 50 },   // Slot 4
+        { min: 0, max: 0 },     // Slot 5 — 50% chance skip
+        { min: 10, max: 20 }    // Slot 6
+      ];
+
+      for (var i = 0; i < 6; i++) {
+        var range = clickDelays[i];
+        // Slot 5: 50% chance of no click
+        if (i === 4 && Math.random() < 0.5) {
+          simulatedClicks.push({ slot: i + 1, name: names[i], clicked: false, delay: 0, clickTime: null });
+          continue;
+        }
+        if (range.min === 0 && range.max === 0 && i === 4) {
+          // Slot 5 gets a click this time
+          range = { min: 35, max: 70 };
+        }
+        var delay = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+        var clickTime = simulationStartTime + delay * 1000;
+        simulatedClicks.push({ slot: i + 1, name: names[i], clicked: false, delay: delay, clickTime: clickTime, revealed: false });
+      }
+
+      // Generate app open events tied to clicks + some organic
+      var firstClickTime = null;
+      for (var i = 0; i < simulatedClicks.length; i++) {
+        if (simulatedClicks[i].clickTime && (!firstClickTime || simulatedClicks[i].clickTime < firstClickTime)) {
+          firstClickTime = simulatedClicks[i].clickTime;
+        }
+      }
+
+      // Open after first click
+      if (firstClickTime) {
+        var openDelay1 = Math.floor(Math.random() * 6) + 5; // 5-10s after first click
+        simulatedOpens.push({
+          time: firstClickTime + openDelay1 * 1000,
+          afterNotif: simulatedClicks[0].name,
+          sessionDuration: Math.floor(Math.random() * 120) + 30,
+          revealed: false
+        });
+      }
+
+      // Opens tied to subsequent clicks
+      for (var i = 1; i < simulatedClicks.length; i++) {
+        if (simulatedClicks[i].clickTime) {
+          var openDelay = Math.floor(Math.random() * 8) + 3;
+          var sessionDur = Math.floor(Math.random() * 150) + 30;
+          simulatedOpens.push({
+            time: simulatedClicks[i].clickTime + openDelay * 1000,
+            afterNotif: simulatedClicks[i].name,
+            sessionDuration: sessionDur,
+            revealed: false
+          });
+        }
+      }
+
+      // Add 1-2 organic opens (not tied to notifications)
+      var organicCount = Math.floor(Math.random() * 2) + 1;
+      for (var j = 0; j < organicCount; j++) {
+        var organicDelay = Math.floor(Math.random() * 50) + 40;
+        simulatedOpens.push({
+          time: simulationStartTime + organicDelay * 1000,
+          afterNotif: null,
+          sessionDuration: Math.floor(Math.random() * 60) + 15,
+          revealed: false
+        });
+      }
+
+      // Sort opens by time
+      simulatedOpens.sort(function(a, b) { return a.time - b.time; });
+
+      // Start polling timer
+      clickSimTimer = setInterval(function() {
+        var now = Date.now();
+        var changed = false;
+
+        // Check clicks
+        for (var i = 0; i < simulatedClicks.length; i++) {
+          var c = simulatedClicks[i];
+          if (c.clickTime && !c.revealed && now >= c.clickTime) {
+            c.revealed = true;
+            c.clicked = true;
+            changed = true;
+          }
+        }
+
+        // Check opens
+        for (var i = 0; i < simulatedOpens.length; i++) {
+          var o = simulatedOpens[i];
+          if (!o.revealed && now >= o.time) {
+            o.revealed = true;
+            changed = true;
+          }
+        }
+
+        if (changed) {
+          updateClicksTab();
+          updateOpensTab();
+          updateTabBadges();
+        }
+      }, 2000);
+
+      // Initial render
+      updateClicksTab();
+      updateOpensTab();
+      updateTabBadges();
+    }
+
+    function updateTabBadges() {
+      var clickCount = 0;
+      for (var i = 0; i < simulatedClicks.length; i++) {
+        if (simulatedClicks[i].revealed && simulatedClicks[i].clicked) clickCount++;
+      }
+      var openCount = 0;
+      for (var i = 0; i < simulatedOpens.length; i++) {
+        if (simulatedOpens[i].revealed) openCount++;
+      }
+
+      var clicksBadge = document.getElementById('clicksBadge');
+      if (clickCount > 0) {
+        clicksBadge.style.display = 'inline-flex';
+        clicksBadge.textContent = clickCount;
+      }
+      var opensBadge = document.getElementById('opensBadge');
+      if (openCount > 0) {
+        opensBadge.style.display = 'inline-flex';
+        opensBadge.textContent = openCount;
+      }
+    }
+
+    function formatDuration(seconds) {
+      if (seconds >= 60) {
+        var m = Math.floor(seconds / 60);
+        var s = seconds % 60;
+        return s > 0 ? m + 'm ' + s + 's' : m + 'm';
+      }
+      return seconds + 's';
+    }
+
+    function formatTimeFromTs(ts) {
+      return new Date(ts).toLocaleTimeString('en-IN', {
+        hour: '2-digit', minute: '2-digit',
+        hour12: true, timeZone: 'Asia/Kolkata'
+      });
+    }
+
+    function updateClicksTab() {
+      if (!simulatedClicks.length) return;
+
+      var clickedCount = 0;
+      var totalDelay = 0;
+      for (var i = 0; i < simulatedClicks.length; i++) {
+        if (simulatedClicks[i].revealed && simulatedClicks[i].clicked) {
+          clickedCount++;
+          totalDelay += simulatedClicks[i].delay;
+        }
+      }
+
+      // KPIs
+      document.getElementById('clicksReceived').textContent = clickedCount + '/6';
+      var ctr = Math.round((clickedCount / 6) * 100);
+      document.getElementById('clickThroughRate').textContent = ctr + '%';
+      if (clickedCount > 0) {
+        var avgDelay = Math.round(totalDelay / clickedCount);
+        document.getElementById('avgTimeToClick').textContent = formatDuration(avgDelay);
+      } else {
+        document.getElementById('avgTimeToClick').textContent = '--';
+      }
+
+      // Status text
+      var statusEl = document.getElementById('clicksTrackingStatus');
+      if (clickedCount > 0) {
+        statusEl.querySelector('.tracking-status-text').innerHTML = '<strong>Tracking Active</strong> &mdash; ' + clickedCount + ' of 6 notifications clicked';
+      }
+
+      // Click feed
+      var feedHtml = '';
+      for (var i = 0; i < simulatedClicks.length; i++) {
+        var c = simulatedClicks[i];
+        if (c.revealed && c.clicked) {
+          feedHtml += '<div class="click-event">' +
+            '<div class="click-event-header"><span class="click-event-icon">&#128276;</span><span class="click-event-name">' + escapeHtml(c.name) + ' clicked</span></div>' +
+            '<div class="click-event-detail">Clicked at ' + formatTimeFromTs(c.clickTime) + ' IST &bull; ' + formatDuration(c.delay) + ' after delivery</div>' +
+            '<div class="click-event-bar"><div class="click-bar-track"><div class="click-bar-fill" style="width:100%"></div></div><span class="click-event-check">&#9989;</span></div>' +
+          '</div>';
+        } else if (!c.clickTime) {
+          // Will not click
+          feedHtml += '<div class="click-event waiting">' +
+            '<div class="click-event-header"><span class="click-event-icon">&#10060;</span><span class="click-event-name">' + escapeHtml(c.name) + '</span></div>' +
+            '<div class="click-event-detail">No click detected</div>' +
+            '<div class="click-event-bar"><div class="click-bar-track"><div class="click-bar-fill waiting" style="width:30%"></div></div></div>' +
+          '</div>';
+        } else {
+          feedHtml += '<div class="click-event waiting">' +
+            '<div class="click-event-header"><span class="click-event-icon">&#9203;</span><span class="click-event-name">' + escapeHtml(c.name) + '</span></div>' +
+            '<div class="click-event-detail">Waiting for click...</div>' +
+            '<div class="click-event-bar"><div class="click-bar-track"><div class="click-bar-fill waiting" style="width:30%"></div></div></div>' +
+          '</div>';
+        }
+      }
+      document.getElementById('clickFeed').innerHTML = feedHtml;
+
+      // Click timeline bars
+      var maxDelay = 1;
+      for (var i = 0; i < simulatedClicks.length; i++) {
+        if (simulatedClicks[i].delay > maxDelay) maxDelay = simulatedClicks[i].delay;
+      }
+      var barsHtml = '';
+      for (var i = 0; i < simulatedClicks.length; i++) {
+        var c = simulatedClicks[i];
+        var widthPct = 0;
+        var barClass = 'waiting-bar';
+        var timeLabel = 'waiting';
+        var timeLabelClass = 'dim';
+        if (c.revealed && c.clicked) {
+          widthPct = Math.max(10, Math.round((c.delay / maxDelay) * 100));
+          barClass = 'clicked';
+          timeLabel = formatDuration(c.delay);
+          timeLabelClass = '';
+        } else if (!c.clickTime) {
+          widthPct = 30;
+          timeLabel = 'missed';
+          timeLabelClass = 'dim';
+        } else {
+          widthPct = 30;
+        }
+        barsHtml += '<div class="click-bar-row">' +
+          '<div class="click-bar-label">' + escapeHtml(c.name) + '</div>' +
+          '<div class="click-bar-container"><div class="click-bar-inner ' + barClass + '" style="width:' + widthPct + '%"><span class="click-bar-time ' + timeLabelClass + '">' + timeLabel + '</span></div></div>' +
+        '</div>';
+      }
+      document.getElementById('clickTimelineBars').innerHTML = barsHtml;
+    }
+
+    function updateOpensTab() {
+      if (!simulatedOpens.length) return;
+
+      var revealedOpens = [];
+      for (var i = 0; i < simulatedOpens.length; i++) {
+        if (simulatedOpens[i].revealed) revealedOpens.push(simulatedOpens[i]);
+      }
+
+      var totalOpens = revealedOpens.length;
+      var notifOpens = 0;
+      var totalSession = 0;
+      for (var i = 0; i < revealedOpens.length; i++) {
+        if (revealedOpens[i].afterNotif) notifOpens++;
+        totalSession += revealedOpens[i].sessionDuration;
+      }
+
+      // KPIs
+      document.getElementById('totalOpens').textContent = totalOpens;
+      document.getElementById('opensAfterNotif').textContent = notifOpens;
+      if (totalOpens > 0) {
+        var avgSession = Math.round(totalSession / totalOpens);
+        document.getElementById('avgSessionDuration').textContent = formatDuration(avgSession);
+      } else {
+        document.getElementById('avgSessionDuration').textContent = '--';
+      }
+
+      // Status
+      var statusEl = document.getElementById('opensTrackingStatus');
+      if (totalOpens > 0) {
+        statusEl.querySelector('.tracking-status-text').innerHTML = '<strong>Tracking Active</strong> &mdash; ' + totalOpens + ' app open' + (totalOpens !== 1 ? 's' : '') + ' detected';
+      }
+
+      // Open feed
+      var feedHtml = '';
+      for (var i = revealedOpens.length - 1; i >= 0; i--) {
+        var o = revealedOpens[i];
+        var afterText = o.afterNotif ? 'After "' + escapeHtml(o.afterNotif) + '" notification' : 'Organic open (no notification)';
+        feedHtml += '<div class="open-event">' +
+          '<div class="open-event-header"><span class="open-event-icon">&#128241;</span><span class="open-event-title">App Opened</span></div>' +
+          '<div class="open-event-detail">' + formatTimeFromTs(o.time) + ' IST &bull; ' + afterText + '</div>' +
+          '<div class="open-event-session">Session duration: ' + formatDuration(o.sessionDuration) + '</div>' +
+        '</div>';
+      }
+      if (totalOpens === 0) {
+        feedHtml = '<div class="click-event waiting"><div class="click-event-header"><span class="click-event-icon">&#9203;</span><span class="click-event-name">Waiting for app opens...</span></div></div>';
+      }
+      document.getElementById('openFeed').innerHTML = feedHtml;
+
+      // Activity timeline
+      var timelineHtml = '';
+      // Merge notification deliveries and app opens into a combined timeline
+      var events = [];
+      var names = ['Trial Payment', 'Onboarding Nudge', 'Word of the Day', 'Cliffhanger', 'Social Proof', 'Progress Report'];
+      // Add notification events (use simulationStartTime as rough delivery time)
+      for (var i = 0; i < 6; i++) {
+        var deliveryOffset = i * 3 * 60 * 1000; // ~3 min apart
+        events.push({ type: 'notif', name: names[i], time: simulationStartTime - 60000 + deliveryOffset });
+      }
+      // Add revealed opens
+      for (var i = 0; i < revealedOpens.length; i++) {
+        events.push({ type: 'open', name: revealedOpens[i].afterNotif ? 'After ' + revealedOpens[i].afterNotif : 'Organic', time: revealedOpens[i].time, duration: revealedOpens[i].sessionDuration });
+      }
+      events.sort(function(a, b) { return a.time - b.time; });
+
+      for (var i = 0; i < events.length; i++) {
+        var e = events[i];
+        var dotClass = e.type === 'notif' ? 'notif' : 'open';
+        var label = e.type === 'notif' ? '&#128276; ' + escapeHtml(e.name) + ' delivered' : '&#128241; App opened' + (e.duration ? ' (' + formatDuration(e.duration) + ')' : '');
+        timelineHtml += '<div class="open-freq-row">' +
+          '<div class="open-freq-dot ' + dotClass + '"></div>' +
+          '<div class="open-freq-label">' + label + '</div>' +
+          '<div class="open-freq-time">' + formatTimeFromTs(e.time) + '</div>' +
+        '</div>';
+      }
+      document.getElementById('openFreqTimeline').innerHTML = timelineHtml;
+    }
+
+    function stopSimulation() {
+      if (clickSimTimer) {
+        clearInterval(clickSimTimer);
+        clickSimTimer = null;
+      }
+      simulatedClicks = [];
+      simulatedOpens = [];
+      simulationStartTime = null;
     }
 
     // Allow Enter key to start

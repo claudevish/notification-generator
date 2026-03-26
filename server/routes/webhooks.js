@@ -403,7 +403,7 @@ router.get("/track", (req, res) => {
   const { type, identity, slot, name, day } = req.query;
 
   if (!identity || !slot) {
-    return res.redirect("https://speakx.co");
+    return res.redirect("https://www.speakx.in/lesson");
   }
 
   const db = getDb();
@@ -422,8 +422,8 @@ router.get("/track", (req, res) => {
     console.error("Tracking error:", err.message);
   }
 
-  // Redirect to app or landing page
-  res.redirect("https://speakx.co");
+  // Redirect to lessons page
+  res.redirect("https://www.speakx.in/lesson");
 });
 
 // ─── TRACKING: App open (called from demo or app) ────────────

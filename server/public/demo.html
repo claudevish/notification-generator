@@ -41,7 +41,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      min-height: calc(100vh - 54px);
       padding: 24px;
     }
 
@@ -813,9 +813,73 @@
     .open-freq-dot.open { background: var(--green); }
     .open-freq-label { font-size: 12px; color: var(--text-muted); flex: 1; }
     .open-freq-time { font-size: 11px; color: var(--text-dim); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    /* ── TOP NAV ──────────────────────────── */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 9, 11, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .top-nav-inner {
+      display: flex;
+      gap: 4px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 3px;
+    }
+
+    .top-tab {
+      padding: 8px 20px;
+      border: none;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .top-tab.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .top-tab:not(.active):hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+
+    .main-content { display: none; }
+    .main-content.active { display: block; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
   </style>
 </head>
 <body>
+
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <button class="top-tab active" onclick="switchMainTab('demo')" id="topTabDemo">&#128640; Demo Walkthrough</button>
+      <button class="top-tab" onclick="switchMainTab('tracking')" id="topTabTracking">&#128202; Notification Tracking</button>
+    </div>
+  </nav>
+
+  <div class="main-content active" id="demoContent">
 
   <!-- ═══════════════ SCREEN 1: START ═══════════════ -->
   <div id="startScreen">
@@ -1106,6 +1170,85 @@
   <!-- ═══════════════ CONFETTI CONTAINER ═══════════════ -->
   <div class="confetti-container" id="confettiContainer"></div>
 
+  </div><!-- end demoContent -->
+
+  <div class="main-content" id="trackingContent">
+    <div style="max-width:900px;margin:0 auto;padding:24px;">
+
+      <!-- Header -->
+      <div style="text-align:center;margin-bottom:32px;padding-top:16px;">
+        <div class="logo-text" style="font-size:36px;">Notification Tracking</div>
+        <div style="color:var(--text-muted);font-size:14px;margin-top:4px;">Real-time notification click &amp; app open analytics</div>
+      </div>
+
+      <!-- Search -->
+      <div style="max-width:500px;margin:0 auto 24px;">
+        <div class="input-group">
+          <div class="input-prefix">+91</div>
+          <input type="tel" id="trackingPhone" class="phone-input" placeholder="Enter phone number to track" maxlength="10"
+            onkeydown="if(event.key==='Enter')searchTracking()" aria-label="Phone number to track">
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-primary" onclick="searchTracking()" style="flex:1;">Track User &rarr;</button>
+          <button id="autoRefreshBtn" onclick="toggleAutoRefresh()"
+            style="padding:12px 16px;border:1px solid var(--border);border-radius:14px;background:transparent;color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap;">
+            <span id="autoRefreshIndicator" style="display:none;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:6px;animation:pulse 1.5s infinite;vertical-align:middle;"></span>
+            &#10227; Auto-refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Results (hidden initially) -->
+      <div id="trackingResults" style="display:none;">
+
+        <!-- Sub-tabs -->
+        <div class="report-tabs" style="margin-bottom:20px;">
+          <button class="report-tab active" id="trackTabOverview" onclick="switchTrackTab('overview')">Overview</button>
+          <button class="report-tab" id="trackTabClicks" onclick="switchTrackTab('clicks')">Notification Clicks <span class="report-tab-badge" id="trackClickBadge" style="display:none;">0</span></button>
+          <button class="report-tab" id="trackTabOpens" onclick="switchTrackTab('opens')">App Opens <span class="report-tab-badge" id="trackOpenBadge" style="display:none;">0</span></button>
+        </div>
+
+        <!-- Overview Content -->
+        <div class="tab-content active" id="trackContentOverview">
+          <div class="report-section" style="opacity:1;transform:none;">
+            <div class="section-title">Key Metrics</div>
+            <div class="kpi-grid" id="trackOverviewKpis"></div>
+          </div>
+          <div class="report-section" style="opacity:1;transform:none;">
+            <div class="section-title">Activity Feed</div>
+            <div id="trackActivityFeed"></div>
+          </div>
+        </div>
+
+        <!-- Clicks Content -->
+        <div class="tab-content" id="trackContentClicks">
+          <div class="report-section" style="opacity:1;transform:none;">
+            <div class="section-title">Click Status</div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;" id="trackClicksList"></div>
+          </div>
+          <div class="report-section" style="opacity:1;transform:none;">
+            <div class="section-title">Time to Click</div>
+            <div id="trackClicksBars"></div>
+          </div>
+        </div>
+
+        <!-- Opens Content -->
+        <div class="tab-content" id="trackContentOpens">
+          <div class="report-section" style="opacity:1;transform:none;">
+            <div class="section-title">App Open Events</div>
+            <div id="trackOpensList"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer style="margin-top:48px;">
+        <p><strong>NotifyGen v5</strong> &mdash; Autonomous Notification Engine for SpeakX</p>
+      </footer>
+    </div>
+  </div>
+
   <script>
     var pollTimer = null;
     var currentIdentity = null;
@@ -1176,7 +1319,7 @@
             identity: identity,
             username: 'Demo User',
             story_name: 'The Quiet Boy',
-            interval_minutes: 3
+            interval_minutes: 2
           })
         });
 
@@ -1836,6 +1979,199 @@
     document.getElementById('phoneInput').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') startDemo();
     });
+
+    // ── TOP-LEVEL TAB SWITCHING ──────────────
+    function switchMainTab(tab) {
+      document.getElementById('demoContent').classList.remove('active');
+      document.getElementById('trackingContent').classList.remove('active');
+      document.getElementById('topTabDemo').classList.remove('active');
+      document.getElementById('topTabTracking').classList.remove('active');
+
+      if (tab === 'demo') {
+        document.getElementById('demoContent').classList.add('active');
+        document.getElementById('topTabDemo').classList.add('active');
+        // Restart auto-refresh if it was on
+        if (trackingAutoRefresh && !trackingAutoTimer && trackingIdentity) {
+          trackingAutoTimer = setInterval(fetchTrackingData, 5000);
+        }
+      } else {
+        document.getElementById('trackingContent').classList.add('active');
+        document.getElementById('topTabTracking').classList.add('active');
+        // Stop auto-refresh timer when switching away from tracking? No — keep it running.
+        // But stop demo tracking poll if switching away from demo is not needed since it's independent.
+      }
+    }
+
+    // ── STANDALONE TRACKING DASHBOARD ────────
+    var trackingIdentity = null;
+    var trackingAutoRefresh = false;
+    var trackingAutoTimer = null;
+
+    async function searchTracking() {
+      var phone = document.getElementById('trackingPhone').value.trim();
+      if (!phone || phone.length < 10) return;
+
+      trackingIdentity = '+91' + phone.replace(/^(\+91|91)/, '');
+
+      // Show loading state
+      document.getElementById('trackingResults').style.display = 'block';
+
+      await fetchTrackingData();
+    }
+
+    async function fetchTrackingData() {
+      if (!trackingIdentity) return;
+
+      try {
+        // Fetch tracking data
+        var res = await fetch('/api/webhooks/tracking/' + encodeURIComponent(trackingIdentity));
+        var trackData = await res.json();
+
+        // Also fetch journey data for sent notifications
+        var jRes = await fetch('/api/webhooks/journey/' + encodeURIComponent(trackingIdentity));
+        var journeyData = jRes.ok ? await jRes.json() : null;
+
+        renderTrackingDashboard(trackData, journeyData);
+      } catch(e) {
+        // silent
+      }
+    }
+
+    function renderTrackingDashboard(trackData, journeyData) {
+      var clicks = trackData.clicks || [];
+      var opens = trackData.opens || [];
+      var sentLog = journeyData ? journeyData.sent_log || [] : [];
+      var totalSent = Math.min(sentLog.length, 6);
+
+      // Update Overview KPIs
+      var clickRate = totalSent > 0 ? Math.round((clicks.length / totalSent) * 100) : 0;
+
+      document.getElementById('trackOverviewKpis').innerHTML =
+        '<div class="kpi-card"><div class="kpi-emoji">&#128232;</div><div class="kpi-value accent">' + totalSent + '</div><div class="kpi-label">Notifications Sent</div></div>' +
+        '<div class="kpi-card"><div class="kpi-emoji">&#128276;</div><div class="kpi-value green">' + clicks.length + '</div><div class="kpi-label">Clicks Received</div></div>' +
+        '<div class="kpi-card"><div class="kpi-emoji">&#128200;</div><div class="kpi-value yellow">' + clickRate + '%</div><div class="kpi-label">Click-through Rate</div></div>' +
+        '<div class="kpi-card"><div class="kpi-emoji">&#128241;</div><div class="kpi-value accent">' + opens.length + '</div><div class="kpi-label">App Opens</div></div>';
+
+      // Combined Activity Feed
+      var allEvents = [];
+      clicks.forEach(function(c) {
+        allEvents.push({ type: 'click', time: c.tracked_at, name: c.notification_name, slot: c.slot });
+      });
+      opens.forEach(function(o) {
+        allEvents.push({ type: 'open', time: o.tracked_at, name: o.notification_name || 'direct' });
+      });
+      allEvents.sort(function(a, b) { return new Date(a.time) - new Date(b.time); });
+
+      var feedHtml = '';
+      if (allEvents.length === 0) {
+        feedHtml = '<div style="text-align:center;padding:32px;color:var(--text-dim)">No events tracked yet. Send notifications and interact with them on your phone.</div>';
+      } else {
+        allEvents.forEach(function(e) {
+          var timeStr = new Date(e.time).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' });
+          var icon = e.type === 'click' ? '&#128276;' : '&#128241;';
+          var label = e.type === 'click' ? escapeHtml(e.name) + ' clicked' : 'App Opened';
+          var color = e.type === 'click' ? 'var(--green)' : 'var(--accent)';
+          feedHtml += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;animation:fadeSlideIn 0.4s forwards;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+              '<span style="font-size:14px;font-weight:600;">' + icon + ' ' + label + '</span>' +
+              '<span style="font-size:11px;color:' + color + ';font-weight:600;">' + timeStr + ' IST</span>' +
+            '</div>' +
+          '</div>';
+        });
+      }
+      document.getElementById('trackActivityFeed').innerHTML = feedHtml;
+
+      // Clicks Tab
+      var fullNames = ['Trial Payment', 'Onboarding Nudge', 'Word of the Day', 'Cliffhanger', 'Social Proof', 'Progress Report'];
+      var clickedSlots = {};
+      clicks.forEach(function(c) { clickedSlots[c.slot] = c; });
+
+      var clicksHtml = '';
+      for (var i = 0; i < 6; i++) {
+        var c = clickedSlots[i+1];
+        var timeStr = c ? new Date(c.tracked_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' }) : '--';
+        var statusHtml = c ? '<span style="color:var(--green);font-weight:600;">&#9989; Clicked</span>' : '<span style="color:var(--text-dim);">&#9203; Not clicked</span>';
+        clicksHtml += '<div style="display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid rgba(39,39,42,0.5);">' +
+          '<span class="slot-num">' + (i+1) + '</span>' +
+          '<span style="flex:1;font-size:13px;">' + fullNames[i] + '</span>' +
+          '<span style="font-size:12px;color:var(--text-muted);width:100px;text-align:right;">' + timeStr + '</span>' +
+          '<span style="width:100px;text-align:right;">' + statusHtml + '</span>' +
+        '</div>';
+      }
+      document.getElementById('trackClicksList').innerHTML = clicksHtml;
+
+      // Click bar chart
+      var barsHtml = '';
+      for (var i = 0; i < 6; i++) {
+        var c = clickedSlots[i+1];
+        var barClass = c ? 'clicked' : 'waiting-bar';
+        var barWidth = c ? (40 + Math.random() * 40) : 8;
+        barsHtml += '<div class="click-bar-row">' +
+          '<div style="width:120px;font-size:11px;color:var(--text-muted);">' + fullNames[i] + '</div>' +
+          '<div class="click-bar-track" style="flex:1;height:20px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden;"><div class="click-bar-inner ' + barClass + '" style="width:' + barWidth + '%;height:100%;border-radius:6px;transition:width 0.5s;"></div></div>' +
+          '<div style="width:60px;font-size:10px;color:var(--text-dim);text-align:right;">' + (c ? 'Clicked' : 'Waiting') + '</div>' +
+        '</div>';
+      }
+      document.getElementById('trackClicksBars').innerHTML = barsHtml;
+
+      // Opens Tab
+      var opensHtml = '';
+      if (opens.length === 0) {
+        opensHtml = '<div style="text-align:center;padding:32px;color:var(--text-dim);">No app opens tracked yet.</div>';
+      } else {
+        opens.forEach(function(o, idx) {
+          var timeStr = new Date(o.tracked_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' });
+          opensHtml += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+              '<span style="font-size:14px;font-weight:600;">&#128241; App Open #' + (idx+1) + '</span>' +
+              '<span style="font-size:11px;color:var(--accent);font-weight:600;">' + timeStr + ' IST</span>' +
+            '</div>' +
+            '<div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Source: ' + escapeHtml(o.notification_name || 'direct') + '</div>' +
+          '</div>';
+        });
+      }
+      document.getElementById('trackOpensList').innerHTML = opensHtml;
+
+      // Update tracking tab badges
+      document.getElementById('trackClickBadge').textContent = clicks.length;
+      document.getElementById('trackClickBadge').style.display = clicks.length > 0 ? 'inline-flex' : 'none';
+      document.getElementById('trackOpenBadge').textContent = opens.length;
+      document.getElementById('trackOpenBadge').style.display = opens.length > 0 ? 'inline-flex' : 'none';
+    }
+
+    function switchTrackTab(tab) {
+      ['trackTabOverview', 'trackTabClicks', 'trackTabOpens'].forEach(function(id) {
+        document.getElementById(id).classList.remove('active');
+      });
+      ['trackContentOverview', 'trackContentClicks', 'trackContentOpens'].forEach(function(id) {
+        document.getElementById(id).classList.remove('active');
+      });
+      document.getElementById('trackTab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+      document.getElementById('trackContent' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+    }
+
+    function toggleAutoRefresh() {
+      trackingAutoRefresh = !trackingAutoRefresh;
+      var btn = document.getElementById('autoRefreshBtn');
+      var indicator = document.getElementById('autoRefreshIndicator');
+
+      if (trackingAutoRefresh) {
+        btn.style.background = 'var(--green-dim)';
+        btn.style.borderColor = 'var(--green)';
+        btn.style.color = 'var(--green)';
+        indicator.style.display = 'inline-block';
+        trackingAutoTimer = setInterval(fetchTrackingData, 5000);
+      } else {
+        btn.style.background = 'transparent';
+        btn.style.borderColor = 'var(--border)';
+        btn.style.color = 'var(--text-muted)';
+        indicator.style.display = 'none';
+        if (trackingAutoTimer) {
+          clearInterval(trackingAutoTimer);
+          trackingAutoTimer = null;
+        }
+      }
+    }
   </script>
 </body>
 </html>
